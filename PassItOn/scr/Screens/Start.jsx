@@ -6,6 +6,8 @@ export default function Start() {
         <SafeAreaView>
             <View>
                 <Text>ברוכים הבאים</Text>
+                <Button title='התחברות' />
+                <Button title='הרשמה' />
             </View>
         </SafeAreaView>
     )
