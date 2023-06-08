@@ -33,5 +33,15 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.mainColorFaded,
         height: 45,
         fontSize: 15,
+
+    },
+    form_small_heading: {
+        fontSize: 10,
+    },
+    inputError: {
+        color: "red",
+        fontSize: 10,
+        alignSelf: "flex-start",
+        marginLeft: 10,
     },
 });

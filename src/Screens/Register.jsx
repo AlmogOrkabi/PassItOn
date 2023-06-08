@@ -2,20 +2,25 @@ import { View, Text, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
+import BasicDetailsForm from '../Components/BasicDetailsForm';
+import SecurityDetailsForm from '../Components/SecurityDetailsForm';
 
 export default function Register() {
+
+    const [formState, SetFormState] = useState(1);
+
+
     return (
         <SafeAreaView style={[styles.main_container, styles.container]}>
-            <Text style={[styles.title, { marginBottom: 40 }]}>דף הרשמה</Text>
-            <View style={[]}>
-                <TextInput style={[styles.input,]} label="שם משתמש" value={null} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+            {
+                formState == 1 ?
+                    <BasicDetailsForm /> :
+                    formState == 2 ?
+                        <SecurityDetailsForm /> : null
+            }
 
-                <TextInput style={[styles.input]} label="סיסמה" value={null} theme={{
-                    colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
-                }} />
 
-                <Button style={styles.btn} mode="contained" onPress={() => { navigation.navigate('Register') }}  >הרשמה</Button>
-            </View>
+            <Button style={styles.btn} mode="contained" onPress={() => SetFormState(formState + 1)}  > המשך</Button>
         </SafeAreaView>
     )
 }

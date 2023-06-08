@@ -23,7 +23,7 @@ export default function Login() {
                     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
                 }} />
 
-                <Button style={styles.btn} mode="contained" onPress={() => { navigation.navigate('Register') }}  >הרשמה</Button>
+                <Button style={styles.btn} mode="contained" onPress={() => { }}  >הרשמה</Button>
             </View>
         </SafeAreaView>
     )
