@@ -15,8 +15,8 @@ export default function SecurityDetailsForm() {
 
 
     return (
-        <SafeAreaView style={[styles.main_container, styles.container]}>
-            <Text style={[styles.title, { marginBottom: 40 }]}>דף הרשמה</Text>
+        <SafeAreaView style={[styles.container]}>
+
             <View style={[]}>
                 <Text style={[styles.form_small_heading]} >אבטחה:</Text>
                 <Controller
@@ -50,7 +50,7 @@ export default function SecurityDetailsForm() {
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
 
-                <Button style={styles.btn} mode="contained" onPress={handleSubmit(onSubmit)}  > המשך</Button>
+                {/* <Button style={styles.btn} mode="contained" onPress={handleSubmit(onSubmit)}  > המשך</Button> */}
 
             </View>
         </SafeAreaView>

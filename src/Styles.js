@@ -44,4 +44,17 @@ export const styles = StyleSheet.create({
         alignSelf: "flex-start",
         marginLeft: 10,
     },
+    flexRow: {
+        //flex: 0.5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '10%'
+    },
+    smallTextButton: {
+        textColor: "darkgrey",
+    },
+    addressFlatList: {
+        maxHeight: 60,
+    },
 });
