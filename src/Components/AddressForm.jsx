@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
 import { styles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
-import { GEO_API_KEY } from "@env"
+import { GEO_API_KEY } from '@env';
 import * as Location from 'expo-location';
 
 export default function AddressForm() {
@@ -26,7 +26,7 @@ export default function AddressForm() {
 
 
     const handleInputChange = debounce(async (text) => {
-        const url = `https://us1.locationiq.com/v1/search.php?key=${GEO_API_KEY}&q=${text}&format=json&countrycodes=IL&accept-language=he`;
+        const url = `https://us1.locationiq.com/v1/search.php?key=${GEO_API_KEY}&q=${text}&format=json&countrycodes=IL&accept-language=he&limit=5`;
 
         try {
             const response = await fetch(url);
@@ -41,7 +41,7 @@ export default function AddressForm() {
         } catch (error) {
             console.error(error);
         }
-    }, 1500);
+    }, 2000);
 
 
 
@@ -99,7 +99,7 @@ export default function AddressForm() {
             let currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
             console.log(currentLocation);
             console.log(currentLocation.coords.latitude, currentLocation.coords.longitude);
-            setLocation(reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
+            setLocation(await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
             console.log(location)
             setAddressInput(location._j)
         } catch (error) {

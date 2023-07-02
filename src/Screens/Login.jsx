@@ -1,15 +1,20 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 
 
-export default function Login() {
+export default function Login({ navigation }) {
     const [userName, SetUserName] = useState('') // change to email address???
     const [password, SetPassword] = useState('')
     const someUser = {
         userName: "someUser",
         password: "what2233"
+    }
+    function userLogin() {
+        if (userName === "someUser" && password === "what2233") {
+            navigation.navigate('Home')
+        }
     }
 
 
@@ -22,8 +27,8 @@ export default function Login() {
                 <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => SetPassword(password)} theme={{
                     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
                 }} />
-
-                <Button style={styles.btn} mode="contained" onPress={() => { }}  >התחברות</Button>
+                <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { navigation.navigate('reset password') }} >שחכתי סיסמה</Text></TouchableOpacity>
+                <Button style={styles.btn} mode="contained" onPress={() => { userLogin() }}  >התחברות</Button>
             </View>
         </SafeAreaView>
     )
