@@ -62,6 +62,7 @@ export default function AddressForm() {
     //     </TouchableOpacity>
     // );
 
+
     const handleSuggestionPress = (suggestion) => {
         const addressParts = suggestion.display_name.split(',');
         const streetNameAndNumber = addressParts[1] + addressParts[2];
