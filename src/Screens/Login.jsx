@@ -24,6 +24,8 @@ export default function Login({ navigation }) {
             <View style={[]}>
                 <TextInput style={[styles.input,]} label="שם משתמש" value={userName} onChangeText={userName => SetUserName(userName)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 
+
+                {/* need to hide the password */}
                 <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => SetPassword(password)} theme={{
                     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
                 }} />

@@ -24,19 +24,40 @@ export default function BasicDetailsForm() {
     };
 
 
+    // DEPRECATED
+    // const pickImage = async () => {
+
+    //     // ask for permission to access  the media on the device
+    //     const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    //     if (status !== 'granted') {
+    //         alert('הרשאה נדחתה');
+    //         return;
+    //     }
+
+
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //         //MediaTypeOptions.Images  = only images. to get all files, change to .All
+    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //         allowsEditing: true,
+    //         aspect: [4, 3],
+    //         quality: 1,
+    //     });
+
+    //     console.log(result);
+
+    //     if (!result.canceled) {
+    //         setImage(result.assets[0].uri);
+    //     }
+    // };
 
     const pickImage = async () => {
-
-        // ask for permission to access  the media on the device
-        const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
             alert('הרשאה נדחתה');
             return;
         }
 
-
         let result = await ImagePicker.launchImageLibraryAsync({
-            //MediaTypeOptions.Images  = only images. to get all files, change to .All
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
@@ -46,10 +67,9 @@ export default function BasicDetailsForm() {
         console.log(result);
 
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            setImage(result.uri);
         }
     };
-
 
 
 

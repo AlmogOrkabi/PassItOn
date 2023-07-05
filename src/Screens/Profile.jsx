@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
 import { styles } from '../Styles'
 
+
 export default function Profile() {
     return (
         <SafeAreaView style={[styles.main_container, styles.container]}>

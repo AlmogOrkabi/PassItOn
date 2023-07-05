@@ -11,7 +11,7 @@ import Profile from './src/Screens/Profile';
 import PasswordRest from './src/Screens/PasswordRest';
 
 
-
+import AppContextProvider from './src/Contexts/AppContext';
 import { styles } from './src/Styles';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -49,15 +49,17 @@ function LoggedUserTabs() {
 export default function App() {
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
-        <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
-        <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
-        <Stack.Screen name='Home' component={LoggedUserTabs} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AppContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
+          <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
+          <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+          <Stack.Screen name='Home' component={LoggedUserTabs} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AppContextProvider>
   );
 }
 
