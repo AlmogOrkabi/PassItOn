@@ -1,19 +1,31 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
+import { AppContext } from '../Contexts/AppContext';
 
 
 export default function Login({ navigation }) {
+
+    const { users, Login, setLoggedUser, loggedUser } = useContext(AppContext)
+
+
     const [userName, SetUserName] = useState('') // change to email address???
     const [password, SetPassword] = useState('')
-    const someUser = {
-        userName: "someUser",
-        password: "what2233"
-    }
+    // const someUser = {
+    //     userName: "someUser",
+    //     password: "what2233"
+    // }
+
     function userLogin() {
-        if (userName === "someUser" && password === "what2233") {
-            navigation.navigate('Home')
+        const user = Login(userName, password);
+        if (!user) {
+            console.log('not found');
+        }
+        else {
+            setLoggedUser(user);
+            console.log("LOGGED")
+            navigation.navigate('LoggedIn');
         }
     }
 
@@ -29,7 +41,7 @@ export default function Login({ navigation }) {
                 <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => SetPassword(password)} theme={{
                     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
                 }} />
-                <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { navigation.navigate('reset password') }} >שחכתי סיסמה</Text></TouchableOpacity>
+                <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { c }} >שחכתי סיסמה</Text></TouchableOpacity>
                 <Button style={styles.btn} mode="contained" onPress={() => { userLogin() }}  >התחברות</Button>
             </View>
         </SafeAreaView>

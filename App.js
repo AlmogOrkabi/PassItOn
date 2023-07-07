@@ -35,12 +35,14 @@ const Tab = createBottomTabNavigator();
 function LoggedUserTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name='Home' component={Home} options={{ tabBarIcon: () => <MaterialCommunityIcons name="home" size={24} /> }} />
+      <Tab.Screen name='Home' component={Home} options={{ tabBarIcon: () => <MaterialCommunityIcons name="home" size={24} />, headerShown: false }} />
       <Tab.Screen name='Search' component={SearchPage} options={{
-        tabBarIcon: () => <MaterialCommunityIcons name="archive-search" size={24} />
+        tabBarIcon: () => <MaterialCommunityIcons name="archive-search" size={24} />,
+        headerShown: false
       }} />
       <Tab.Screen name='Profile' component={Profile} options={{
-        tabBarIcon: () => <MaterialCommunityIcons name="account" size={24} />
+        tabBarIcon: () => <MaterialCommunityIcons name="account" size={24} />,
+        headerShown: false
       }} />
     </Tab.Navigator>
   )
@@ -56,7 +58,7 @@ export default function App() {
           <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
           <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
           <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
-          <Stack.Screen name='Home' component={LoggedUserTabs} options={{ headerShown: false }} />
+          <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppContextProvider>

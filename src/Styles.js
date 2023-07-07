@@ -57,4 +57,32 @@ export const styles = StyleSheet.create({
     addressFlatList: {
         maxHeight: 60,
     },
+    profilePicture: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginBottom: 10,
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    username: {
+        fontSize: 16,
+        marginBottom: 5,
+    },
+    email: {
+        fontSize: 14,
+        marginBottom: 10,
+    },
+    addressContainer: {
+        backgroundColor: '#f2f2f2',
+        padding: 10,
+        borderRadius: 8,
+    },
+    address: {
+        fontSize: 14,
+    },
+
 });
