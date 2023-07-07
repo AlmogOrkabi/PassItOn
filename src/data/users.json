@@ -1,0 +1,66 @@
+[
+    {
+      "id": 1,
+      "username": "john.doe",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "password": "password123",
+      "address": {
+        "country": "USA",
+        "region": "New York",
+        "city": "New York",
+        "street": "123 Main Street",
+        "house": "1A",
+        "floor": "2",
+        "apartment": "3B",
+        "note": "Near Central Park"
+      },
+      "photo": "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?w=900&t=st=1688731716~exp=1688732316~hmac=0e8b49bb394835687a10d90b87dfb622d4d8c3e98fccf762892e5d27fe3d9760",
+      "registrationDate": "2022-01-01",
+      "activationStatus": true
+    },
+    {
+      "id": 2,
+      "username": "jane.smith",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      "password": "password456",
+      "address": {
+        "country": "USA",
+        "region": "California",
+        "city": "Los Angeles",
+        "street": "456 Elm Street",
+        "house": "2B",
+        "floor": "3",
+        "apartment": "5C",
+        "note": "Near Hollywood Boulevard"
+      },
+      "photo": "https://img.freepik.com/free-photo/happiness-wellbeing-confidence-concept-cheerful-attractive-african-american-woman-curly-haircut-cross-arms-chest-self-assured-powerful-pose-smiling-determined-wear-yellow-sweater_176420-35063.jpg?w=900&t=st=1688731812~exp=1688732412~hmac=605b9e66e46048000d8590f9c36458da5b750f4a86d3fa505fab543e24eb0586",
+      "registrationDate": "2022-02-15",
+      "activationStatus": true
+    },
+    {
+      "id": 3,
+      "username": "alice.johnson",
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "email": "alice.johnson@example.com",
+      "password": "password789",
+      "address": {
+        "country": "USA",
+        "region": "Illinois",
+        "city": "Chicago",
+        "street": "789 Oak Street",
+        "house": "3C",
+        "floor": "4",
+        "apartment": "7A",
+        "note": "Near Millennium Park"
+      },
+      "photo": "https://www.freepik.com/free-photo/young-pregnant-woman-with-long-dark-hair-tropical-location_27094014.htm#query=women&position=8&from_view=search&track=sph",
+      "registrationDate": "2022-03-22",
+      "activationStatus": false
+    }
+  ]
+  
