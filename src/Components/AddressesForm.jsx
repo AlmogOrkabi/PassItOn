@@ -30,7 +30,7 @@ export default function AddressesForm() {
         if (location) {
             console.log(location, "USEEFFECT") //this prints the location, the problem is with the function simplifyAddress.
             //setAddressInput(simplifyAddress(location));
-            let simp = simplifyAddress(location);
+            let simp = simplifyAddress(location[0]);
             setAddressInput(simp);
         }
 
@@ -107,11 +107,12 @@ export default function AddressesForm() {
         if (!item) return;
 
         const postalCode = item.address.extendedPostalCode;
+        console.log(postalCode)
         const address = item.address.freeformAddress;
         const simplifiedAddress = address.replace(postalCode, '');
-        console.log(simplifiedAddress, "address")
+        console.log("address", simplifiedAddress)
         //******************************************************//
-        setAddressInput(simplifiedAddress)
+        //setAddressInput(simplifiedAddress)
         return simplifiedAddress;
     });
 
@@ -156,7 +157,7 @@ export default function AddressesForm() {
     const getLocation = async () => {
         try {
             let currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
-            console.log(currentLocation);
+            console.log("Location from device: ", currentLocation);
             console.log("coordinates:", currentLocation.coords.latitude, currentLocation.coords.longitude);
             setLocation(await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
 
