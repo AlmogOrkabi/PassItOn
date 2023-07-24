@@ -8,6 +8,18 @@ const theme = {
     background: "#ffffff"
 }
 
+
+//TO DO LATER:
+//dynamic sizes by the user's choice:
+// const size = 
+
+// const sizes = {
+//     small: {},
+//     medium: {},
+//     large: {},
+//     larger: {}
+// }
+
 export const styles = StyleSheet.create({
     main_container: {
         flex: 1,

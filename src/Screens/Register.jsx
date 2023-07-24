@@ -5,7 +5,8 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import BasicDetailsForm from '../Components/BasicDetailsForm';
 import SecurityDetailsForm from '../Components/SecurityDetailsForm';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import AddressForm from '../Components/AddressForm';
+//import AddressForm from '../Components/AddressForm';
+import AddressesForm from '../Components/AddressesForm';
 
 
 export default function Register() {
@@ -24,7 +25,7 @@ export default function Register() {
                 formState == 1 ?
                     <BasicDetailsForm /> :
                     formState == 2 ?
-                        <SecurityDetailsForm /> : formState == 3 ? <AddressForm /> : null
+                        <SecurityDetailsForm /> : formState == 3 ? <AddressesForm /> : null
             }
 
 
