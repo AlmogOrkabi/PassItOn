@@ -7,7 +7,6 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 //***expo-image-picker does not automatically ask for permissions
 
-import * as Permissions from 'expo-permissions';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -24,39 +23,14 @@ export default function BasicDetailsForm() {
     };
 
 
-    // DEPRECATED
-    // const pickImage = async () => {
-
-    //     // ask for permission to access  the media on the device
-    //     const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-    //     if (status !== 'granted') {
-    //         alert('הרשאה נדחתה');
-    //         return;
-    //     }
-
-
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         //MediaTypeOptions.Images  = only images. to get all files, change to .All
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //     });
-
-    //     console.log(result);
-
-    //     if (!result.canceled) {
-    //         setImage(result.assets[0].uri);
-    //     }
-    // };
-
+    //for media on the device
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        console.log(status)
         if (status !== 'granted') {
             alert('הרשאה נדחתה');
             return;
         }
-
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -70,6 +44,27 @@ export default function BasicDetailsForm() {
             setImage(result.uri);
         }
     };
+
+
+
+    //for camera
+    // const pickImage = async () => {
+    //     try {
+    //         const result = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //         if (result.status !== 'granted') {
+    //             alert('הרשאה נדחתה');
+    //             return;
+    //         }
+    //         let captureResult = await ImagePicker.launchCameraAsync();
+
+    //         if (!captureResult.canceled) {
+    //             setImage(captureResult.uri);
+    //         }
+    //         return captureResult;
+    //     } catch (error) {
+    //         console.log('Error in pickImage:', error);
+    //     }
+    // }
 
 
 
@@ -110,7 +105,7 @@ export default function BasicDetailsForm() {
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
 
-                <Button style={styles.smallTextButton} textColor='gray' icon={"file-image-plus-outline"} onPress={pickImage}  > תמונת פרופיל</Button>
+                <Button style={styles.smallTextButton} textColor='lightgray' icon={"file-image-plus-outline"} onPress={pickImage}  > תמונת פרופיל</Button>
 
                 {/* <IconButton
                     icon="file-image-plus-outline"
