@@ -71,7 +71,7 @@ export default function App() {
           <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
           <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
           <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
-          <Stack.Screen name='Home' component={Home} options={{ headerShown: false }}/>
+          
           <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
           <Stack.Screen name='My Fav' component={MyFav} options={{ headerShown: false }} />
           <Stack.Screen name='My Orders' component={MyOrders} options={{ headerShown: false }} />
