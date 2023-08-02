@@ -5,7 +5,7 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import BasicDetailsForm from '../Components/BasicDetailsForm';
 import SecurityDetailsForm from '../Components/SecurityDetailsForm';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-//import AddressForm from '../Components/AddressForm';
+import AddressForm from '../Components/AddressForm';
 import AddressesForm from '../Components/AddressesForm';
 
 
@@ -33,12 +33,12 @@ export default function Register() {
             <View style={[styles.flexRow,]}>
                 <IconButton
                     icon="arrow-right"
-                    size={20}
+                    size={30}
                     onPress={() => formState > 1 ? SetFormState(formState - 1) : null}
                 />
                 <IconButton
                     icon="arrow-left"
-                    size={20}
+                    size={30}
                     onPress={() => formState < 3 ? SetFormState(formState + 1) : null}
                 />
             </View>

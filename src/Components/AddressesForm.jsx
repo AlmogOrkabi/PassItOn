@@ -30,8 +30,8 @@ export default function AddressesForm() {
         if (location) {
             console.log(location, "USEEFFECT") //this prints the location, the problem is with the function simplifyAddress.
             //setAddressInput(simplifyAddress(location));
-            let simp = simplifyAddress(location);
-            setAddressInput(simp);
+            //let simp = simplifyAddress(location);
+            //setAddressInput(simp);
         }
 
     }, [location]);

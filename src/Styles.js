@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 //style={[styles.xxxx,]}
 
 const theme = {
-    mainColor: "green",
-    mainColorFaded: "#00800038",
-    background: "#ffffff"
+    mainColor: "purple",
+    mainColorFaded: "#DEACE7",
+    background: "#B94ECB"
 }
 
 
@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
     },
     addressContainer: {
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#ADD8FF',
         padding: 10,
         borderRadius: 8,
     },

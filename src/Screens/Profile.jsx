@@ -15,6 +15,7 @@ export default function Profile() {
         <Text style={styles.name}>{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text>
         <Text style={styles.username}>{loggedUser.username}</Text>
         <Text style={styles.email}>{loggedUser.email}</Text>
+        <Text style={styles.phone}>{loggedUser.phone}</Text>
         <View style={styles.addressContainer}>
           <Text style={styles.address}>{`${loggedUser.address.street}, ${loggedUser.address.city}, ${loggedUser.address.country}`}</Text>
         </View>

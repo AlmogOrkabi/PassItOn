@@ -6,6 +6,7 @@
       "lastName": "Doe",
       "email": "john.doe@example.com",
       "password": "password123",
+      "phone":"1111111111",
       "address": {
         "country": "USA",
         "region": "New York",
@@ -27,6 +28,7 @@
       "lastName": "Smith",
       "email": "jane.smith@example.com",
       "password": "password456",
+      "phone":"1111111111",
       "address": {
         "country": "USA",
         "region": "California",
@@ -48,6 +50,7 @@
       "lastName": "Johnson",
       "email": "alice.johnson@example.com",
       "password": "password789",
+      "phone":"1111111111",
       "address": {
         "country": "USA",
         "region": "Illinois",
