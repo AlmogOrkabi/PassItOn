@@ -30,30 +30,12 @@ export default function AddressesForm() {
         if (location) {
             console.log(location, "USEEFFECT") //this prints the location, the problem is with the function simplifyAddress.
             //setAddressInput(simplifyAddress(location));
-// <<<<<<< HEAD
-//             //let simp = simplifyAddress(location);
-//             //setAddressInput(simp);
-// =======
-//             let simp = simplifyAddress(location[0]);
-//             setAddressInput(simp);
-// >>>>>>> 1520852a5afe8c9005e033ef1bb890fa7a12efc7
+            let simp = simplifyAddress(location[0]);
+            setAddressInput(simp);
         }
 
     }, [location]);
 
-    // useEffect(() => {
-    //     // async function updateInput() {
-    //     //     try {
-    //     //         let simplifiedAddress = await simplifyAddress(location);
-    //     //         setAddressInput(simplifiedAddress)
-    //     //         console.log(simplifiedAddress, "simp2")
-    //     //     } catch (error) {
-    //     //         console.log(error)
-    //     //     }
-    //     // }
-    //     console.log("1location", location)
-    //     //updateInput()
-    // }, [location]);
 
 
     //delay function to reduce requests from the API:
@@ -66,6 +48,7 @@ export default function AddressesForm() {
             debounceTimer = setTimeout(() => func.apply(context, args), delay);
         };
     }
+
 
 
     const debouncedHandleInputChange = useMemo(() => {
@@ -116,7 +99,7 @@ export default function AddressesForm() {
         const address = item.address.freeformAddress;
         const simplifiedAddress = address.replace(postalCode, '');
         console.log("address", simplifiedAddress)
-        //******************************************************//
+        //******************//
         //setAddressInput(simplifiedAddress)
         return simplifiedAddress;
     });
@@ -145,7 +128,7 @@ export default function AddressesForm() {
         setAddressInput(simplifiedAddress);
         setSuggestions([]); // Clear the suggestions once one is selected
     };
-    //**********************************************************************************//
+    //****************************//
 
     const getLocationPermission = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();

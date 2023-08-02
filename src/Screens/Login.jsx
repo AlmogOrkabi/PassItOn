@@ -12,10 +12,10 @@ export default function Login({ navigation }) {
 
     const [userName, SetUserName] = useState('') // change to email address???
     const [password, SetPassword] = useState('')
-     const someUser = {
-         userName: "someUser",
-         password: "what2233"
-     }
+    const someUser = {
+        userName: "someUser",
+        password: "what2233"
+    }
 
     function userLogin() {
         const user = Login(userName, password);
@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
         else {
             setLoggedUser(user);
             console.log("LOGGED")
-            navigation.navigate('Home');
+            navigation.navigate('LoggedIn');
         }
     }
 
