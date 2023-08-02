@@ -23,34 +23,7 @@ export default function BasicDetailsForm() {
     };
 
 
-    // DEPRECATED
-    // const pickImage = async () => {
-
-    //     // ask for permission to access  the media on the device
-    //     const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-    //     if (status !== 'granted') {
-    //         alert('הרשאה נדחתה');
-    //         return;
-    //     }
-
-
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         //MediaTypeOptions.Images  = only images. to get all files, change to .All
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //     });
-
-    //     console.log(result);
-
-    //     if (!result.canceled) {
-    //         setImage(result.assets[0].uri);
-    //     }
-    // };
-
-
-
+    //for media on the device
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         console.log(status)
@@ -74,8 +47,7 @@ export default function BasicDetailsForm() {
 
 
 
-
-
+    //for camera
     // const pickImage = async () => {
     //     try {
     //         const result = await ImagePicker.requestMediaLibraryPermissionsAsync();
