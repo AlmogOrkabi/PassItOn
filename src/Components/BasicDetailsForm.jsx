@@ -46,7 +46,6 @@ export default function BasicDetailsForm() {
     };
 
 
-
     //for camera
     // const pickImage = async () => {
     //     try {
