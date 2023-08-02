@@ -70,17 +70,18 @@ export default function App() {
           <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
           <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
           <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
+          {/* **********************/}
           <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
-          <Stack.Screen name='Home' component={Home} options={{ headerShown: false }}/>
+          {/* <Stack.Screen name='Home' component={Home} options={{ headerShown: false }}/> */}
           <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
           <Stack.Screen name='My Fav' component={MyFav} options={{ headerShown: false }} />
           <Stack.Screen name='My Orders' component={MyOrders} options={{ headerShown: false }} />
-          <Stack.Screen name='My Posts' component={MyPosts} options={{ headerShown: false }}/>
+          <Stack.Screen name='My Posts' component={MyPosts} options={{ headerShown: false }} />
           <Stack.Screen name='Oreders To Except' component={OrdersToExcept} options={{ headerShown: false }} />
           <Stack.Screen name='Post' component={Post} options={{ headerShown: false }} />
           <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
-          <Stack.Screen name='Report User' component={ReportUsers} options={{ headerShown: false }}/>
-          <Stack.Screen name='New Post' component={NewPost}options={{ headerShown: false }}/>
+          <Stack.Screen name='Report User' component={ReportUsers} options={{ headerShown: false }} />
+          <Stack.Screen name='New Post' component={NewPost} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppContextProvider>

@@ -5,7 +5,6 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import BasicDetailsForm from '../Components/BasicDetailsForm';
 import SecurityDetailsForm from '../Components/SecurityDetailsForm';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import AddressForm from '../Components/AddressForm';
 import AddressesForm from '../Components/AddressesForm';
 
 
