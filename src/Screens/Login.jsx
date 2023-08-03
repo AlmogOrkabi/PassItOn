@@ -3,29 +3,37 @@ import React, { useState, useContext } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
-
+import { login, getUserAddress } from '../api/index'
 
 export default function Login({ navigation }) {
 
-    const { users, Login, setLoggedUser, loggedUser } = useContext(AppContext)
+    const { users, Login, setLoggedUser, loggedUser, setUserToken, userToken } = useContext(AppContext)
 
 
-    const [userName, SetUserName] = useState('') // change to email address???
-    const [password, SetPassword] = useState('')
-    const someUser = {
-        userName: "someUser",
-        password: "what2233"
-    }
+    const [email, setEmail] = useState('') // change to email address???
+    const [password, setPassword] = useState('')
+    // const someUser = {
+    //     userName: "someUser",
+    //     password: "what2233"
+    // }
 
-    function userLogin() {
-        const user = Login(userName, password);
-        if (!user) {
-            console.log('not found');
-        }
-        else {
-            setLoggedUser(user);
-            console.log("LOGGED")
-            navigation.navigate('LoggedIn');
+    async function userLogin() {
+        try {
+            const user = await login(email, password);
+            if (!user) {
+                console.log('not found');
+            }
+            else {
+                // console.log("USER LOGGED:", user)
+                // console.log("USER LOGGED:", JSON.stringify(user, null, 2));
+                user.user.address = await getUserAddress(user.user.address_id, user.token);
+                setLoggedUser(user.user);
+                setUserToken(user.token);
+                // console.log("logged user:", JSON.stringify(loggedUser, null, 2))
+                navigation.navigate('LoggedIn');
+            }
+        } catch (error) {
+            console.log("login error:", error)
         }
     }
 
@@ -34,11 +42,11 @@ export default function Login({ navigation }) {
         <SafeAreaView style={[styles.main_container, styles.container]}>
             <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
             <View style={[]}>
-                <TextInput style={[styles.input,]} label="שם משתמש" value={userName} onChangeText={userName => SetUserName(userName)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                <TextInput style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 
 
                 {/* need to hide the password */}
-                <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => SetPassword(password)} theme={{
+                <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => setPassword(password)} theme={{
                     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
                 }} />
                 <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { c }} >שחכתי סיסמה</Text></TouchableOpacity>

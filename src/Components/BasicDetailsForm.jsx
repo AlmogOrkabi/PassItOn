@@ -11,16 +11,21 @@ import * as ImagePicker from 'expo-image-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-export default function BasicDetailsForm() {
+export default function BasicDetailsForm({ state, dispatch, handleChange }) {
 
     const [image, setImage] = useState(null);
 
     const { control, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
-        // Handle form submission
-        console.log(data);
-    };
+    // const onSubmit = (data) => {
+    //     // Handle form submission
+    //     console.log(data);
+    // };
+
+    // const handleChange = (form, field, value) => {
+    //     dispatch({ type: 'updateField', form, field, value });
+    // };
+
 
 
     //for media on the device
@@ -42,6 +47,7 @@ export default function BasicDetailsForm() {
 
         if (!result.canceled) {
             setImage(result.uri);
+            handleChange('basicDetails', 'image', result.uri);
         }
     };
 
@@ -66,7 +72,6 @@ export default function BasicDetailsForm() {
     // }
 
 
-
     return (
         <SafeAreaView style={[styles.container]}>
 
@@ -78,7 +83,13 @@ export default function BasicDetailsForm() {
                     name="username"
                     rules={{ required: 'שדה חובה' }}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={[styles.input,]} label="שם משתמש" value={null} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                        <TextInput
+                            style={[styles.input,]}
+                            label="שם משתמש"
+                            value={state.username}
+                            //onChangeText={onChange}
+                            onChangeText={value => { onChange(value); handleChange('basicDetails', 'username', value); }}
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
                 />
                 {errors.username && <Text style={[styles.inputError,]} >{errors.username.message}</Text>}
@@ -88,7 +99,13 @@ export default function BasicDetailsForm() {
                     name="firstName"
                     rules={{ required: 'שדה חובה' }}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={[styles.input,]} label="שם פרטי" value={null} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                        <TextInput
+                            style={[styles.input,]}
+                            label="שם פרטי"
+                            value={state.firstName}
+                            //onChangeText={onChange}
+                            onChangeText={value => { onChange(value); handleChange('basicDetails', 'firstName', value); }}
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
                 />
                 {errors.firstName && <Text style={[styles.inputError,]} >{errors.firstName.message}</Text>}
@@ -99,7 +116,13 @@ export default function BasicDetailsForm() {
                     name="lastName"
                     rules={{ required: 'שדה חובה' }}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={[styles.input,]} label="שם משפחה" value={null} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                        <TextInput
+                            style={[styles.input,]}
+                            label="שם משפחה"
+                            value={state.lastName}
+                            //onChangeText={onChange}
+                            onChangeText={value => { onChange(value); handleChange('basicDetails', 'lastName', value); }}
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
@@ -111,7 +134,9 @@ export default function BasicDetailsForm() {
                     size={20}
                     onPress={pickImage}
                 /> */}
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
+                {state.image && <Image source={{ uri: state.image }} style={{ width: 200, height: 200 }} />}
+
 
 
 

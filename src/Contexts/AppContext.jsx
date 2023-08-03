@@ -6,15 +6,16 @@ export default function AppContextProvider({ children }) {
 
 
     const [users, setUsers] = useState([]);
+    const [userToken, setUserToken] = useState('');
 
-    async function LoadUsers() {
-        let data = require('../Data/users.json');
-        setUsers(data);
-        console.log(users)
-    }
+    // async function LoadUsers() {
+    //     let data = require('../Data/users.json');
+    //     setUsers(data);
+    //     console.log(users)
+    // }
 
     useEffect(() => {
-        LoadUsers();
+        //LoadUsers();
     }, []);
 
 
@@ -32,7 +33,7 @@ export default function AppContextProvider({ children }) {
 
 
 
-    const value = { users, setUsers, Login, loggedUser, setLoggedUser };
+    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken };
 
 
     return (

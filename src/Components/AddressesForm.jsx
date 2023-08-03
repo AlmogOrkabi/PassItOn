@@ -6,35 +6,35 @@ import { TextInput, Button } from 'react-native-paper';
 import { GEOAPI_KEY } from '@env';
 import * as Location from 'expo-location';
 
-export default function AddressesForm() {
+export default function AddressesForm({ state, dispatch, handleChange }) {
 
     const { control, handleSubmit, formState: { errors } } = useForm();
 
 
-    const [location, setLocation] = useState(null);
-    const [addressInput, setAddressInput] = useState('');
+    //const [location, setLocation] = useState(null);
+    //const [addressInput, setAddressInput] = useState('');
     const [suggestions, setSuggestions] = useState([]);
 
 
 
-    useEffect(() => {
-        console.log("rendered")
+    // useEffect(() => {
+    //     console.log("rendered")
 
-    }, []);
-
-
+    // }, []);
 
 
-    useEffect(() => {
-        console.log("location updated", location);
-        if (location) {
-            console.log(location, "USEEFFECT") //this prints the location, the problem is with the function simplifyAddress.
-            //setAddressInput(simplifyAddress(location));
-            let simp = simplifyAddress(location[0]);
-            setAddressInput(simp);
-        }
 
-    }, [location]);
+
+    // useEffect(() => {
+    //     console.log("location updated", location);
+    //     if (location) {
+    //         console.log(location, "USEEFFECT") //this prints the location, the problem is with the function simplifyAddress.
+    //         //setAddressInput(simplifyAddress(location));
+    //         let simp = simplifyAddress(location[0]);
+    //         setAddressInput(simp);
+    //     }
+
+    // }, [location]);
 
 
 
@@ -116,16 +116,18 @@ export default function AddressesForm() {
         return (
             <TouchableOpacity onPress={() => handleSuggestionPress(item)}>
                 <View>
-                    <Text>{simplifiedAddress}</Text>
+                    <Text >{simplifiedAddress}</Text>
                 </View>
             </TouchableOpacity>
         );
     };
 
     const handleSuggestionPress = (suggestion) => {
+        handleChange('addresses', 'location', suggestion);
         const simplifiedAddress = simplifyAddress(suggestion)
-
-        setAddressInput(simplifiedAddress);
+        handleChange('addresses', 'addressInput', simplifiedAddress);
+        handleChange('addresses', 'location', suggestion);
+        console.log("location:", state.location)
         setSuggestions([]); // Clear the suggestions once one is selected
     };
     //****************************//
@@ -137,7 +139,6 @@ export default function AddressesForm() {
             return;
         }
         getLocation();
-        //setAddressInput(await simplifyAddress(location));
     }
 
 
@@ -147,19 +148,15 @@ export default function AddressesForm() {
             let currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
             console.log("Location from device: ", currentLocation);
             console.log("coordinates:", currentLocation.coords.latitude, currentLocation.coords.longitude);
-            setLocation(await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
+            //setLocation(await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
+            const deviceLocation = await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude)
+            handleChange('addresses', 'location', deviceLocation[0]); //the request returns an array of results
+            console.log("deviceLocation:", state.location);
+            if (deviceLocation[0]) {
+                const simplifiedAddress = simplifyAddress(deviceLocation[0]);
+                handleChange('addresses', 'addressInput', simplifiedAddress);
+            }
 
-
-            //const newLocation = await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude);
-            //setLocation(newLocation);
-            //console.log(newLocation, "NEWLOCATION")
-            //setAddressInput(await simplifyAddress(newLocation));
-
-
-
-            //console.log(location, "location")
-            // const simplifiedAddress = await simplifyAddress(location);
-            // console.log(simplifiedAddress, "simp1")
 
         } catch (error) {
             console.error(error, "error1");
@@ -175,22 +172,12 @@ export default function AddressesForm() {
             if (data.error) {
                 console.error(data.error, "Error");
             } else {
-                //setLocation(data.addresses)
-                // let address = await simplifyAddress(data.addresses)
-                // setAddressInput(address)
                 return data.addresses;
             }
         } catch (error) {
             console.error(error);
         }
     }
-
-    // const simplifiedAddressReverseGeo = ((item) => {
-    //     const postalCode = item.address.extendedPostalCode;
-    //     const address = item.address.freeformAddress;
-    //     const simplifiedAddress = address.replace(postalCode, '');
-    //     return simplifiedAddress;
-    // });
 
 
 
@@ -202,10 +189,12 @@ export default function AddressesForm() {
                 control={control}
                 name="address"
                 rules={{}}
+                //onChangeText={value => { onChange(value); handleChange('addresses', 'addressInput', value); }}
                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput style={[styles.input,]} label="כתובת" value={addressInput} onChangeText={(text) => {
-                        setAddressInput(text);
+                    <TextInput style={[styles.input,]} label="כתובת" value={state.addressInput} onChangeText={(text) => {
+                        //setAddressInput(text);
                         //handleInputChange(text);
+                        handleChange('addresses', 'addressInput', value)
                         debouncedHandleInputChange(text);
                     }} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                 )}

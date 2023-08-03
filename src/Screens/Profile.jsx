@@ -11,13 +11,14 @@ export default function Profile() {
   return (
     <SafeAreaView style={styles.main_container}>
       <View style={styles.container}>
-        <Image source={{ uri: loggedUser.photo }} style={styles.profilePicture} />
+        <Image source={{ uri: loggedUser.photo.url }} style={[styles.profilePicture,]} />
         <Text style={styles.name}>{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text>
         <Text style={styles.username}>{loggedUser.username}</Text>
         <Text style={styles.email}>{loggedUser.email}</Text>
-        <Text style={styles.phone}>{loggedUser.phone}</Text>
+        <Text style={styles.phone}>{loggedUser.phoneNumber}</Text>
         <View style={styles.addressContainer}>
-          <Text style={styles.address}>{`${loggedUser.address.street}, ${loggedUser.address.city}, ${loggedUser.address.country}`}</Text>
+          {/* <Text style={styles.address}>{`${loggedUser.address.street}, ${loggedUser.address.city}, ${loggedUser.address.country}`}</Text> */}
+          <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text>
         </View>
       </View>
     </SafeAreaView>

@@ -36,10 +36,11 @@ import { I18nManager } from 'react-native';
 I18nManager.forceRTL(true);
 I18nManager.allowRTL(true);
 
-
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
+
 
 function LoggedUserTabs() {
   return (

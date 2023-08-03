@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: theme.background,
         color: 'black',
+        width: '100%',
     },
     container: {
         alignItems: 'center',
