@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { styles } from '../Styles'
 import { View, Text, Image, StyleSheet, SafeAreaView } from 'react-native';
 import { AppContext } from '../Contexts/AppContext';
+import { Button } from 'react-native-paper';
 
 
 export default function Profile() {
@@ -18,7 +19,7 @@ export default function Profile() {
         <Text style={styles.phone}>{loggedUser.phoneNumber}</Text>
         <View style={styles.addressContainer}>
           {/* <Text style={styles.address}>{`${loggedUser.address.street}, ${loggedUser.address.city}, ${loggedUser.address.country}`}</Text> */}
-          <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text>
+          {loggedUser.address.simplifiedAddress ? <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text> : <Button><Text>הוספת כתובת </Text></Button>}
         </View>
       </View>
     </SafeAreaView>
