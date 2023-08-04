@@ -11,7 +11,6 @@ export const createNewUser = async (data) => {
         let address_id = null;
         if (data.addresses.addressInput != '') {
             let address = await createNewAddress(data.addresses);
-            console.log("address: " + address.insertedId);
             address_id = address.insertedId;
         }
 
@@ -27,10 +26,9 @@ export const createNewUser = async (data) => {
             photo: imgBase64
 
         }
-        console.log(newUser)
 
         const user = await registerNewUser(newUser)
-
+        return newUser;
     } catch (error) {
         console.error("Failed to create new user: ", error);
     }
@@ -53,11 +51,8 @@ export const createNewAddress = async (data) => {
             lat: parseFloat(data.location.position.split(',')[1])
         }
 
-        console.log("new address:", newAddress);
-
-        //return JSON.stringify(newAddress);
         const address = await addNewAddress(newAddress);
-        console.log("DB address:", address);
+        //console.log("DB address:", address);
         return address;
     } catch (error) {
         console.error("Failed to create new address: ", error);

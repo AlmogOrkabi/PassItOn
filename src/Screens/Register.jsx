@@ -83,9 +83,8 @@ export default function Register({ navigation }) {
             //     );
             // }
 
-            console.log(formState.addresses)
             const newUser = createNewUser(formState);
-            console.log("new user created: " + newUser);
+            //console.log("new user created: " + newUser);
             navigation.navigate('Login')
 
         } catch (error) {

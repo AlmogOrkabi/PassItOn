@@ -97,6 +97,23 @@ export const styles = StyleSheet.create({
     address: {
         fontSize: 14,
     },
+    card: {
+        //margin: '5%',
+        width: 280,
+        //height: 450,
+        flexDirection: 'column',
+
+
+    },
+    cardContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    cardCover: {
+        width: 150,
+        height: 80,
+    }
 
 });
 
