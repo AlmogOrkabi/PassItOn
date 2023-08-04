@@ -7,25 +7,32 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 //***expo-image-picker does not automatically ask for permissions
 
+// import { isValidPassword, isValidUserName, isValidName } from '../utils/validations'
+import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
+
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { PrivateValueStore } from '@react-navigation/native';
 
 
 export default function BasicDetailsForm({ state, dispatch, handleChange }) {
 
     const [image, setImage] = useState(null);
 
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    // const { control, handleSubmit, formState: { errors } } = useForm(
+    //     { mode: 'all' }
+    // );
 
     // const onSubmit = (data) => {
     //     // Handle form submission
     //     console.log(data);
     // };
 
-    // const handleChange = (form, field, value) => {
-    //     dispatch({ type: 'updateField', form, field, value });
-    // };
-
+    const {
+        control,
+        handleSubmit,
+        formState: { errors, isValid }
+    } = useForm({ mode: 'all' })
 
 
     //for media on the device
@@ -81,32 +88,60 @@ export default function BasicDetailsForm({ state, dispatch, handleChange }) {
                 <Controller
                     control={control}
                     name="username"
-                    rules={{ required: 'שדה חובה' }}
+                    defaultValue={state.username}
+
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={[styles.input,]}
                             label="שם משתמש"
-                            value={state.username}
+                            value={value}
                             //onChangeText={onChange}
+                            onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'username', value); }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
+
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'שדה חובה'
+                        },
+
+                        validate:
+                            value => isValidUserName(value) || 'שם המשתמש אינו תקין'
+                        // ,
+                        // validate: value => value.lengt < 5 || 'TEST'
+
+
+                    }}
                 />
                 {errors.username && <Text style={[styles.inputError,]} >{errors.username.message}</Text>}
 
                 <Controller
                     control={control}
                     name="firstName"
-                    rules={{ required: 'שדה חובה' }}
+                    defaultValue={state.firstName}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={[styles.input,]}
                             label="שם פרטי"
-                            value={state.firstName}
+                            value={value}
                             //onChangeText={onChange}
+                            onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'firstName', value); }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'שדה חובה'
+                        },
+
+                        validate:
+                            value => isValidName(value) || 'שם אינו תקין'
+
+
+                    }}
                 />
                 {errors.firstName && <Text style={[styles.inputError,]} >{errors.firstName.message}</Text>}
 
@@ -114,16 +149,29 @@ export default function BasicDetailsForm({ state, dispatch, handleChange }) {
                 <Controller
                     control={control}
                     name="lastName"
-                    rules={{ required: 'שדה חובה' }}
+                    defaultValue={state.lastName}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={[styles.input,]}
                             label="שם משפחה"
-                            value={state.lastName}
+                            value={value}
                             //onChangeText={onChange}
+                            onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'lastName', value); }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
+
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'שדה חובה'
+                        },
+
+                        validate:
+                            value => isValidName(value) || 'שם אינו תקין'
+
+
+                    }}
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
 

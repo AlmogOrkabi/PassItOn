@@ -99,3 +99,8 @@ export const styles = StyleSheet.create({
     },
 
 });
+
+
+export const paperStyles = {
+    inputIcon: { size: 20 },
+}
