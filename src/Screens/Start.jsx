@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-paper';
 import { styles } from '../Styles'
-import PostCard from '../Components/PostCard'
+
 
 export default function Start({ navigation }) {
     return (
@@ -15,7 +15,6 @@ export default function Start({ navigation }) {
                 <Button style={styles.btn} mode="Sp" onPress={() => { navigation.navigate('SerchPage') }}  >serchp</Button>
                 <Button style={styles.btn} mode="Home" onPress={() => { navigation.navigate('Home') }}  >home</Button>
             </View>
-            {/* <PostCard /> */}
         </SafeAreaView >
     )
 }
