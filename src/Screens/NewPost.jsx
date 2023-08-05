@@ -23,7 +23,7 @@ export default function NewPost() {
   const [itemLocation, setItemLocation] = useState('');
 
   const handleAddPhoto = (photoUri) => {
-    if (photos.length < 4) {
+    if (photos.length < 6) {
       setPhotos((prevPhotos) => [...prevPhotos, photoUri]);
     }
   };
@@ -42,7 +42,7 @@ export default function NewPost() {
   };
 
   return (
-    <SafeAreaView style={[styles.main_container, styles.npcontainer]}>
+    <SafeAreaView style={[styles.npcontainer]}>
       <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
       </View>
@@ -69,7 +69,7 @@ export default function NewPost() {
       />
 
       {/* Photo Selection */}
-      <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 4)</Text>
+      <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
       <View style={styles.npphotoContainer}>
         {photos.map((photoUri, index) => (
           <View key={index} style={styles.npphotoItem}>
@@ -83,7 +83,7 @@ export default function NewPost() {
             />
           </View>
         ))}
-        {photos.length < 4 && (
+        {photos.length < 6 && (
           <IconButton
             icon="plus"
             color="gray"
