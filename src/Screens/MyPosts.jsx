@@ -6,8 +6,8 @@ import { AppContext } from '../Contexts/AppContext';
 
 export default function MyPosts({ navigation }) {
   return (
-   
-      <View style={styles.container}>
+
+    <View style={styles.container}>
       <Text style={styles.title}>הכנס תמונה</Text>
       <Text style={styles.title}></Text>
       <Text style={styles.title}></Text>
@@ -17,3 +17,4 @@ export default function MyPosts({ navigation }) {
     </View>
   )
 }
+

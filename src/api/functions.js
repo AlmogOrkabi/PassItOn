@@ -37,6 +37,21 @@ export const createNewUser = async (data) => {
 export const createNewAddress = async (data) => {
     try {
         // console.log("data", data.location.address)
+        //console.log("DATA FUNCTION ==>>", data)
+        console.log("FAILED DATA? ==>", data.location.position)
+
+
+        let lon;
+        let lat;
+        if (Array.isArray(data.location.position)) {
+            lat = parseFloat(data.location.position.split(',')[0]);
+            lon = parseFloat(data.location.position.split(',')[1]);
+        }
+        else {
+            lon = parseFloat(data.location.position.lon);
+            lat = parseFloat(data.location.position.lat);
+        }
+
         let newAddress = {
             region: data.location.address.countrySubdivision,
             city: data.location.address.municipality,
@@ -47,9 +62,14 @@ export const createNewAddress = async (data) => {
             notes: "",
 
             simplifiedAddress: data.addressInput,
-            lon: parseFloat(data.location.position.split(',')[0]),
-            lat: parseFloat(data.location.position.split(',')[1])
+
+            // lon: parseFloat(data.location.position.split(',')[0]),
+            // lat: parseFloat(data.location.position.split(',')[1])
+
+            lon: lon,
+            lat: lat
         }
+        console.log("newAddress obj ==>>", newAddress)
 
         const address = await addNewAddress(newAddress);
         //console.log("DB address:", address);

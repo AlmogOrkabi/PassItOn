@@ -12,7 +12,11 @@ export default function Profile() {
   return (
     <SafeAreaView style={styles.main_container}>
       <View style={styles.container}>
-        <Image source={{ uri: loggedUser.photo.url }} style={[styles.profilePicture,]} />
+        <Image source={
+          loggedUser.photo && loggedUser.photo.url
+            ? { uri: loggedUser.photo.url }
+            : require('../Pictures/DefaultPfp.jpg')
+        } style={[styles.profilePicture,]} />
         <Text style={styles.name}>{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text>
         <Text style={styles.username}>{loggedUser.username}</Text>
         <Text style={styles.email}>{loggedUser.email}</Text>

@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
                 navigation.navigate('LoggedIn');
             }
         } catch (error) {
-            console.log("login error:", error)
+            console.log("login error:", error.toString());
         }
     }
 
