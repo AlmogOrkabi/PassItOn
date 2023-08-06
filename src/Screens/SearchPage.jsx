@@ -27,9 +27,7 @@ export default function SearchPage() {
 
   const [searchDistance, setSearchDistance] = useState(1)
 
-  const [address, setAddress] = useState({ addressInput: '', location: null });
-
-  const [coordinates, setCoordinates] = useState([])
+  const [coordinates, setCoordinates] = useState(loggedUser.address.location.coordinates)
 
 
   const searchItems = async () => {
@@ -55,7 +53,8 @@ export default function SearchPage() {
           break;
         case 'distance':
           //console.log("user coordinates: " + Array.isArray(loggedUser.address.location.coordinates))
-          results = await postSearchByDistance(searchQuery, searchDistance, loggedUser.address.location.coordinates, userToken);
+          const currentCoordinates = coordinates;
+          results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
           break;
         case 'category':
           if (category.trim() == '')

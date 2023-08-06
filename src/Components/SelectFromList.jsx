@@ -44,7 +44,7 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
 
                 <FlatList data={list}
                     renderItem={renderItems}
-                    keyExtractor={(text) => text.toString()}
+                    keyExtractor={(index) => index.toString()}
                     style={[, { maxHeight: 250 }]} />
             </List.Accordion >
         </List.Section>

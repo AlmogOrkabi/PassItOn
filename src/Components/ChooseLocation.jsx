@@ -13,22 +13,31 @@ export default function ChooseLocation({ coordinates, setCoordinates }) {
     const [address, setAddress] = useState({ addressInput: '', location: null });
 
     useEffect(() => {
-        if (fromLocation == 'user') {
-            setCoordinates(loggedUser.address.location.coordinates.toString());
-        }
-        else if (fromLocation == 'newLocation' && address.location) {
-            setCoordinates(address.location)
-        }
-        console.log("from location: " + fromLocation)
-        console.log("coordinates: " + coordinates);
+
     }, [fromLocation]);
 
+    function handleChange(from) {
+        setFromLocation(from);
+        if (from == 'user') {
+            setCoordinates(loggedUser.address.location.coordinates);
+        }
+        else if (from == 'newLocation' && address.location) {
+            if (Array.isArray(address.location.position))
+                setCoordinates(address.location.position)
+            else
+                setCoordinates([address.location.position.lon, address.location.position.lat])
+        }
+        console.log("from location: " + from)
+        console.log("coordinates: " + coordinates);
+        //console.log("coordinates: " + JSON.stringify(coordinates));
 
+        // console.log("logged user location: " + JSON.stringify(loggedUser.address.location.coordinates))
+    }
 
     return (
         <View>
             <View >
-                <RadioButton.Group onValueChange={newValue => setFromLocation(newValue)} value={fromLocation}>
+                <RadioButton.Group onValueChange={(newValue) => handleChange(newValue)} value={fromLocation}>
                     <View style={[styles.flexRow, { justifyContent: 'center' }]}>
                         <View style={[styles.flexRow]}>
                             <RadioButton value="user" />

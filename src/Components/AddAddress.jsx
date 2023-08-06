@@ -85,7 +85,7 @@ export default function AddAddress({ address, handleChange }) {
             alert('גישה למיקום נדחתה');
             return;
         }
-        getLocation();
+        await getLocation();
     }
 
 
@@ -99,8 +99,8 @@ export default function AddAddress({ address, handleChange }) {
             const deviceLocation = await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude)
             console.log("deviceLocation:", deviceLocation);
             if (deviceLocation[0]) {
-                const simplifiedAddress = simplifyAddress(deviceLocation[0]);
-                handleChange({ location: deviceLocation[0], addressInput: simplifiedAddress })
+                const simplifiedAddress = await simplifyAddress(deviceLocation[0]);
+                await handleChange({ location: deviceLocation[0], addressInput: simplifiedAddress })
             }
 
 
@@ -124,6 +124,18 @@ export default function AddAddress({ address, handleChange }) {
             console.error(error);
         }
     }
+
+    useEffect(() => {
+        if (address.location) {
+            // Do something after the location has been set
+            console.log("Location updated:", address.location);
+        }
+    }, [address]);
+
+
+
+
+
     return (
         <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20 }]}>
             <View>
@@ -132,6 +144,7 @@ export default function AddAddress({ address, handleChange }) {
                     //handleInputChange(text);
                     handleChange({ addressInput: text })
                     debouncedHandleInputChange(text);
+
                 }} />
 
                 {suggestions ? <FlatList

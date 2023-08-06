@@ -137,6 +137,7 @@ export const postSearchByCategory = async (query, category, token) => {
 
 export const postSearchByDistance = async (query, distance, userCoordinates, token) => {
     let response;
+    console.log("user coordinates ===>>>", userCoordinates)
     if (query.trim() == '') {
         response = await fetch(`${BASE_URL}/api/posts/search/byDistance/${distance}`, {
             method: 'POST',
