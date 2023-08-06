@@ -66,7 +66,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={[{ width: '100%' }, { height: '100%' }]}>
-      {/* // <StatusBar hidden={true} /> */}
+      {/* <StatusBar hidden={true} /> */}
       <AppContextProvider>
         <NavigationContainer>
           <Stack.Navigator>

@@ -12,6 +12,12 @@ const theme = {
     mainColor: "#B94ECB",
     mainColorFaded: "#DEACE7",
     background: "#DEACE7",
+    strongOrange: "#f58a0a",
+    mediumOrange: '#ffa63e',
+    lightOrange: '#ffd6a8',
+    strongBlue: '#1b71be',
+    mediumBlue: '#2596fe',
+    lightBlue: '#add9ff',
 }
 
 
@@ -41,9 +47,29 @@ export const styles = StyleSheet.create({
         //maxWidth: "100%",
 
     },
+    main_container2: {
+        //**
+        flexDirection: "column",
+        textAlign: "center",
+        //** 
+        //flex: 1,
+        //justifyContent: 'center',
+        paddingTop: '5%',
+        backgroundColor: theme.background,
+        color: 'black',
+        width: '100%',
+        height: '100%',
+        //maxWidth: "100%",
+
+    },
+    sub_container: {
+        margin: '5%',
+        marginTop: '15%'
+    },
     container: {
         alignItems: 'center',
         //flex: 1,
+        //margin: '5%',
     },
     flexRow: {
         flexDirection: 'row'
@@ -51,10 +77,14 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 30
     },
+    mediumText: {
+        fontSize: 14,
+        fontWeight: '600'
+    },
     btn: {
         backgroundColor: theme.mainColor,
         textAlign: "center",
-        marginTop: 20
+        marginTop: 20,
     },
     input: {
         minWidth: "50%",
@@ -171,6 +201,9 @@ export const styles = StyleSheet.create({
     },
     nppostButton: {
         marginTop: 16,
+    },
+    searchOptionsContainer: {
+        marginTop: '3%'
     },
     // card: {
     //     //margin: '5%',

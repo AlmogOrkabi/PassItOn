@@ -122,6 +122,7 @@ export default function NewPost() {
 
   return (
     <SafeAreaView style={[styles.npcontainer, { flex: 1 }]}>
+      {/* <ScrollView > */}
       <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
       </View>
@@ -179,7 +180,6 @@ export default function NewPost() {
         </List.Accordion >
       </List.Section>
 
-
       {/* Photo Selection */}
       <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
       <View style={styles.npphotoContainer}>
@@ -220,6 +220,7 @@ export default function NewPost() {
       <Button mode="contained" onPress={() => handlePost(handleSubmit)} style={styles.nppostButton}>
         פרסם
       </Button>
+      {/* </ScrollView> */}
     </SafeAreaView >
   );
 }
