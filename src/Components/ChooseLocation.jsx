@@ -1,15 +1,26 @@
-import { View, Text, useState, useEffect } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { RadioButton } from 'react-native-paper';
 import { styles } from '../Styles'
+import { AppContext } from '../Contexts/AppContext';
+import AddAddress from './AddAddress';
 
-export default function ChooseLocation() {
-
+export default function ChooseLocation({ coordinates, setCoordinates }) {
+    const { loggedUser } = useContext(AppContext)
     const [fromLocation, setFromLocation] = useState('user')
 
+    const [address, setAddress] = useState({ addressInput: '', location: null });
+
     useEffect(() => {
-        console.log("fromLocation", fromLocation)
+        if (fromLocation == 'user') {
+            setCoordinates(loggedUser.address.location.coordinates.toString());
+        }
+        else if (fromLocation == 'newLocation' && address.location) {
+            setCoordinates(address.location)
+        }
+        console.log("from location: " + fromLocation)
+        console.log("coordinates: " + coordinates);
     }, [fromLocation]);
 
 
@@ -30,6 +41,10 @@ export default function ChooseLocation() {
                     </View>
                 </RadioButton.Group>
             </View>
+            <View>
+                {fromLocation == 'user' ? <Text>{loggedUser.address.simplifiedAddress}</Text> : <AddAddress address={address} handleChange={setAddress} />}
+            </View>
+
         </View>
     )
 }
