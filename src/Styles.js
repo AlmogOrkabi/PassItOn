@@ -32,16 +32,21 @@ export const styles = StyleSheet.create({
         flexDirection: "column",
         textAlign: "center",
         //** 
-        flex: 1,
+        //flex: 1,
         justifyContent: 'center',
         backgroundColor: theme.background,
         color: 'black',
         width: '100%',
+        height: '100%',
         //maxWidth: "100%",
+
     },
     container: {
         alignItems: 'center',
-
+        //flex: 1,
+    },
+    flexRow: {
+        flexDirection: 'row'
     },
     title: {
         fontSize: 30

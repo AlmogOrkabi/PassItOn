@@ -1,6 +1,7 @@
-import { uriToBase64 } from "../utils/index";
+import { uriToBase64, urisArrayToBase64 } from "../utils/index";
 import { addNewAddress } from "./addresses";
 import { registerNewUser } from "./users";
+import { addNewPost } from "./posts";
 
 export const createNewUser = async (data) => {
     try {
@@ -38,18 +39,18 @@ export const createNewAddress = async (data) => {
     try {
         // console.log("data", data.location.address)
         //console.log("DATA FUNCTION ==>>", data)
-        console.log("FAILED DATA? ==>", data.location.position)
+        //console.log("FAILED DATA? ==>", data.location.position)
 
 
         let lon;
         let lat;
-        if (Array.isArray(data.location.position)) {
-            lat = parseFloat(data.location.position.split(',')[0]);
-            lon = parseFloat(data.location.position.split(',')[1]);
-        }
-        else {
+        if (data.location.position.lon && data.location.position.lat) {
             lon = parseFloat(data.location.position.lon);
             lat = parseFloat(data.location.position.lat);
+        }
+        else {
+            lat = parseFloat(data.location.position.split(',')[0]);
+            lon = parseFloat(data.location.position.split(',')[1]);
         }
 
         let newAddress = {
@@ -76,5 +77,33 @@ export const createNewAddress = async (data) => {
         return address;
     } catch (error) {
         console.error("Failed to create new address: ", error);
+    }
+}
+
+export const createNewPost = async (itemName, description, category, photos, itemLocation, loggedUser, userToken) => {
+    try {
+        console.log("loggedUser:", loggedUser._id);
+        console.log("data:", itemName, description, category, photos, itemLocation);
+        console.log("itemlocation : ", itemLocation);
+
+        let base64Images = await urisArrayToBase64(photos);
+        let address = await createNewAddress(itemLocation);
+
+        let newPost = {
+            owner_id: loggedUser._id,
+            itemName: itemName,
+            description: description,
+            category: category,
+            photos: base64Images,
+            itemLocation_id: address.insertedId
+        }
+
+        console.log("newPost obj ==>>", newPost);
+        const post = await addNewPost(newPost, userToken)
+        console.log("NEW POST CREATED! ===>>>", post);
+        return post;
+
+    } catch (error) {
+        console.log("new post creation FAILED! ==>>", error);
     }
 }

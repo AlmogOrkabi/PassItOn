@@ -1,6 +1,5 @@
 export const uriToBase64 = async (uri) => {
     try {
-        console.log("uri =>", uri)
         const response = await fetch(uri);
         const blob = await response.blob();
         return new Promise((resolve, reject) => {
@@ -34,6 +33,16 @@ export const uriToBase64 = async (uri) => {
 //     }
 // }
 
-
+export const urisArrayToBase64 = async (uris) => {
+    try {
+        // Promise.all maps over the array of uris and runs uriToBase64 for each URI
+        const base64Array = await Promise.all(
+            uris.map(uri => uriToBase64(uri))
+        );
+        return base64Array;  // Returns an array of Base64 strings
+    } catch (error) {
+        console.error("Failed to convert one or more URIs to Base64: ", error.toString());
+    }
+}
 
 
