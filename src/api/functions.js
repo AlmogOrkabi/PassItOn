@@ -87,7 +87,14 @@ export const createNewPost = async (itemName, description, category, photos, ite
         console.log("itemlocation : ", itemLocation);
 
         let base64Images = await urisArrayToBase64(photos);
-        let address = await createNewAddress(itemLocation);
+        let address_id;
+        if (itemLocation.location.type=='Point') {
+            address_id = itemLocation._id;
+        }
+        else {
+            let address = await createNewAddress(itemLocation);
+            address_id = address.insertedId;
+        }
 
         let newPost = {
             owner_id: loggedUser._id,
@@ -95,7 +102,7 @@ export const createNewPost = async (itemName, description, category, photos, ite
             description: description,
             category: category,
             photos: base64Images,
-            itemLocation_id: address.insertedId
+            itemLocation_id: address_id
         }
 
         console.log("newPost obj ==>>", newPost);
