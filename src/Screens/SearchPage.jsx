@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
-import React, { useState, useContext } from 'react'
+import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useContext } from 'react';
 import { styles } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
@@ -24,7 +24,7 @@ import PostCard from '../Components/PostCard';
 
 export default function SearchPage() {
 
-  const { loggedUser, userToken } = useContext(AppContext)
+  const { loggedUser, userToken } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -32,13 +32,13 @@ export default function SearchPage() {
 
   const [searchOptions, setSearchOptions] = React.useState('none');
 
-  const [category, setCategory] = useState('בחר קטגוריה')
+  const [category, setCategory] = useState('בחר קטגוריה');
 
   const [city, setCity] = useState('');
 
   const [searchDistance, setSearchDistance] = useState(1)
 
-  const [coordinates, setCoordinates] = useState([])
+  const [coordinates, setCoordinates] = useState(loggedUser.address.location.coordinates)
 
 
   const searchItems = async () => {
@@ -64,7 +64,8 @@ export default function SearchPage() {
           break;
         case 'distance':
           //console.log("user coordinates: " + Array.isArray(loggedUser.address.location.coordinates))
-          results = await postSearchByDistance(searchQuery, searchDistance, loggedUser.address.location.coordinates, userToken);
+          const currentCoordinates = coordinates;
+          results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
           break;
         case 'category':
           if (category.trim() == '')
@@ -131,11 +132,20 @@ export default function SearchPage() {
         </View>
 
         <View>
-          {searchOptions == 'city' ? <View>
-            <TextInput label='עיר'
-              value={city}
-              onChangeText={value => setCity(value)} />
-          </View> : searchOptions == 'distance' ? <View><SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />  <ChooseLocation /> </View> : searchOptions == 'category' ? <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} /> : null}
+          {searchOptions == 'city' ?
+            <View>
+              <TextInput label='עיר'
+                value={city}
+                onChangeText={value => setCity(value)} />
+            </View> :
+            searchOptions == 'distance' ?
+              <View>
+                <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
+                <ChooseLocation coordinates={coordinates} setCoordinates={setCoordinates} />
+              </View>
+              : searchOptions == 'category' ?
+                <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
+                : null}
         </View>
       </View>
       
