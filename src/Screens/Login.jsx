@@ -7,16 +7,12 @@ import { login, getAddress } from '../api/index'
 
 export default function Login({ navigation }) {
 
-    const { users, Login, setLoggedUser, loggedUser, setUserToken, userToken } = useContext(AppContext)
+    const { setLoggedUser, loggedUser, setUserToken, userToken } = useContext(AppContext)
 
 
-    const [email, setEmail] = useState('') // change to email address???
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [err, setErr] = useState(false)
-    // const someUser = {
-    //     userName: "someUser",
-    //     password: "what2233"
-    // }
+    const [err, setErr] = useState(false) // to display an error for the user
 
     async function userLogin() {
         try {
@@ -55,7 +51,7 @@ export default function Login({ navigation }) {
 
                 {err ? <Text style={[styles.errMsg]}>משתמש לא נמצא</Text> : null}
 
-                <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { c }} >שחכתי סיסמה</Text></TouchableOpacity>
+                <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { }} >שחכתי סיסמה</Text></TouchableOpacity>
                 <Button style={styles.btn} mode="contained" onPress={() => { userLogin() }}  >התחברות</Button>
 
             </View>

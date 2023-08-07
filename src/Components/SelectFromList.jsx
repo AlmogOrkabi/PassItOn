@@ -35,18 +35,20 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
 
     return (
 
-        <List.Section title={title}>
-            <List.Accordion title={picked}
-                left={props => <List.Icon {...props} icon="folder"
-                    expanded={expanded}
-                    onPress={handlePress}
-                />} >
+        <View>
+            <List.Section title={title}>
+                <List.Accordion title={picked}
+                    left={props => <List.Icon {...props} icon="folder"
+                        expanded={expanded}
+                        onPress={handlePress}
+                    />} >
 
-                <FlatList data={list}
-                    renderItem={renderItems}
-                    keyExtractor={(item) => item}
-                    style={[, { maxHeight: 250 }]} />
-            </List.Accordion >
-        </List.Section>
+                    <FlatList data={list}
+                        renderItem={renderItems}
+                        keyExtractor={(item) => item}
+                        style={[, { maxHeight: 250 }]} />
+                </List.Accordion >
+            </List.Section>
+        </View>
     )
 }

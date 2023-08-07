@@ -100,6 +100,7 @@ export default function ChooseLocation({ address, setAddress }) {
 
         if (fromLocation == 'user') {
             setAddress((prev) => loggedUser.address)
+            console.log(loggedUser.address)
         }
     }, [fromLocation]);
 

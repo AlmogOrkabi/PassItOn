@@ -20,7 +20,7 @@ import ChooseLocation from '../Components/ChooseLocation';
 
 export default function NewPost() {
 
-  const { users, loggedUser, userToken } = useContext(AppContext)
+  const { loggedUser, userToken } = useContext(AppContext)
 
 
   const {
@@ -156,15 +156,6 @@ export default function NewPost() {
       />
 
 
-
-
-      {/* 
-      <TextInput
-        label="קטגוריה"
-        value={category}
-        onChangeText={(text) => setCategory(text)}
-        style={styles.npinput}
-      /> */}
 
       <List.Section title='קטגוריות'>
         <List.Accordion title={category}
