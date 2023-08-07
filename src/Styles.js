@@ -208,7 +208,12 @@ export const styles = StyleSheet.create({
     card: {
         marginVertical: 10,
         marginHorizontal: 15,
-      },
+    },
+    errMsg: {
+        color: "red",
+        margin: 20,
+        fontWeight: "bold",
+    }
     // card: {
     //     //margin: '5%',
     //     width: 280,

@@ -12,6 +12,7 @@ export default function Login({ navigation }) {
 
     const [email, setEmail] = useState('') // change to email address???
     const [password, setPassword] = useState('')
+    const [err, setErr] = useState(false)
     // const someUser = {
     //     userName: "someUser",
     //     password: "what2233"
@@ -30,10 +31,12 @@ export default function Login({ navigation }) {
                 setLoggedUser(user.user);
                 setUserToken(user.token);
                 // console.log("logged user:", JSON.stringify(loggedUser, null, 2))
+                setErr((prev) => false);
                 navigation.navigate('LoggedIn');
             }
         } catch (error) {
             console.log("login error:", error.toString());
+            setErr((prev) => true);
         }
     }
 
@@ -49,9 +52,14 @@ export default function Login({ navigation }) {
                 <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => setPassword(password)} theme={{
                     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
                 }} />
+
+                {err ? <Text style={[styles.errMsg]}>משתמש לא נמצא</Text> : null}
+
                 <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { c }} >שחכתי סיסמה</Text></TouchableOpacity>
                 <Button style={styles.btn} mode="contained" onPress={() => { userLogin() }}  >התחברות</Button>
+
             </View>
+
         </SafeAreaView>
     )
 }
