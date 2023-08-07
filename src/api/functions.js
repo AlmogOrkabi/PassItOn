@@ -40,7 +40,7 @@ export const createNewAddress = async (data) => {
         // console.log("data", data.location.address)
         //console.log("DATA FUNCTION ==>>", data)
         //console.log("FAILED DATA? ==>", data.location.position)
-
+        console.log("data", data)
 
         let lon;
         let lat;
@@ -57,7 +57,7 @@ export const createNewAddress = async (data) => {
             region: data.location.address.countrySubdivision,
             city: data.location.address.municipality,
             street: data.location.address.streetName,
-            house: data.location.address.streetNumber,
+            house: data.location.address.streetNumber ? data.location.address.streetNumber : "6",
             //those 2 needs to be added to the form later on 
             apartment: "",
             notes: "",

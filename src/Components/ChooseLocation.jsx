@@ -17,7 +17,7 @@ export default function ChooseLocation({ coordinates, setCoordinates }) {
     }, [fromLocation]);
 
     useEffect(() => {
-        console.log("LOCATION ===>>>", address)
+        //console.log("LOCATION ===>>>", address) // the response format CHANGES ALL THE TIME
         if (fromLocation == 'user') {
             setCoordinates((prev) => loggedUser.address.location.coordinates);
         }
