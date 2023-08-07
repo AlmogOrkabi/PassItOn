@@ -19,7 +19,7 @@ export default function ChooseLocation({ coordinates, setCoordinates }) {
     function handleChange(from) {
         setFromLocation(from);
         if (from == 'user') {
-            setCoordinates(loggedUser.address.location.coordinates);
+            setCoordinates(coordinates => loggedUser.address.location.coordinates);
         }
         else if (from == 'newLocation' && address.location) {
             if (Array.isArray(address.location.position))
