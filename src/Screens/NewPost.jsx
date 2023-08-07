@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
 import React, { useState, useContext, useReducer, useEffect } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton, List } from 'react-native-paper';
@@ -17,6 +17,8 @@ import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
 import { createNewPost } from '../api/index';
 
 import ChooseLocation from '../Components/ChooseLocation';
+import SelectFromList from '../Components/SelectFromList';
+
 
 export default function NewPost() {
 
@@ -104,7 +106,7 @@ export default function NewPost() {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-  const handlePost = () => {
+  const handlePost = async () => {
     // Handle posting the new post (you can add your logic here)
     console.log('Item Name:', itemName);
     console.log('Description:', description);
@@ -112,7 +114,10 @@ export default function NewPost() {
     //console.log('Photos:', photos);
     console.log('Item Location:', itemLocation);
 
-    let res = createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
+    const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
+    if (res.insertedId) {
+      Alert.alert('פוסט פורסם בהצלחה!')
+    }
   };
 
 
@@ -157,7 +162,7 @@ export default function NewPost() {
 
 
 
-      <List.Section title='קטגוריות'>
+      {/* <List.Section title='קטגוריות'>
         <List.Accordion title={category}
           left={props => <List.Icon {...props} icon="folder"
             expanded={expanded}
@@ -169,7 +174,12 @@ export default function NewPost() {
             keyExtractor={(text) => text.toString()}
             style={[, { maxHeight: 250 }]} />
         </List.Accordion >
-      </List.Section>
+      </List.Section> */}
+
+
+      <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
+
+
 
       {/* Photo Selection */}
       <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>

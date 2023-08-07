@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
 import React, { useState, useContext } from 'react'
-import { styles } from '../Styles';
+import { styles, paperStyles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import { login, getAddress } from '../api/index'
@@ -9,7 +9,7 @@ export default function Login({ navigation }) {
 
     const { setLoggedUser, loggedUser, setUserToken, userToken } = useContext(AppContext)
 
-
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [err, setErr] = useState(false) // to display an error for the user
@@ -45,9 +45,13 @@ export default function Login({ navigation }) {
 
 
                 {/* need to hide the password */}
-                <TextInput style={[styles.input]} label="סיסמה" value={password} onChangeText={password => setPassword(password)} theme={{
-                    colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
-                }} />
+                <TextInput style={[styles.input]} label="סיסמה" value={password}
+                    onChangeText={password => setPassword(password)}
+                    secureTextEntry={!passwordVisible}
+                    right={<TextInput.Icon icon="eye" size={paperStyles.inputIcon.size} name={passwordVisible ? "eye-off" : "eye"} onPress={() => setPasswordVisible(!passwordVisible)} />}
+                    theme={{
+                        colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
+                    }} />
 
                 {err ? <Text style={[styles.errMsg]}>משתמש לא נמצא</Text> : null}
 

@@ -45,6 +45,7 @@ export default function AddAddress({ address, handleChange }) {
     const simplifyAddress = ((item) => {
         if (!item) return;
         //console.log(postalCode)
+        const postalCode = item.address.extendedPostalCode;
         const address = item.address.freeformAddress;
         const simplifiedAddress = address.replace(postalCode, '');
         //console.log("address", simplifiedAddress)
