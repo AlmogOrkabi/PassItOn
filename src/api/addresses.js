@@ -1,7 +1,7 @@
 import { BASE_URL } from '@env';
 
 export const addNewAddress = async (address) => {
-    console.log("ADDRESS 1==>>", address)
+    //console.log("ADDRESS 1==>>", address)
     const response = await fetch(`${BASE_URL}/api/addresses/create`, {
         method: 'POST',
         headers: {
