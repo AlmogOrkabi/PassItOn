@@ -16,18 +16,40 @@ export default function ChooseLocation({ coordinates, setCoordinates }) {
 
     }, [fromLocation]);
 
+    useEffect(() => {
+        console.log("LOCATION ===>>>", address)
+        if (fromLocation == 'user') {
+            setCoordinates((prev) => loggedUser.address.location.coordinates);
+        }
+        else if (fromLocation == 'newLocation' && address.location) {
+            if (Array.isArray(address.location.position))
+                setCoordinates((...coordinates) => (address.location.position))
+            else if (typeof address.location.position == 'object')
+                setCoordinates((...coordinates) => [address.location.position.lon, address.location.position.lat])
+            else if (address.location.position) {
+                let coords = address.location.position.split(',');
+                setCoordinates((...coordinates) => [coords[1], coords[0]])
+            }
+        }
+        console.log("from location: " + fromLocation)
+        console.log("coordinates updated =>>", coordinates)
+    }, [address.location]);
+
+
+
+
     function handleChange(from) {
-        setFromLocation(from);
+        setFromLocation((prev) => from);
         if (from == 'user') {
-            setCoordinates(coordinates => loggedUser.address.location.coordinates);
+            setCoordinates((prev) => loggedUser.address.location.coordinates);
         }
         else if (from == 'newLocation' && address.location) {
             if (Array.isArray(address.location.position))
-                setCoordinates(address.location.position)
+                setCoordinates((...coordinates) => (address.location.position))
             else
-                setCoordinates([address.location.position.lon, address.location.position.lat])
+                setCoordinates((...coordinates) => [address.location.position.lon, address.location.position.lat])
         }
-        console.log("from location: " + from)
+        console.log("from location: " + fromLocation)
         console.log("coordinates: " + coordinates);
         //console.log("coordinates: " + JSON.stringify(coordinates));
 

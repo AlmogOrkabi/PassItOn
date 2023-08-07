@@ -74,7 +74,7 @@ export default function AddAddress({ address, handleChange }) {
 
     const handleSuggestionPress = (suggestion) => {
         const simplifiedAddress = simplifyAddress(suggestion)
-        handleChange({ ...address, location: suggestion, addressInput: simplifiedAddress });
+        handleChange((prev) => ({ ...prev, location: suggestion, addressInput: simplifiedAddress }));
         console.log("location:", address.location)
         setSuggestions([]); // Clear the suggestions once one is selected
     };
@@ -98,10 +98,10 @@ export default function AddAddress({ address, handleChange }) {
             //setLocation(await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
             const deviceLocation = await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude)
             console.log("deviceLocation:", deviceLocation);
-            if (deviceLocation[0]) {
-                const simplifiedAddress = await simplifyAddress(deviceLocation[0]);
-                await handleChange({ ...address, location: deviceLocation[0], addressInput: simplifiedAddress })
-            }
+            // if (deviceLocation[0]) {
+            const simplifiedAddress = await simplifyAddress(deviceLocation[0]);
+            await handleChange((prev) => ({ ...prev, location: deviceLocation[0], addressInput: simplifiedAddress }))
+            //    }
 
 
         } catch (error) {
@@ -127,7 +127,6 @@ export default function AddAddress({ address, handleChange }) {
 
     useEffect(() => {
         if (address.location) {
-            // Do something after the location has been set
             console.log("Location updated:", address.location);
         }
     }, [address]);
@@ -142,7 +141,7 @@ export default function AddAddress({ address, handleChange }) {
                 <TextInput style={[styles.input,]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
                     //setAddressInput(text);
                     //handleInputChange(text);
-                    handleChange({ ...address, addressInput: text });
+                    handleChange((prev) => ({ ...prev, addressInput: text }));
                     debouncedHandleInputChange(text);
 
                 }} />
@@ -151,7 +150,7 @@ export default function AddAddress({ address, handleChange }) {
                     style={[styles.addressFlatList]}
                     data={suggestions}
                     renderItem={renderSuggestion}
-                    keyExtractor={item => item}
+                    keyExtractor={(item) => item.position.toString()}
                 /> : null}
             </View>
 
