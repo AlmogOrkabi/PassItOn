@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { styles } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
@@ -41,6 +41,31 @@ export default function SearchPage() {
   const [coordinates, setCoordinates] = useState(loggedUser.address.location.coordinates)
 
   const [searchResults, setSearchResults] = useState(null);
+
+  const [address, setAddress] = useState({ addressInput: '', location: loggedUser.address })
+
+  useEffect(() => {
+    //console.log("LOCATION ===>>>", address) // the response format CHANGES ALL THE TIME
+    // if (fromLocation == 'user') {
+    //   setCoordinates((prev) => loggedUser.address.location.coordinates);
+    // }
+    // else if (fromLocation == 'newLocation' && address.location) {
+    if (address.location.coordinates) {
+      setCoordinates((prev) => address.location.coordinates)
+    }
+    else if (address.location.position) {
+      if (Array.isArray(address.location.position))
+        setCoordinates((...coordinates) => (address.location.position))
+      else if (typeof address.location.position == 'object')
+        setCoordinates((...coordinates) => [address.location.position.lon, address.location.position.lat])
+      else if (address.location.position) {
+        let coords = address.location.position.split(',');
+        setCoordinates((...coordinates) => [coords[1], coords[0]])
+      }
+      //}
+    }
+    console.log("coordinates updated =>>", coordinates)
+  }, [address.location]);
 
   const searchItems = async () => {
     try {
@@ -152,7 +177,8 @@ export default function SearchPage() {
             searchOptions == 'distance' ?
               <View>
                 <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
-                <ChooseLocation coordinates={coordinates} setCoordinates={setCoordinates} />
+                {/* <ChooseLocation coordinates={coordinates} setCoordinates={setCoordinates} /> */}
+                <ChooseLocation address={address} setAddress={setAddress} />
               </View>
               : searchOptions == 'category' ?
                 <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
@@ -164,7 +190,7 @@ export default function SearchPage() {
       <CardPost {...sampleData} />
     </ScrollView> */}
 
-      <View style={[styles.container]}>
+      <View style={[styles.container, { flex: 1 }, { padding: 10 }]}>
         {
           searchResults == 404 ? <Text>לא נמצאו פריטים מתאימים</Text> :
             searchResults ?

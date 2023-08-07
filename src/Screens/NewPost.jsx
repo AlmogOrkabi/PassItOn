@@ -16,7 +16,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
 import { createNewPost } from '../api/index';
 
-
+import ChooseLocation from '../Components/ChooseLocation';
 
 export default function NewPost() {
 
@@ -215,7 +215,10 @@ export default function NewPost() {
         style={styles.npinput}
       /> */}
 
-      <AddAddress address={itemLocation} handleChange={setItemLocation} />
+
+      {/* <AddAddress address={itemLocation} handleChange={setItemLocation} /> */}
+      <ChooseLocation address={itemLocation} setAddress={setItemLocation} />
+
 
       <Button mode="contained" onPress={() => handlePost(handleSubmit)} style={styles.nppostButton}>
         פרסם
