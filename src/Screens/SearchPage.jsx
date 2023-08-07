@@ -164,7 +164,7 @@ export default function SearchPage() {
       <CardPost {...sampleData} />
     </ScrollView> */}
 
-      <View style={[styles.container]}>
+      <View style={[styles.container,{flex:1}]}>
         {
           searchResults == 404 ? <Text>לא נמצאו פריטים מתאימים</Text> :
             searchResults ?
