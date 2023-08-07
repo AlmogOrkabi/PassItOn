@@ -3,17 +3,20 @@ import { StyleSheet } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { styles } from '../Styles';
 
-export default function CardPost({ itemName, description, category, photos, status, creationDate, itemLocation_id }) {
+export default function CardPost({ post }) {
+
+  console.log("POST ==>>", post)
+
   return (
     <Card style={styles.card}>
-      <Card.Cover source={{ uri: photos[0] }} />
+      <Card.Cover source={{ uri: post.photos[0].url }} />
       <Card.Content>
-        <Title>{itemName}</Title>
-        <Paragraph>{description}</Paragraph>
-        <Paragraph>Category: {category}</Paragraph>
-        <Paragraph>Status: {status}</Paragraph>
-        <Paragraph>Created on: {creationDate}</Paragraph>
-        <Paragraph>Location ID: {itemLocation_id}</Paragraph>
+        <Title>{post.itemName}</Title>
+        <Paragraph>{post.description}</Paragraph>
+        <Paragraph>קטגוריה: {post.category}</Paragraph>
+        <Paragraph>סטטוס: {post.status}</Paragraph>
+        <Paragraph>תאריך פרסום: {post.creationDate}</Paragraph>
+        <Paragraph>כתובת: {post.address.simplifiedAddress || post.address.notes}</Paragraph>
       </Card.Content>
     </Card>
   );

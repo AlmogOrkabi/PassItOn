@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
 import React, { useState, useContext } from 'react';
 import { styles } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons } from 'react-native-paper';
@@ -10,7 +10,7 @@ import SearchDistance from '../Components/SearchDistance';
 import SelectFromList from '../Components/SelectFromList';
 import ChooseLocation from '../Components/ChooseLocation';
 import { postCategories } from '../Data/constants';
-import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance } from '../api/index';
+import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance, getAddresses } from '../api/index';
 import PostCard from '../Components/PostCard';
 
 
@@ -40,6 +40,7 @@ export default function SearchPage() {
 
   const [coordinates, setCoordinates] = useState(loggedUser.address.location.coordinates)
 
+  const [searchResults, setSearchResults] = useState(null);
 
   const searchItems = async () => {
     try {
@@ -79,24 +80,34 @@ export default function SearchPage() {
       }
       if (results == 404) {
         Alert.alert('לא נמצאו פריטים')
+        setSearchResults(searchResults => 404)
+      }
+      else {
+        results = await getAddresses(results, userToken)
+        setSearchResults(searchResults => results)
       }
     } catch (error) {
       console.log("failed search: " + error)
     }
   }
 
-  
-    const sampleData = {
-      itemName: "Sample Item",
-      description: "This is a sample item description.",
-      category: "Electronics",
-      photos: ["https://example.com/sample-image.jpg"],
-      status: "Available",
-      creationDate: "2023-08-07",
-      itemLocation_id: "12345",
-    };
-  
 
+  const sampleData = {
+    itemName: "Sample Item",
+    description: "This is a sample item description.",
+    category: "Electronics",
+    photos: ["https://example.com/sample-image.jpg"],
+    status: "Available",
+    creationDate: "2023-08-07",
+    itemLocation_id: "12345",
+  };
+
+  const renderResult = (post) => {
+    if (!post) return;
+    return (
+      <CardPost post={post.item} />
+    )
+  }
 
   return (
     <SafeAreaView style={[styles.main_container2]}>
@@ -148,12 +159,25 @@ export default function SearchPage() {
                 : null}
         </View>
       </View>
-      
-        <ScrollView>
+
+      {/* <ScrollView>
       <CardPost {...sampleData} />
-    </ScrollView>
+    </ScrollView> */}
+
+      <View style={[styles.container]}>
+        {
+          searchResults == 404 ? <Text>לא נמצאו פריטים מתאימים</Text> :
+            searchResults ?
+              <FlatList
+                data={searchResults}
+                renderItem={renderResult}
+                keyExtractor={item => item._id}
+              />
+              : null
+        }
+      </View>
     </SafeAreaView>
 
-    
+
   )
 }

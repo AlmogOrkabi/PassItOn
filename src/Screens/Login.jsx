@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
-import { login, getUserAddress } from '../api/index'
+import { login, getAddress } from '../api/index'
 
 export default function Login({ navigation }) {
 
@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
             else {
                 // console.log("USER LOGGED:", user)
                 // console.log("USER LOGGED:", JSON.stringify(user, null, 2));
-                user.user.address = await getUserAddress(user.user.address_id, user.token);
+                user.user.address = await getAddress(user.user.address_id, user.token);
                 setLoggedUser(user.user);
                 setUserToken(user.token);
                 // console.log("logged user:", JSON.stringify(loggedUser, null, 2))

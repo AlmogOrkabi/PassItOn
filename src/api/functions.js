@@ -1,5 +1,5 @@
 import { uriToBase64, urisArrayToBase64 } from "../utils/index";
-import { addNewAddress } from "./addresses";
+import { addNewAddress, getAddress } from "./addresses";
 import { registerNewUser } from "./users";
 import { addNewPost } from "./posts";
 
@@ -107,3 +107,20 @@ export const createNewPost = async (itemName, description, category, photos, ite
         console.log("new post creation FAILED! ==>>", error);
     }
 }
+
+// export const getAddresses = async (arr, token) => {
+//     const objectsWithAddresses = await Promise.all(arr.map(obj => ))
+// }
+
+export const getAddresses = async (arr, token) => {
+    const objectsWithAddresses = await Promise.all(
+        // the async keyword only applies to the function it directly modifies (directly attached to)
+        arr.map(async (obj) => {
+            const address = await getAddress(obj.itemLocation_id, token);
+            return { ...obj, address }; // spread operator (...) to include all properties of the original obj, and then add the address
+        })
+    );
+
+    console.log("Objects with addresses:", objectsWithAddresses);
+    return objectsWithAddresses;
+};
