@@ -190,11 +190,7 @@ export default function SearchPage() {
       <CardPost {...sampleData} />
     </ScrollView> */}
 
-<<<<<<< HEAD
       <View style={[styles.container, { flex: 1 }, { padding: 10 }]}>
-=======
-      <View style={[styles.container,{flex:1}]}>
->>>>>>> 1c15ee43efe114976d1b93b99d8c782855789595
         {
           searchResults == 404 ? <Text>לא נמצאו פריטים מתאימים</Text> :
             searchResults ?
