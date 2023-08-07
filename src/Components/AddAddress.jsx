@@ -74,7 +74,7 @@ export default function AddAddress({ address, handleChange }) {
 
     const handleSuggestionPress = (suggestion) => {
         const simplifiedAddress = simplifyAddress(suggestion)
-        handleChange({ location: suggestion, addressInput: simplifiedAddress });
+        handleChange({ ...address, location: suggestion, addressInput: simplifiedAddress });
         console.log("location:", address.location)
         setSuggestions([]); // Clear the suggestions once one is selected
     };
@@ -100,7 +100,7 @@ export default function AddAddress({ address, handleChange }) {
             console.log("deviceLocation:", deviceLocation);
             if (deviceLocation[0]) {
                 const simplifiedAddress = await simplifyAddress(deviceLocation[0]);
-                await handleChange({ location: deviceLocation[0], addressInput: simplifiedAddress })
+                await handleChange({ ...address, location: deviceLocation[0], addressInput: simplifiedAddress })
             }
 
 
@@ -142,7 +142,7 @@ export default function AddAddress({ address, handleChange }) {
                 <TextInput style={[styles.input,]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
                     //setAddressInput(text);
                     //handleInputChange(text);
-                    handleChange({ addressInput: text })
+                    handleChange({ ...address, addressInput: text });
                     debouncedHandleInputChange(text);
 
                 }} />
@@ -151,7 +151,7 @@ export default function AddAddress({ address, handleChange }) {
                     style={[styles.addressFlatList]}
                     data={suggestions}
                     renderItem={renderSuggestion}
-                    keyExtractor={(index) => index.toString()}
+                    keyExtractor={item => item}
                 /> : null}
             </View>
 
