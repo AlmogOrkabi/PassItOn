@@ -3,12 +3,23 @@ import React, { useState, useContext } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
+import CardPost from '../Components/CardPost';
+import { ScrollView } from 'react-native';
 
 import SearchDistance from '../Components/SearchDistance';
 import SelectFromList from '../Components/SelectFromList';
 import ChooseLocation from '../Components/ChooseLocation';
 import { postCategories } from '../Data/constants';
 import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance } from '../api/index';
+import PostCard from '../Components/PostCard';
+
+
+
+
+
+
+
+
 
 
 export default function SearchPage() {
@@ -73,7 +84,17 @@ export default function SearchPage() {
     }
   }
 
-
+  
+    const sampleData = {
+      itemName: "Sample Item",
+      description: "This is a sample item description.",
+      category: "Electronics",
+      photos: ["https://example.com/sample-image.jpg"],
+      status: "Available",
+      creationDate: "2023-08-07",
+      itemLocation_id: "12345",
+    };
+  
 
 
   return (
@@ -117,7 +138,12 @@ export default function SearchPage() {
           </View> : searchOptions == 'distance' ? <View><SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />  <ChooseLocation /> </View> : searchOptions == 'category' ? <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} /> : null}
         </View>
       </View>
+      
+        <ScrollView>
+      <CardPost {...sampleData} />
+    </ScrollView>
     </SafeAreaView>
+
+    
   )
 }
-

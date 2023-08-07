@@ -205,6 +205,10 @@ export const styles = StyleSheet.create({
     searchOptionsContainer: {
         marginTop: '3%'
     },
+    card: {
+        marginVertical: 10,
+        marginHorizontal: 15,
+      },
     // card: {
     //     //margin: '5%',
     //     width: 280,

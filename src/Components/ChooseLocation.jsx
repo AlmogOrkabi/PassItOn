@@ -1,8 +1,9 @@
-import { View, Text, useState, useEffect } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
 
 import { RadioButton } from 'react-native-paper';
 import { styles } from '../Styles'
+
 
 export default function ChooseLocation() {
 
