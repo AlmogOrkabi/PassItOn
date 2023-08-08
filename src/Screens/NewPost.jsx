@@ -113,7 +113,10 @@ export default function NewPost() {
     console.log('Category:', category);
     //console.log('Photos:', photos);
     console.log('Item Location:', itemLocation);
-
+    if (category === 'בחר קטגוריה') {
+      Alert.alert("נא לבחור קטגוריה")
+      return;
+    }
     const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
     if (res.insertedId) {
       Alert.alert('פוסט פורסם בהצלחה!')
