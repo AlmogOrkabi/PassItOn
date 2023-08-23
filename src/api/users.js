@@ -1,7 +1,22 @@
 import { BASE_URL } from '@env';
 import { uriToBase64 } from '../utils/index';
 
+export const checkEmailAvailability = async (email) => {
+    const response = await fetch(`${BASE_URL}/api/users/checkEmailAvailability/${email}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
 
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(response.status)
+    }
+    else
+        return true;
+
+};
 
 export const login = async (email, password) => {
     const response = await fetch(`${BASE_URL}/api/users/login`, {

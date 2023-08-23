@@ -59,8 +59,8 @@ export const createNewAddress = async (data) => {
             street: data.location.address.streetName,
             house: data.location.address.streetNumber ? data.location.address.streetNumber : "6",
             //those 2 needs to be added to the form later on 
-            apartment: "",
-            notes: "",
+            apartment: data.apartment,
+            notes: "data.notes",
 
             simplifiedAddress: data.addressInput,
 
@@ -88,7 +88,7 @@ export const createNewPost = async (itemName, description, category, photos, ite
 
         let base64Images = await urisArrayToBase64(photos);
         let address_id;
-        if (itemLocation.location.type=='Point') {
+        if (itemLocation.location.type == 'Point') {
             address_id = itemLocation._id;
         }
         else {

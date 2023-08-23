@@ -41,7 +41,8 @@ export default function Login({ navigation }) {
         <SafeAreaView style={[styles.main_container, styles.container]}>
             <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
             <View style={[]}>
-                <TextInput style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                <TextInput
+                    inputMode='email' style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 
 
                 {/* need to hide the password */}

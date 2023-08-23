@@ -5,7 +5,7 @@ import { styles, paperStyles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from '../utils/index.js'
 
-export default function SecurityDetailsForm({ state, dispatch, handleChange }) {
+export default function SecurityDetailsForm({ state, dispatch, handleChange, isEmailTaken, setIsEmailTaken }) {
 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [rePasswordVisible, setRePasswordVisible] = useState(false);
@@ -39,6 +39,7 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange }) {
                     defaultValue={state.phoneNumber}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
+                            inputMode='tel'
                             style={[styles.input,]}
                             label="מספר טלפון נייד"
                             value={value}
@@ -63,18 +64,18 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange }) {
                 />
                 {errors.phoneNumber && <Text style={[styles.inputError,]} >{errors.phoneNumber.message}</Text>}
 
-
                 <Controller
                     control={control}
                     name="email"
                     defaultValue={state.email}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
+                            inputMode='email'
                             style={[styles.input,]}
                             label="כתובת דואר אלקטרוני"
                             value={value}
                             onBlur={onBlur}
-                            onChangeText={value => { onChange(value); handleChange('securityDetails', 'email', value); }}
+                            onChangeText={value => { onChange(value); handleChange('securityDetails', 'email', value); isEmailTaken ? setIsEmailTaken(false) : null }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
                     )}
 
@@ -91,7 +92,7 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange }) {
 
                     }}
                 />
-                {errors.email && <Text style={[styles.inputError,]} >{errors.email.message}</Text>}
+                {(errors.email && <Text style={[styles.inputError,]} >{errors.email.message}</Text>) || (isEmailTaken && <Text style={[styles.inputError,]}>כתובת המייל אינה פנויה</Text>)}
 
                 <Controller
                     control={control}

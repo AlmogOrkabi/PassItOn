@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Pressable } from 'react-native'
 import React, { useState, useMemo, useEffect } from 'react'
 // import { useForm, Controller } from 'react-hook-form';
 import { styles } from '../Styles';
@@ -149,11 +149,12 @@ export default function AddAddress({ address, handleChange }) {
                     style={[styles.addressFlatList]}
                     data={suggestions}
                     renderItem={renderSuggestion}
-                    keyExtractor={(item) => item.position.toString()}
+                    keyExtractor={(item) => item.value}
                 /> : null}
             </View>
 
-            <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]}><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]} activeOpacity={0.5} ><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>
+            {/* <Button onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 0 }, { alignSelf: 'flex-end' }]}>למיקום נוכחי</Button> */}
         </SafeAreaView>
     )
 }

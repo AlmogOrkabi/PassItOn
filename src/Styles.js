@@ -66,6 +66,12 @@ export const styles = StyleSheet.create({
         margin: '5%',
         marginTop: '15%'
     },
+    sub_container2: {
+        margin: '5%',
+        // marginTop: '15%'
+
+
+    },
     container: {
         alignItems: 'center',
         //flex: 1,
@@ -94,6 +100,9 @@ export const styles = StyleSheet.create({
         fontSize: 15,
 
     },
+    input_small: {
+        minWidth: "30%",
+    },
     form_small_heading: {
         fontSize: 10,
     },
@@ -103,7 +112,7 @@ export const styles = StyleSheet.create({
         alignSelf: "flex-start",
         marginLeft: 10,
     },
-    flexRow: {
+    flexRowCenter: {
         //flex: 0.5,
         flexDirection: 'row',
         alignItems: 'center',
@@ -140,6 +149,10 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 8,
     },
+
+
+    //FIX THIS:!!!!!!!!
+
     address: {
         fontSize: 14,
     },
