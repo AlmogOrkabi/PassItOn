@@ -9,9 +9,8 @@ import BasicDetailsForm from '../Components/BasicDetailsForm';
 import SecurityDetailsForm from '../Components/SecurityDetailsForm';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AddressesForm from '../Components/AddressesForm';
-import { useController } from 'react-hook-form';
 
-
+import { useForm, Controller } from 'react-hook-form';
 
 const initialState = {
     basicDetails: {
@@ -25,14 +24,12 @@ const initialState = {
         email: '',
         password: '',
         confirmPassword: '',
-        //phone number
     },
     addresses: {
         location: {},
         addressInput: '',
         notes: '',
         apartment: '',
-
     }
 }
 
@@ -54,29 +51,41 @@ function formReducer(state, action) {
 
 
 export default function Register({ navigation }) {
-
+    const { control, handleSubmit, trigger, setValue, getValues, setError } = useForm();
 
     const [formPage, setFormPage] = useState(1);
     const [isEmailTaken, setIsEmailTaken] = useState(false);
     //const [btnState,setBtnState] = useState(false);
     //const [formState, setFormState] = useState(initialState);
     const [formState, dispatch] = useReducer(formReducer, initialState);
-
+    const [addressData, setAddressData] = useState({ location: formState.location, addressInput: formState.addressInput })
     useEffect(() => {
         console.log(formPage)
     }, [formPage])
 
+    const [validErr, setValidErr] = useState(null);
 
     const handleChange = (form, field, value) => {
         dispatch({ type: 'updateField', form, field, value });
+        console.log("HERE", formState.addresses)
     };
 
 
     const onSubmit = (async () => {
         try {
+            handleChange('addresses', 'location', addressData.location);
+            handleChange('addresses', 'addressInput', addressData.addressInput);
             let validationRes = validateNewUserData(formState.basicDetails.username, formState.basicDetails.firstName, formState.basicDetails.lastName, formState.securityDetails.phoneNumber, formState.securityDetails.email, formState.securityDetails.password, formState.securityDetails.confirmPassword)
             if (!validationRes.valid) {
                 Alert.alert(validationRes.msg)
+                setFormPage((prev) => validationRes.page);
+                console.log("fieldName: " + validationRes.fieldName)
+                setValidErr(validationRes.fieldName)
+                return;
+            }
+            if (formState.addresses.addressInput === '') {
+                setValidErr('addressNull');
+                return;
             }
             // if (!formState.isValid) { // If the form is not valid
             //     Alert.alert(
@@ -101,9 +110,25 @@ export default function Register({ navigation }) {
                 setIsEmailTaken((prev) => true);
                 setFormPage((prev) => 2);
             }
+            else if (error.message == 'הכתובת אינה תקינה')
+                setValidErr('addressNull');
 
         }
+
     });
+
+
+    // useEffect(() => {
+    //     console.log("UPDATED")
+    // }, [addressData]);
+
+    useEffect(() => {
+        console.log("UPDATED")
+        handleChange('addresses', 'location', addressData.location);
+        handleChange('addresses', 'addressInput', addressData.addressInput);
+    }, [addressData]);
+
+
 
     return (
         <SafeAreaView style={[styles.main_container, styles.container]}>
@@ -111,9 +136,9 @@ export default function Register({ navigation }) {
 
             {
                 formPage == 1 ?
-                    <BasicDetailsForm state={formState.basicDetails} dispatch={dispatch} handleChange={handleChange} /> :
+                    <BasicDetailsForm state={formState.basicDetails} dispatch={dispatch} handleChange={handleChange} validErr={validErr} /> :
                     formPage == 2 ?
-                        <SecurityDetailsForm state={formState.securityDetails} dispatch={dispatch} handleChange={handleChange} isEmailTaken={isEmailTaken} setIsEmailTaken={setIsEmailTaken} /> : formPage == 3 ? <AddressesForm state={formState.addresses} dispatch={dispatch} handleChange={handleChange} /> : null
+                        <SecurityDetailsForm state={formState.securityDetails} dispatch={dispatch} handleChange={handleChange} isEmailTaken={isEmailTaken} setIsEmailTaken={setIsEmailTaken} validErr={validErr} /> : formPage == 3 ? <AddressesForm state={formState.addresses} dispatch={dispatch} handleChange={handleChange} validErr={validErr} addressData={addressData} setAddressData={setAddressData} /> : null
 
             }
             <View>

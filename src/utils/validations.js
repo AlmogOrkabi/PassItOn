@@ -47,7 +47,7 @@ export function isValidPassword(password) {
 
 export function isValidName(name) {
     const hebOReng = /^[A-Za-z\u0590-\u05FF '-]+$/; //checks for letters in hebrew and english only.also checks for the chars ' and -
-    //const hebOReng = /^[\u0590-\u05FFa-zA-Z '-]+$/;
+
 
     return (isValidUserName(name) && hebOReng.test(name))
 }
@@ -59,30 +59,30 @@ function isValidUserName(name) {
 
 export function isValidPhoneNumber(phoneNumber) {
     //return /^05\d*$/.test(phoneNumber) && phoneNumber.length == 10;
-    return /^05\d{8}$/.test(phoneNumber); // starts with 05, and has exactly 10 characters (8 after 05). ^ - start of a line. & - end of a line.
+    return (/^05\d{8}$/.test(phoneNumber)); // starts with 05, and has exactly 10 characters (8 after 05). ^ - start of a line. & - end of a line.
 }
 
 function validateNewUserData(username, firstName, lastName, phoneNumber, email, password, confirmPassword) {
     if (!isValidUserName(username)) {
-        return { valid: false, msg: 'שם המשתמש אינו תקין' };
+        return { valid: false, msg: 'שם המשתמש אינו תקין', page: 1, fieldName: 'username' };
     }
     if (!isValidName(firstName)) {
-        return { valid: false, msg: 'שם פרטי אינו תקין' };
+        return { valid: false, msg: 'שם פרטי אינו תקין', page: 1, fieldName: 'firstName' };
     }
     if (!isValidName(lastName)) {
-        return { valid: false, msg: 'שם משפחה אינו תקין' };
+        return { valid: false, msg: 'שם משפחה אינו תקין', page: 1, fieldName: 'lastName' };
     }
     if (!isValidEmail(email)) {
-        return { valid: false, msg: 'כתובת דואר אלקטורני אינה תקינה' };
+        return { valid: false, msg: 'כתובת דואר אלקטורני אינה תקינה', page: 2, fieldName: 'email' };
     }
     if (!isValidPassword(password)) {
-        return { valid: false, msg: 'הסיסמה אינה תקינה' };
+        return { valid: false, msg: 'הסיסמה אינה תקינה', page: 2, fieldName: 'password' };
     }
     if (password !== confirmPassword) {
-        return { valid: false, msg: 'סיסמאות לא זהות' };
+        return { valid: false, msg: 'סיסמאות לא זהות', page: 2, fieldName: 'confirmPassword' };
     }
     if (!isValidPhoneNumber(phoneNumber)) {
-        return { valid: false, msg: 'מספר הטלפון שהוכנס אינו תקין' };
+        return { valid: false, msg: 'מספר הטלפון שהוכנס אינו תקין', page: 2, fieldName: 'phoneNumber' };
     }
     return { valid: true };
 }
@@ -406,43 +406,48 @@ module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValid
 // //     return Array.isArray(coordinates) && coordinates.length == 2 && isNumber(coordinates[0]) && isNumber(coordinates[1]) && coordinates[0] >= -180 && coordinates[0] <= 180 && coordinates[1] >= -90 && coordinates[1] <= 90;
 // // }
 
-// function isNumber(value) {
-//     return value !== 0 && isFinite(value);
-//     // isFinite - a function in javascript that checks if a value is an actual valid number (accepts strings as well) - will treat empty strings and white spaces as 0!!!
-// }
+function isNumber(value) {
+    return value !== 0 && isFinite(value);
+    // isFinite - a function in javascript that checks if a value is an actual valid number (accepts strings as well) - will treat empty strings and white spaces as 0!!!
+}
 
-// function isValidCoordinates(lon, lat) {
-//     return isNumber(lon) && isNumber(lat) && lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90;
-// }
+function isValidCoordinates(lon, lat) {
+    return isNumber(lon) && isNumber(lat) && lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90;
+}
+
+export function isValidAddressNotes(notes) {
+    return (typeof notes === 'string' && notes.length < 5)
+}
 
 
+export function validateNewAddressDetails(region, city, street, house, apartment, notes, simplifiedAddress, lon, lat) {
+    if (!isString(region)) {
+        return { valid: false, msg: 'קלט לא תקין' };
+    }
+    if (!isString(city)) {
+        return { valid: false, msg: 'קלט לא תקין' };
+    }
+    if (!isString(street)) {
+        return { valid: false, msg: 'קלט לא תקין' };
+    }
+    if (!isNumber(house)) {
+        return { valid: false, msg: 'קלט לא תקין' };
+    }
+    if (!isNumber(apartment) && apartment != null) { // can be null (a private house)
+        return { valid: false, msg: 'מספר הדירה אינו תקין' };
+    }
+    if (!isValidCoordinates(lon, lat)) {
+        return { valid: false, msg: 'קלט לא תקין' };
+    }
+    if (!isString(notes) || notes.length > 100) {
+        return { valid: false, msg: 'תיאור לא תקין או ארוך מידי' };
+    }
+    if (!isString(simplifiedAddress) || simplifiedAddress.length > 51) {
+        return { valid: false, msg: 'קלט לא תקין' };
+    }
 
-
-// function validateNewAddressDetails(region, city, street, house, apartment, notes, lon, lat) {
-//     if (!isString(region)) {
-//         return { valid: false, msg: 'קלט לא תקין' };
-//     }
-//     if (!isString(city)) {
-//         return { valid: false, msg: 'קלט לא תקין' };
-//     }
-//     if (!isString(street)) {
-//         return { valid: false, msg: 'קלט לא תקין' };
-//     }
-//     if (!isNumber(house)) {
-//         return { valid: false, msg: 'קלט לא תקין' };
-//     }
-//     if (!isNumber(apartment) && apartment != null) { // can be null (a private house)
-//         return { valid: false, msg: 'קלט לא תקין' };
-//     }
-//     if (!isValidCoordinates(lon, lat)) {
-//         return { valid: false, msg: 'קלט לא תקין' };
-//     }
-//     if (!isString(notes) || notes.length > 100) {
-//         return { valid: false, msg: 'תיאור לא תקין או ארוך מידי' };
-//     }
-
-//     return { valid: true };
-// }
+    return { valid: true };
+}
 
 
 
@@ -540,4 +545,4 @@ module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValid
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData }
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes }

@@ -15,7 +15,8 @@ export const addNewAddress = async (address) => {
 
     if (!response.ok) {
         const text = await response.text(); // Get the response body as text
-        throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        //throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        return response;
     }
 
     const data = await response.json();

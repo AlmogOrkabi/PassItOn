@@ -223,44 +223,76 @@ import { TextInput, Button } from 'react-native-paper';
 import { View, Text, SafeAreaView } from 'react-native'
 import AddAddress from './AddAddress'
 
-export default function AddressesForm({ state, dispatch, handleChange }) {
+import { isValidAddressNotes } from '../utils/index'
 
-    const { control, handleSubmit, formState: { errors } } = useForm();
-    const [addressData, setAddressData] = useState({ location: state.location, addressInput: state.addressInput })
 
-    useEffect(() => {
-        handleChange('addresses', 'addressInput', addressData.addressInput);
-    }, [addressData.addressInput]);
+export default function AddressesForm({ state, dispatch, handleChange, validErr, addressData, setAddressData }) {
 
-    useEffect(() => {
-        handleChange('addresses', 'location', addressData.location);
-    }, [addressData.location]);
+    const { control, handleSubmit, formState: { errors } } = useForm({ mode: 'all' });
+    // const [addressData, setAddressData] = useState({ location: state.location, addressInput: state.addressInput })
+    // const updateAddress = () => {
+    //     handleChange('addresses', 'location', addressData.location);
+    //     handleChange('addresses', 'addressInput', addressData.addressInput);
+
+    // }
+    // useEffect(() => {
+    //     handleChange('addresses', 'addressInput', addressData.addressInput);
+    // }, [addressData.addressInput]);
+
+    // useEffect(() => {
+    //     handleChange('addresses', 'location', addressData.location);
+
+    // }, [addressData.location]);
+
+
+    // useEffect(() => {
+    //     handleChange('addresses', 'location', addressData.location);
+    //     handleChange('addresses', 'addressInput', addressData.addressInput);
+    // }, [addressData]);
+
+
+    // useEffect(() => {
+    //     console.log("State", state.location)
+    // }, [state.location]);
 
     return (
         <SafeAreaView style={[styles.sub_container2]}>
             <Text style={[styles.form_small_heading]}>כתובת:</Text>
+            {validErr === 'addressNull' ? <Text style={[styles.inputError]}>נא הכנס כתובת תקינה</Text> : null}
             <AddAddress address={addressData} handleChange={setAddressData} />
             <Text style={[styles.form_small_heading]}>פרטים נוספים (לא חובה)</Text>
-            <View style={[styles.flexRow, { marginVertical: '5%' }]}>
+            <View style={[styles.flexRow, { marginVertical: '5%' }, { alignItems: 'baseline' }]}>
                 {/* <TextInput
                     style={[styles.input]} label="הערות לכתובת" value={state.notes} /> */}
                 {/* <TextInput inputMode='numeric' style={[styles.input, styles.input_small]} label="מספר דירה" value={state.apartment} /> */}
+                <View >
 
-                <Controller
-                    control={control}
-                    name='notes'
-                    defaultValue={state.notes}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            style={[styles.input]}
-                            label="הערות לכתובת"
-                            value={value}
-                            onBlur={onBlur}
-                            onChangeText={value => { onChange(value); handleChange('addresses', 'notes', value); }}
-                        />)}
-                />
+                    <Controller
+                        control={control}
+                        name='notes'
+                        defaultValue={state.notes}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={[styles.input,]}
+                                label="הערות לכתובת"
+                                value={value}
+                                onBlur={onBlur}
+                                onChangeText={value => { onChange(value); handleChange('addresses', 'notes', value); }}
+                            />
+                        )}
+
+                        rules={{
 
 
+                            validate:
+                                value => isValidAddressNotes(value) || 'התיאור ארוך מידי'
+
+                        }}
+                    />
+
+                    {errors.notes && <Text style={[styles.inputError,]} >{errors.notes.message}</Text>}
+
+                </View>
 
                 <Controller
                     control={control}
@@ -275,8 +307,9 @@ export default function AddressesForm({ state, dispatch, handleChange }) {
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('addresses', 'apartment', value); }}
                         />)}
+
                 />
             </View>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }

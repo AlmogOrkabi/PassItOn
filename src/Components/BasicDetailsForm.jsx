@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton } from 'react-native-paper';
@@ -15,7 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PrivateValueStore } from '@react-navigation/native';
 
 
-export default function BasicDetailsForm({ state, dispatch, handleChange }) {
+export default function BasicDetailsForm({ state, dispatch, handleChange, validErr }) {
 
     const [image, setImage] = useState(null);
 
@@ -31,7 +31,8 @@ export default function BasicDetailsForm({ state, dispatch, handleChange }) {
     const {
         control,
         handleSubmit,
-        formState: { errors, isValid }
+        trigger,
+        formState: { errors, isValid, }
     } = useForm({ mode: 'all' })
 
 
@@ -78,6 +79,11 @@ export default function BasicDetailsForm({ state, dispatch, handleChange }) {
     //     }
     // }
 
+    useEffect(() => {
+        if (validErr)
+            trigger(validErr);
+    }, [validErr]);
+
 
     return (
         <SafeAreaView style={[styles.container]}>
@@ -89,13 +95,11 @@ export default function BasicDetailsForm({ state, dispatch, handleChange }) {
                     control={control}
                     name="username"
                     defaultValue={state.username}
-
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={[styles.input,]}
                             label="שם משתמש"
                             value={value}
-                            //onChangeText={onChange}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'username', value); }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />

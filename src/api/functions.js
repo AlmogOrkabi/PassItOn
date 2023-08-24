@@ -32,6 +32,7 @@ export const createNewUser = async (data) => {
         return newUser;
     } catch (error) {
         console.error("Failed to create new user: ", error);
+        throw error;
     }
 }
 

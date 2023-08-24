@@ -5,7 +5,7 @@ import { styles, paperStyles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from '../utils/index.js'
 
-export default function SecurityDetailsForm({ state, dispatch, handleChange, isEmailTaken, setIsEmailTaken }) {
+export default function SecurityDetailsForm({ state, dispatch, handleChange, isEmailTaken, setIsEmailTaken, validErr }) {
 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [rePasswordVisible, setRePasswordVisible] = useState(false);
@@ -24,7 +24,12 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
             trigger('confirmPassword');
     }, [password])
 
-    // const confirmPassword = watch('password');
+    useEffect(() => {
+        if (validErr)
+            trigger(validErr);
+    }, [validErr]);
+
+
 
     return (
         <SafeAreaView style={[styles.container]}>

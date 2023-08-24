@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
         //margin: '5%',
     },
     flexRow: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     title: {
         fontSize: 30

@@ -54,8 +54,9 @@ export const registerNewUser = async (user) => {
     });
 
     if (!response.ok) {
-        const text = await response.text(); // Get the response body as text
-        throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        const text = await response.json(); // Get the response body as text
+        //throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        throw new Error(text.msg);
     }
 
     const data = await response.json();
