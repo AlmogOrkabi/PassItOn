@@ -6,7 +6,6 @@ export const checkEmailAvailability = async (email) => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-
         },
     });
 
@@ -30,14 +29,14 @@ export const login = async (email, password) => {
         }),
     });
 
+    const res = await response.json();
+
     if (!response.ok) {
-        const text = await response.text(); // Get the response body as text
-        throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        throw new Error(res.msg);
     }
 
-    const data = await response.json();
-    console.log("Raw data from API:", data); // Print out the raw data
-    return data;
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
 };
 
 
@@ -53,15 +52,14 @@ export const registerNewUser = async (user) => {
         }),
     });
 
+    const res = await response.json();
+
     if (!response.ok) {
-        const text = await response.json(); // Get the response body as text
-        //throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
-        throw new Error(text.msg);
+        throw new Error(res.msg);
     }
 
-    const data = await response.json();
-    console.log("Raw data from API:", data); // Print out the raw data
-    return data;
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
 
 };
 

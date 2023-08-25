@@ -5,16 +5,14 @@ import { addNewPost } from "./posts";
 
 export const createNewUser = async (data) => {
     try {
+        // *a profile picture is not mandatory
         let imgBase64 = null;
         if (data.basicDetails.image != '') {
             imgBase64 = await uriToBase64(data.basicDetails.image);
         }
-        let address_id = null;
-        if (data.addresses.addressInput != '') {
-            let address = await createNewAddress(data.addresses);
-            address_id = address.insertedId;
-        }
 
+        //-creates a new address for the new user:
+        let address = await createNewAddress(data.addresses);
 
         let newUser = {
             username: data.basicDetails.username,
@@ -23,9 +21,8 @@ export const createNewUser = async (data) => {
             phoneNumber: data.securityDetails.phoneNumber,
             email: data.securityDetails.email,
             password: data.securityDetails.password,
-            address: address_id,
+            address: address.insertedId,
             photo: imgBase64
-
         }
 
         const user = await registerNewUser(newUser)
@@ -36,15 +33,20 @@ export const createNewUser = async (data) => {
     }
 }
 
+//            house: data.location.address.streetNumber ? data.location.address.streetNumber : "6",
+
+// lon: parseFloat(data.location.position.split(',')[0]),
+// lat: parseFloat(data.location.position.split(',')[1])
+
+
 export const createNewAddress = async (data) => {
     try {
-        // console.log("data", data.location.address)
-        //console.log("DATA FUNCTION ==>>", data)
-        //console.log("FAILED DATA? ==>", data.location.position)
         console.log("data", data)
 
         let lon;
         let lat;
+
+        // !tomtom API keeps changing the format of the responses 😕
         if (data.location.position.lon && data.location.position.lat) {
             lon = parseFloat(data.location.position.lon);
             lat = parseFloat(data.location.position.lat);
@@ -58,15 +60,11 @@ export const createNewAddress = async (data) => {
             region: data.location.address.countrySubdivision,
             city: data.location.address.municipality,
             street: data.location.address.streetName,
-            house: data.location.address.streetNumber ? data.location.address.streetNumber : "6",
-            //those 2 needs to be added to the form later on 
+            house: data.location.address.streetNumber,
             apartment: data.apartment,
-            notes: "data.notes",
+            notes: data.notes,
 
             simplifiedAddress: data.addressInput,
-
-            // lon: parseFloat(data.location.position.split(',')[0]),
-            // lat: parseFloat(data.location.position.split(',')[1])
 
             lon: lon,
             lat: lat
@@ -74,10 +72,10 @@ export const createNewAddress = async (data) => {
         console.log("newAddress obj ==>>", newAddress)
 
         const address = await addNewAddress(newAddress);
-        //console.log("DB address:", address);
         return address;
     } catch (error) {
         console.error("Failed to create new address: ", error);
+        throw error;
     }
 }
 

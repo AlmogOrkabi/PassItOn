@@ -1,7 +1,6 @@
 import { BASE_URL } from '@env';
 
 export const addNewAddress = async (address) => {
-    //console.log("ADDRESS 1==>>", address)
     const response = await fetch(`${BASE_URL}/api/addresses/create`, {
         method: 'POST',
         headers: {
@@ -13,15 +12,14 @@ export const addNewAddress = async (address) => {
         }),
     });
 
+    const res = await response.json();
+
     if (!response.ok) {
-        const text = await response.text(); // Get the response body as text
-        //throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
-        return response;
+        throw new Error(res.msg)
     }
 
-    const data = await response.json();
-    console.log("Raw data from API:", data); // Print out the raw data
-    return data;
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
 }
 
 
@@ -35,12 +33,12 @@ export const getAddress = async (address_id, token) => {
         }
     });
 
+    const res = await response.json();
+
     if (!response.ok) {
-        const text = await response.text(); // Get the response body as text
-        throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        throw new Error(res.msg)
     }
 
-    const data = await response.json();
-    console.log("Raw data from API:", data); // Print out the raw data
-    return data;
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
 };

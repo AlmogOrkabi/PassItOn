@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Pressable } from 'react-native'
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState, useMemo, useEffect } from 'react'
 // import { useForm, Controller } from 'react-hook-form';
 import { styles } from '../Styles';
@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 
 export default function AddAddress({ address, handleChange }) {
 
-
+    const [loading, setLoading] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
 
     function debounce(func, delay) {
@@ -90,6 +90,7 @@ export default function AddAddress({ address, handleChange }) {
 
     const getLocation = async () => {
         try {
+            setLoading(true);
             setSuggestions([])
             let currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
             console.log("Location from device: ", currentLocation);
@@ -127,7 +128,9 @@ export default function AddAddress({ address, handleChange }) {
     useEffect(() => {
         if (address.location) {
             console.log("Location updated:", address.location);
+            setLoading(false);
         }
+
     }, [address]);
 
 
@@ -153,7 +156,11 @@ export default function AddAddress({ address, handleChange }) {
                 /> : null}
             </View>
 
-            <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]} activeOpacity={0.5} ><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>
+            {loading ? <ActivityIndicator /> :
+                <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]} activeOpacity={0.5} ><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>}
+
+
+
             {/* <Button onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 0 }, { alignSelf: 'flex-end' }]}>למיקום נוכחי</Button> */}
         </SafeAreaView>
     )

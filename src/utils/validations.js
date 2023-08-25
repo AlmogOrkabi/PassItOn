@@ -416,7 +416,7 @@ function isValidCoordinates(lon, lat) {
 }
 
 export function isValidAddressNotes(notes) {
-    return (typeof notes === 'string' && notes.length < 5)
+    return (typeof notes === 'string' && notes.length < 100)
 }
 
 
