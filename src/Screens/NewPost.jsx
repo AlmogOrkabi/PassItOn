@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image, Alert, ActivityIndicator } from 'react-native'
 import React, { useState, useContext, useReducer, useEffect } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton, List } from 'react-native-paper';
@@ -13,7 +13,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { useForm, Controller } from 'react-hook-form';
 
 
-import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
+import { isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData } from '../utils/index'
 import { createNewPost } from '../api/index';
 
 import ChooseLocation from '../Components/ChooseLocation';
@@ -22,12 +22,13 @@ import SelectFromList from '../Components/SelectFromList';
 
 export default function NewPost() {
 
+  const [loading, setLoading] = useState(false);
   const { loggedUser, userToken } = useContext(AppContext)
-
+  const [err, setErr] = useState(null);
 
   const {
     control,
-    handleSubmit,
+    handleSubmit, trigger,
     formState: { errors, isValid }
   } = useForm({ mode: 'all' })
 
@@ -41,7 +42,7 @@ export default function NewPost() {
     location: null
   });
 
-  const [expanded, setExpanded] = useState(true);
+  //const [expanded, setExpanded] = useState(true);
 
   useEffect(() => {
     // console.log("itemLocation: ", itemLocation)
@@ -51,28 +52,28 @@ export default function NewPost() {
     // console.log("itemLocation location positon: ", itemLocation.location.position)
   }, [itemLocation]);
 
-  const handlePress = () => {
-    setExpanded(!expanded)
-  }
+  // const handlePress = () => {
+  //   setExpanded(!expanded)
+  // }
 
-  const categoryPicked = (item) => {
-    setCategory(item);
-    setExpanded(false); // not working :(
-  }
+  // const categoryPicked = (item) => {
+  //   setCategory(item);
+  //   setExpanded(false); // not working :(
+  // }
 
 
-  const renderCategory = ({ item }) => {
-    if (!item)
-      return;
+  // const renderCategory = ({ item }) => {
+  //   if (!item)
+  //     return;
 
-    return (
-      <TouchableOpacity onPress={() => categoryPicked(item)}  >
-        <View>
-          <List.Item title={item} />
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  //   return (
+  //     <TouchableOpacity onPress={() => categoryPicked(item)}  >
+  //       <View>
+  //         <List.Item title={item} />
+  //       </View>
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -107,19 +108,31 @@ export default function NewPost() {
   };
 
   const handlePost = async () => {
-    // Handle posting the new post (you can add your logic here)
-    console.log('Item Name:', itemName);
-    console.log('Description:', description);
-    console.log('Category:', category);
-    //console.log('Photos:', photos);
-    console.log('Item Location:', itemLocation);
-    if (category === 'בחר קטגוריה') {
-      Alert.alert("נא לבחור קטגוריה")
-      return;
+    try {
+      setLoading(true);
+      trigger(); //triggers the validation on the input before continuing
+      console.log('Item Name:', itemName);
+      console.log('Description:', description);
+      console.log('Category:', category);
+      //console.log('Photos:', photos);
+      console.log('Item Location:', itemLocation);
+
+
+      const validationRes = validateNewPostData(itemName, description, category, photos);
+      if (!validationRes.valid) {
+        setErr({ msg: validationRes.msg, field: validationRes.field }); // *displays the error for the user
+        return;
+      }
+
+      const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
+      if (res.insertedId) {
+        Alert.alert('פוסט פורסם בהצלחה!')
+      }
+    } catch (error) {
+      handleServerErros(error);
     }
-    const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
-    if (res.insertedId) {
-      Alert.alert('פוסט פורסם בהצלחה!')
+    finally {
+      setLoading(false);
     }
   };
 
@@ -129,105 +142,112 @@ export default function NewPost() {
 
 
   return (
-    <SafeAreaView style={[styles.npcontainer, { flex: 1 }]}>
-      {/* <ScrollView > */}
+    <SafeAreaView style={[styles.npcontainer, { flex: 1 }, { maxHeight: '100%' }]}>
       <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
       </View>
-      <Controller
-        control={control}
-        name="username"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            label="שם פריט"
-            value={itemName}
-            onBlur={onBlur}
-            onChangeText={(value) => setItemName(value)}
-            style={styles.npinput}
+      {loading ? <ActivityIndicator /> :
+        <ScrollView style={{ height: '100%' }} nestedScrollEnabled >
+          <Controller
+            control={control}
+            name="itemName"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="שם פריט"
+                value={itemName}
+                onBlur={onBlur}
+                onChangeText={(value) => { onChange(value); setItemName(value) }}
+                style={styles.npinput}
+              />
+            )}
+            rules={{
+              required: {
+                value: true,
+                message: 'שדה חובה'
+              },
+
+              validate:
+                value => isValidItemName(value) || 'שם הפריט אינו תקין'
+            }}
           />
-        )}
-      />
+          {errors.itemName && <Text style={[styles.inputError,]} >{errors.itemName.message}</Text>}
 
+          <Controller
+            control={control}
+            name="description"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="תיאור הפריט"
+                value={description}
+                onChangeText={(value) => { onChange(value); setDescription(value) }}
+                multiline
+                style={styles.npinput}
+              />
+            )}
 
-      <Controller
-        control={control}
-        name="username"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            label="תיאור הפריט"
-            value={description}
-            onChangeText={(value) => setDescription(value)}
-            multiline
-            style={styles.npinput}
+            rules={{
+              required: {
+                value: true,
+                message: 'שדה חובה'
+              },
+
+              validate:
+                value => isValidItemName(value) || 'תיאור הפריט עד 300 תווים בלבד',
+
+            }}
           />
-        )}
-      />
+          {errors.description && <Text style={[styles.inputError,]} >{errors.description.message}</Text>}
 
 
 
-      {/* <List.Section title='קטגוריות'>
-        <List.Accordion title={category}
-          left={props => <List.Icon {...props} icon="folder"
-            expanded={expanded}
-            onPress={handlePress}
-          />} >
-
-          <FlatList data={postCategories}
-            renderItem={renderCategory}
-            keyExtractor={(text) => text.toString()}
-            style={[, { maxHeight: 250 }]} />
-        </List.Accordion >
-      </List.Section> */}
-
-
-      <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
 
 
 
-      {/* Photo Selection */}
-      <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
-      <View style={styles.npphotoContainer}>
-        {photos.map((photoUri, index) => (
-          <View key={index} style={styles.npphotoItem}>
-            <Image source={{ uri: photoUri }} style={styles.npphoto} />
-            <IconButton
-              icon="delete"
-              color="red"
-              size={20}
-              onPress={() => removePhoto(index)}
-              style={styles.npdeleteButton}
-            />
+
+
+          <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
+          {err && err.field == 'category' ? <Text style={[styles.inputError,]} >{err.msg}</Text> : null}
+
+
+
+          {/* Photo Selection */}
+          <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
+          <View style={styles.npphotoContainer}>
+            {photos.map((photoUri, index) => (
+              <View key={index} style={styles.npphotoItem}>
+                <Image source={{ uri: photoUri }} style={styles.npphoto} />
+                <IconButton
+                  icon="delete"
+                  color="red"
+                  size={20}
+                  onPress={() => removePhoto(index)}
+                  style={styles.npdeleteButton}
+                />
+              </View>
+            ))}
+
+            {photos.length < 6 && (
+              <IconButton
+                icon="plus"
+                color="gray"
+                size={30}
+                // onPress={() => handleAddPhoto('photo_uri_placeholder')}
+                onPress={pickImage}
+                style={styles.npaddPhotoButton}
+              />
+            )}
           </View>
-        ))}
 
-        {photos.length < 6 && (
-          <IconButton
-            icon="plus"
-            color="gray"
-            size={30}
-            // onPress={() => handleAddPhoto('photo_uri_placeholder')}
-            onPress={pickImage}
-            style={styles.npaddPhotoButton}
-          />
-        )}
-      </View>
+          {err && err.field == 'photos' ? <Text style={[styles.inputError,]} >{err.msg}</Text> : null}
 
-      {/* <TextInput
-        label="מיקום פריט"
-        value={itemLocation}
-        onChangeText={(text) => setItemLocation(text)}
-        style={styles.npinput}
-      /> */}
+          <ChooseLocation address={itemLocation} setAddress={setItemLocation} />
 
 
-      {/* <AddAddress address={itemLocation} handleChange={setItemLocation} /> */}
-      <ChooseLocation address={itemLocation} setAddress={setItemLocation} />
+          <Button mode="contained" onPress={() => handlePost(handleSubmit)} style={styles.nppostButton}>
+            פרסם
+          </Button>
+        </ScrollView>}
 
-
-      <Button mode="contained" onPress={() => handlePost(handleSubmit)} style={styles.nppostButton}>
-        פרסם
-      </Button>
-      {/* </ScrollView> */}
     </SafeAreaView >
   );
 }

@@ -16,14 +16,14 @@ export const addNewPost = async (post, token) => {
         }),
     });
 
+    const res = await response.json();
+
     if (!response.ok) {
-        const text = await response.text(); // Get the response body as text
-        throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        throw new Error(res.msg);
     }
 
-    const data = await response.json();
-    console.log("Raw data from API:", data); // Print out the raw data
-    return data;
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
 };
 
 
@@ -162,15 +162,25 @@ export const postSearchByDistance = async (query, distance, userCoordinates, tok
             }),
         });
     }
+    // if (!response.ok) {
+    //     const text = await response.text(); // Get the response body as text
+    //     if (response.status == 404)
+    //         return 404;
+    //     else
+    //         throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+    // }
+
+    // const data = await response.json();
+    // console.log("Raw data from API:", data); // Print out the raw data
+    // return data;
+
+    const res = await response.json();
+
     if (!response.ok) {
-        const text = await response.text(); // Get the response body as text
-        if (response.status == 404)
-            return 404;
-        else
-            throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+        throw new Error(res);
     }
 
-    const data = await response.json();
-    console.log("Raw data from API:", data); // Print out the raw data
-    return data;
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+
 }

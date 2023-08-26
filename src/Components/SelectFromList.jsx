@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { List } from 'react-native-paper';
 
 
@@ -15,19 +15,21 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
 
     const handlePicked = (item) => {
         setPicked(item);
-        setExpanded(false); // not working :(
+        //setExpanded((prev) => !prev); // not working :(
     }
 
+    // useEffect(() => { //not working :(
+    //     // setExpanded((prev) => !prev)
+    //     handlePress();
+    // }, [picked]);
 
     const renderItems = ({ item }) => {
         if (!item)
             return;
 
         return (
-            <TouchableOpacity onPress={() => handlePicked(item)}  >
-                <View>
-                    <List.Item title={item} />
-                </View>
+            <TouchableOpacity onPress={() => handlePicked(item)} >
+                <List.Item title={item} />
             </TouchableOpacity>
         );
     };
@@ -35,7 +37,7 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
 
     return (
 
-        <View>
+        <View style={[{ maxHeight: 400 }]}>
             <List.Section title={title}>
                 <List.Accordion title={picked}
                     left={props => <List.Icon {...props} icon="folder"
@@ -46,7 +48,8 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
                     <FlatList data={list}
                         renderItem={renderItems}
                         keyExtractor={(item) => item}
-                        style={[, { maxHeight: 250 }]} />
+                        style={[, { maxHeight: 250 }]}
+                        nestedScrollEnabled />
                 </List.Accordion >
             </List.Section>
         </View>

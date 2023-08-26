@@ -124,6 +124,7 @@ export const styles = StyleSheet.create({
     },
     addressFlatList: {
         maxHeight: 60,
+
     },
     profilePicture: {
         width: 100,

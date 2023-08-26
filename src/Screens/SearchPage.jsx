@@ -1,17 +1,16 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 import { styles } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import CardPost from '../Components/CardPost';
-import { ScrollView } from 'react-native';
 
 import SearchDistance from '../Components/SearchDistance';
 import SelectFromList from '../Components/SelectFromList';
 import ChooseLocation from '../Components/ChooseLocation';
 import { postCategories } from '../Data/constants';
 import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance, getAddresses } from '../api/index';
-import PostCard from '../Components/PostCard';
+
 
 
 
@@ -26,11 +25,11 @@ export default function SearchPage() {
 
   const { loggedUser, userToken } = useContext(AppContext);
 
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const onChangeSearch = query => setSearchQuery(query);
 
-  const [searchOptions, setSearchOptions] = React.useState('none');
+  const [searchOptions, setSearchOptions] = useState('none');
 
   const [category, setCategory] = useState('בחר קטגוריה');
 
@@ -44,12 +43,9 @@ export default function SearchPage() {
 
   const [address, setAddress] = useState({ addressInput: '', location: loggedUser.address })
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    //console.log("LOCATION ===>>>", address) // the response format CHANGES ALL THE TIME
-    // if (fromLocation == 'user') {
-    //   setCoordinates((prev) => loggedUser.address.location.coordinates);
-    // }
-    // else if (fromLocation == 'newLocation' && address.location) {
     if (address.location.coordinates) {
       setCoordinates((prev) => address.location.coordinates)
     }
@@ -69,6 +65,7 @@ export default function SearchPage() {
 
   const searchItems = async () => {
     try {
+      setLoading(true);
       console.log("search query:", searchQuery);
       console.log("search type:", searchOptions);
       console.log("city:", city);
@@ -76,21 +73,19 @@ export default function SearchPage() {
       console.log("distance:", searchDistance);
 
       let results;
+      // -depending on the searching option the user chose:
       switch (searchOptions) {
-
         case 'none':
           results = await postSearch(searchQuery, userToken);
           break;
         case 'city':
           if (city.trim() == '')
             Alert.alert('נא הכנס עיר')
-
           else
             results = await postSearchByCity(searchQuery, city, userToken);
           break;
         case 'distance':
-          //console.log("user coordinates: " + Array.isArray(loggedUser.address.location.coordinates))
-          const currentCoordinates = coordinates;
+          const currentCoordinates = coordinates; // -the user get to choose between the address in his profile and his current location according to his mobile device
           results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
           break;
         case 'category':
@@ -114,18 +109,11 @@ export default function SearchPage() {
     } catch (error) {
       console.log("failed search: " + error)
     }
+    finally {
+      setLoading(false);
+    }
   }
 
-
-  const sampleData = {
-    itemName: "Sample Item",
-    description: "This is a sample item description.",
-    category: "Electronics",
-    photos: ["https://example.com/sample-image.jpg"],
-    status: "Available",
-    creationDate: "2023-08-07",
-    itemLocation_id: "12345",
-  };
 
   const renderResult = (post) => {
     if (!post) return;
@@ -177,7 +165,6 @@ export default function SearchPage() {
             searchOptions == 'distance' ?
               <View>
                 <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
-                {/* <ChooseLocation coordinates={coordinates} setCoordinates={setCoordinates} /> */}
                 <ChooseLocation address={address} setAddress={setAddress} />
               </View>
               : searchOptions == 'category' ?
@@ -186,22 +173,20 @@ export default function SearchPage() {
         </View>
       </View>
 
-      {/* <ScrollView>
-      <CardPost {...sampleData} />
-    </ScrollView> */}
+      {loading ? <ActivityIndicator /> :
+        <View style={[styles.container, { flex: 1 }, { padding: 10 }]}>
+          {
+            searchResults == 404 ? <Text>לא נמצאו פריטים מתאימים</Text> :
+              searchResults ?
+                <FlatList
+                  data={searchResults}
+                  renderItem={renderResult}
+                  keyExtractor={item => item._id}
+                />
+                : null
+          }
+        </View>}
 
-      <View style={[styles.container, { flex: 1 }, { padding: 10 }]}>
-        {
-          searchResults == 404 ? <Text>לא נמצאו פריטים מתאימים</Text> :
-            searchResults ?
-              <FlatList
-                data={searchResults}
-                renderItem={renderResult}
-                keyExtractor={item => item._id}
-              />
-              : null
-        }
-      </View>
     </SafeAreaView>
 
 

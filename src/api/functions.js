@@ -81,11 +81,10 @@ export const createNewAddress = async (data) => {
 
 export const createNewPost = async (itemName, description, category, photos, itemLocation, loggedUser, userToken) => {
     try {
-        console.log("loggedUser:", loggedUser._id);
-        console.log("data:", itemName, description, category, photos, itemLocation);
-        console.log("itemlocation : ", itemLocation);
-
+        // -convert the images of the item to Base64:
         let base64Images = await urisArrayToBase64(photos);
+
+        // -this is a check to see if the item is at the location the user provided while registering or a new location that needs to be created:
         let address_id;
         if (itemLocation.location.type == 'Point') {
             address_id = itemLocation._id;
@@ -103,16 +102,54 @@ export const createNewPost = async (itemName, description, category, photos, ite
             photos: base64Images,
             itemLocation_id: address_id
         }
-
-        console.log("newPost obj ==>>", newPost);
         const post = await addNewPost(newPost, userToken)
-        console.log("NEW POST CREATED! ===>>>", post);
         return post;
-
     } catch (error) {
         console.log("new post creation FAILED! ==>>", error);
+        throw error;
     }
 }
+
+// export const createNewPost = async (itemName, description, category, photos, itemLocation, loggedUser, userToken) => {
+//     try {
+//         console.log("loggedUser:", loggedUser._id);
+//         console.log("data:", itemName, description, category, photos, itemLocation);
+//         console.log("itemlocation : ", itemLocation);
+
+//         // -convert the images of the item to Base64:
+//         let base64Images = await urisArrayToBase64(photos);
+
+//         // -this is a check to see if the item is at the location the user provided while registering or a new location that needs to be created:
+//         let address_id;
+//         if (itemLocation.location.type == 'Point') {
+//             address_id = itemLocation._id;
+//         }
+//         else {
+//             let address = await createNewAddress(itemLocation);
+//             address_id = address.insertedId;
+//         }
+
+//         let newPost = {
+//             owner_id: loggedUser._id,
+//             itemName: itemName,
+//             description: description,
+//             category: category,
+//             photos: base64Images,
+//             itemLocation_id: address_id
+//         }
+
+//         console.log("newPost obj ==>>", newPost);
+//         const post = await addNewPost(newPost, userToken)
+//         console.log("NEW POST CREATED! ===>>>", post);
+//         return post;
+
+//     } catch (error) {
+//         console.log("new post creation FAILED! ==>>", error);
+//         throw error;
+//     }
+// }
+
+
 
 // export const getAddresses = async (arr, token) => {
 //     const objectsWithAddresses = await Promise.all(arr.map(obj => ))

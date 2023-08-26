@@ -145,7 +145,7 @@ export default function ChooseLocation({ address, setAddress }) {
     // }
 
     return (
-        <View>
+        <View style={[styles.container, styles.sub_container2]}>
             <View >
                 <RadioButton.Group onValueChange={(newValue) => setFromLocation(newValue)} value={fromLocation}>
                     <View style={[styles.flexRow, { justifyContent: 'center' }]}>
@@ -160,7 +160,7 @@ export default function ChooseLocation({ address, setAddress }) {
                     </View>
                 </RadioButton.Group>
             </View>
-            <View>
+            <View >
                 {fromLocation == 'user' ? <Text>{loggedUser.address.simplifiedAddress}</Text> : <AddAddress address={address} handleChange={setAddress} />}
             </View>
 

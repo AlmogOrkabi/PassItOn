@@ -64,9 +64,7 @@ export default function AddAddress({ address, handleChange }) {
 
         return (
             <TouchableOpacity onPress={() => handleSuggestionPress(item)}>
-                <View>
-                    <Text >{simplifiedAddress}</Text>
-                </View>
+                <Text >{simplifiedAddress}</Text>
             </TouchableOpacity>
         );
     };
@@ -138,8 +136,8 @@ export default function AddAddress({ address, handleChange }) {
 
 
     return (
-        <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20 }]}>
-            <View>
+        <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20 },]}>
+            <View style={[{ justifyContent: 'flex-start' }]}>
                 <TextInput style={[styles.input,]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
                     //setAddressInput(text);
                     //handleInputChange(text);
@@ -149,19 +147,22 @@ export default function AddAddress({ address, handleChange }) {
                 }} />
 
                 {suggestions ? <FlatList
-                    style={[styles.addressFlatList]}
+                    style={[styles.addressFlatList,]}
                     data={suggestions}
                     renderItem={renderSuggestion}
                     keyExtractor={(item) => item.value}
+                    nestedScrollEnabled
                 /> : null}
             </View>
 
-            {loading ? <ActivityIndicator /> :
-                <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]} activeOpacity={0.5} ><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>}
+            {
+                loading ? <ActivityIndicator /> :
+                    <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]} activeOpacity={0.5} ><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>
+            }
 
 
 
             {/* <Button onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 0 }, { alignSelf: 'flex-end' }]}>למיקום נוכחי</Button> */}
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }

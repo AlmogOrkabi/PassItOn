@@ -6,7 +6,7 @@
 //
 //
 //
-
+import { postCategories } from "../Data/constants";
 
 
 export function isValidEmail(email) {
@@ -149,45 +149,44 @@ module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValid
 
 
 
-// function isValidPostCategory(category) {
-//     const validPostCategories = ['ריהוט', 'מכשור חשמלי', 'כלי מטבח', 'כלי בית', 'צעצועים/משחקים', 'ספרים', 'ביגוד', 'כלי עבודה', 'ציוד ספורט וקמפינג', 'ציוד משרדי', 'פרטי תינוקות', 'יצירה', 'עיצוב הבית', 'ציוד לחיות מחמד', 'כלי נגינה', 'ציוד רפואי', 'טיפוח', 'תיקים', 'ציוד לבית הספר']
+function isValidPostCategory(category) {
 
-//     if (!isString(category) || !validPostCategories.includes(category)) {
-//         return false;
-//     }
-//     else
-//         return true;
-// }
+    if (!isString(category) || !postCategories.includes(category)) {
+        return false;
+    }
+    else
+        return true;
+}
 
-// function isValidItemName(itemName) {
-//     if (!isString(itemName) || itemName.length > 50)
-//         return false;
-//     else
-//         return true;
-// }
+function isValidItemName(itemName) {
+    if (!isString(itemName) || itemName.length > 50)
+        return false;
+    else
+        return true;
+}
 
-// function validateNewPostData(owner_id, itemName, description, category, photoUrls, itemLocation_id) {
-//     if (!isValidObjectId(owner_id) || owner_id == null) {
-//         return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
-//     }
-//     if (!isValidItemName(itemName)) {
-//         return { valid: false, msg: 'שם פריט אינו תקין' };
-//     }
-//     if (!isString(description) || description.length > 300) {
-//         return { valid: false, msg: 'תיאור פריט אינו תקין' };
-//     }
-//     if (!isValidPostCategory(category)) {
-//         return { valid: false, msg: 'קטגורית הפריט אינה תקינה' };
-//     }
-//     if (!isValidPhotosArray(photoUrls)) {
-//         return { valid: false, msg: 'תמונת הפריט אינה תקינה' };
-//     }
-//     if (!isValidObjectId(itemLocation_id)) {
-//         return { valid: false, msg: 'הכתובת אינה תקינה' };
-//     }
+function isValidDescription(description) {
+    if (!isString(description) || description.length > 300)
+        return false;
+    return true;
+}
 
-//     return { valid: true };
-// }
+function validateNewPostData(itemName, description, category, photos,) {
+    if (!isValidItemName(itemName)) {
+        return { valid: false, msg: 'שם פריט אינו תקין', field: 'itemName' };
+    }
+    if (!isValidDescription(description)) {
+        return { valid: false, msg: 'תיאור הפריט עד 300 תווים בלבד', field: 'description' };
+    }
+    if (!isValidPostCategory(category)) {
+        return { valid: false, msg: 'קטגורית הפריט אינה תקינה', field: 'category' };
+    }
+    if (photos.length < 1) {
+        return { valid: false, msg: 'נא להעלות לפחות תמונה אחת', field: 'photos' };
+    }
+
+    return { valid: true };
+}
 
 
 // function validatePostData(updatedData) {
@@ -545,4 +544,4 @@ export function validateNewAddressDetails(region, city, street, house, apartment
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes }
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData }
