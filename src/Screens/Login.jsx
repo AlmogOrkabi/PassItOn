@@ -4,6 +4,7 @@ import { styles, paperStyles } from '../Styles';
 import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import { login, getAddress } from '../api/index'
+import Logo from '../Components/Logo';
 
 export default function Login({ navigation }) {
 
@@ -39,10 +40,17 @@ export default function Login({ navigation }) {
 
 
     return (
-        <SafeAreaView style={[styles.main_container, styles.container]}>
+        <SafeAreaView style={[styles.main_container, styles.container,]}>
+            <View style={[{ marginTop: -150 }, { marginBottom: 50 }]}>
+                <Logo width={300} height={60} />
+            </View>
+
+
             <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
+
             {loading ? <ActivityIndicator /> :
                 <View style={[]}>
+
                     <TextInput
                         inputMode='email' style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 

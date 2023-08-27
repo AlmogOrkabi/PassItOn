@@ -3,7 +3,7 @@ import React, { useState, useContext, useReducer, useEffect } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton, List } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
-
+import Logo from '../Components/Logo';
 import { postCategories } from '../Data/constants';
 import { FlatList } from 'react-native';
 import AddAddress from '../Components/AddAddress';
@@ -142,9 +142,12 @@ export default function NewPost() {
 
 
   return (
-    <SafeAreaView style={[styles.npcontainer, { flex: 1 }, { maxHeight: '100%' }]}>
-      <View style={styles.logocontainer} >
+    <SafeAreaView style={[styles.npcontainer, { maxHeight: '100%' }]}>
+      {/* <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
+      </View> */}
+      <View style={[{ marginTop: -50 }, { marginBottom: 20 }]}>
+        <Logo width={300} height={70} />
       </View>
       {loading ? <ActivityIndicator /> :
         <ScrollView style={{ height: '100%' }} nestedScrollEnabled >

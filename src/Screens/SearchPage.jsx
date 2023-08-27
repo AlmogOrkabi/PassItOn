@@ -11,7 +11,7 @@ import ChooseLocation from '../Components/ChooseLocation';
 import { postCategories } from '../Data/constants';
 import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance, getAddresses } from '../api/index';
 
-
+import Logo from '../Components/Logo';
 
 
 
@@ -124,6 +124,9 @@ export default function SearchPage() {
 
   return (
     <SafeAreaView style={[styles.main_container2]}>
+      <View style={[{ marginBottom: -50 }]}>
+        <Logo width={300} height={70} />
+      </View>
       <View style={[styles.sub_container]}>
         <Searchbar
           placeholder="חיפוש פריטים"

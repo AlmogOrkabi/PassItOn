@@ -8,7 +8,7 @@ import { StyleSheet, Text, View } from 'react-native';
 //     background: "#B94ECB"
 // }
 
-const theme = {
+export const theme = {
     mainColor: "#B94ECB",
     mainColorFaded: "#DEACE7",
     background: "#DEACE7",
@@ -127,23 +127,24 @@ export const styles = StyleSheet.create({
 
     },
     profilePicture: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        marginBottom: 10,
-    },
-    name: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5,
+        width: 200,
+        height: 200,
+        borderRadius: 100,
+        //marginBottom: 10,
+        margin: '3%',
     },
     username: {
-        fontSize: 16,
-        marginBottom: 5,
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginBottom: '5%',
+    },
+    name: {
+        fontSize: 14,
+        //marginBottom: 5,
     },
     email: {
         fontSize: 14,
-        marginBottom: 10,
+        //marginBottom: 10,
     },
     addressContainer: {
         backgroundColor: '#ADD8FF',
@@ -157,10 +158,10 @@ export const styles = StyleSheet.create({
     address: {
         fontSize: 14,
     },
-    logo: {
-        Width: "100%",
-        maxWidth: "100%"
-    },
+    // logo: {
+    //     Width: "100%",
+    //     maxWidth: "100%"
+    // },
     logocontainer: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -174,6 +175,7 @@ export const styles = StyleSheet.create({
         padding: 16,
         justifyContent: 'center',
         flex: 1,
+        marginTop: '10%'
 
     },
     npinput: {
@@ -227,7 +229,7 @@ export const styles = StyleSheet.create({
         color: "red",
         margin: 20,
         fontWeight: "bold",
-    }
+    },
     // card: {
     //     //margin: '5%',
     //     width: 280,
@@ -245,6 +247,31 @@ export const styles = StyleSheet.create({
     //     width: 150,
     //     height: 80,
     // },
+    style_FAB_picture: {
+        position: 'absolute',
+        width: 40,
+        height: 40,
+        // fontSize: 5,
+        // textAlign: 'center',
+        borderRadius: 50,
+        left: 140,
+        bottom: 35,
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'black',
+    },
+    style_FAB: {
+        position: 'absolute',
+        width: 40,
+        height: 40,
+        // fontSize: 5,
+        // textAlign: 'center',
+        borderRadius: 50,
+        right: 10,
+        top: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 
 });
 

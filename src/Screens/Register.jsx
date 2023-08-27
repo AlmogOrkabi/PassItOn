@@ -12,6 +12,8 @@ import AddressesForm from '../Components/AddressesForm';
 
 import { useForm, Controller } from 'react-hook-form';
 
+import Logo from '../Components/Logo';
+
 const initialState = {
     basicDetails: {
         username: '',
@@ -138,36 +140,44 @@ export default function Register({ navigation }) {
 
 
     return (
-        <SafeAreaView style={[styles.main_container, styles.container]}>
+        <SafeAreaView style={[styles.main_container, styles.container, { justifyContent: 'space-evenly' }]}>
+            <View >
+                <Logo width={300} height={60} />
+            </View>
+
+            <View style={[styles.container]}>
+
+                <Text style={[styles.title, { marginBottom: 30 }]}>דף הרשמה</Text>
 
 
-            <Text style={[styles.title, { marginBottom: 30 }]}>דף הרשמה</Text>
+                {loading ? <ActivityIndicator size="large" /> :
 
+                    formPage == 1 ?
+                        <BasicDetailsForm state={formState.basicDetails} dispatch={dispatch} handleChange={handleChange} validErr={validErr} /> :
+                        formPage == 2 ?
+                            <SecurityDetailsForm state={formState.securityDetails} dispatch={dispatch} handleChange={handleChange} isEmailTaken={isEmailTaken} setIsEmailTaken={setIsEmailTaken} validErr={validErr} /> : formPage == 3 ? <AddressesForm state={formState.addresses} dispatch={dispatch} handleChange={handleChange} validErr={validErr} addressData={addressData} setAddressData={setAddressData} /> : null
 
-            {loading ? <ActivityIndicator /> :
-
-                formPage == 1 ?
-                    <BasicDetailsForm state={formState.basicDetails} dispatch={dispatch} handleChange={handleChange} validErr={validErr} /> :
-                    formPage == 2 ?
-                        <SecurityDetailsForm state={formState.securityDetails} dispatch={dispatch} handleChange={handleChange} isEmailTaken={isEmailTaken} setIsEmailTaken={setIsEmailTaken} validErr={validErr} /> : formPage == 3 ? <AddressesForm state={formState.addresses} dispatch={dispatch} handleChange={handleChange} validErr={validErr} addressData={addressData} setAddressData={setAddressData} /> : null
-
-            }
-            < View >
-                <View style={[styles.flexRow, { marginTop: 20 }]}>
-                    <IconButton
-                        icon="arrow-right"
-                        size={30}
-                        onPress={() => formPage > 1 ? setFormPage(formPage - 1) : null}
-                        disabled={formPage <= 1 ? true : false}
-                    />
-                    <IconButton
-                        icon="arrow-left"
-                        size={30}
-                        onPress={() => formPage < 3 ? setFormPage(formPage + 1) : null}
-                        disabled={formPage >= 3 ? true : false}
-                    />
+                }
+                < View >
+                    <View style={[styles.flexRow, { marginTop: 20 }]}>
+                        <IconButton
+                            icon="arrow-right"
+                            size={30}
+                            onPress={() => formPage > 1 ? setFormPage(formPage - 1) : null}
+                            disabled={formPage <= 1 ? true : false}
+                        />
+                        <IconButton
+                            icon="arrow-left"
+                            size={30}
+                            onPress={() => formPage < 3 ? setFormPage(formPage + 1) : null}
+                            disabled={formPage >= 3 ? true : false}
+                        />
+                    </View>
+                    {formPage == 3 ? <Button style={[styles.btn,]} mode="contained" onPress={onSubmit}  >הרשמה</Button> : null}
                 </View>
-                {formPage == 3 ? <Button style={[styles.btn,]} mode="contained" onPress={onSubmit}  >הרשמה</Button> : null}
+
+
+
             </View>
 
 

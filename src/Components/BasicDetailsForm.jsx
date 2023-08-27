@@ -179,7 +179,7 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
 
-                <Button style={styles.smallTextButton} textColor='lightgray' icon={"file-image-plus-outline"} onPress={pickImage}  > תמונת פרופיל</Button>
+                <Button style={styles.smallTextButton} textColor='black' icon={"file-image-plus-outline"} onPress={pickImage}  > תמונת פרופיל</Button>
 
                 {/* <IconButton
                     icon="file-image-plus-outline"
