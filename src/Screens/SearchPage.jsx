@@ -1,7 +1,7 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
-import { styles } from '../Styles';
-import { TextInput, Button, Searchbar, SegmentedButtons } from 'react-native-paper';
+import { styles, touchableOpacity } from '../Styles';
+import { TextInput, Button, Searchbar, SegmentedButtons, Portal } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import CardPost from '../Components/CardPost';
 
@@ -13,6 +13,7 @@ import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistanc
 
 import Logo from '../Components/Logo';
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 
@@ -21,11 +22,14 @@ import Logo from '../Components/Logo';
 
 
 
-export default function SearchPage() {
+export default function SearchPage({ navigation }) {
 
   const { loggedUser, userToken } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [searchOptionsExpended, setSearchOptionsExpended] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -118,7 +122,7 @@ export default function SearchPage() {
   const renderResult = (post) => {
     if (!post) return;
     return (
-      <CardPost post={post.item} />
+      <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item })}><CardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
     )
   }
 
@@ -135,45 +139,56 @@ export default function SearchPage() {
           onIconPress={searchItems}
         />
 
-        <View style={[styles.searchOptionsContainer]}>
-          <Text style={[styles.mediumText]}>סינון לפי:</Text>
-          <SegmentedButtons style={[{ margin: '5%' }]}
-            value={searchOptions}
-            onValueChange={setSearchOptions}
-            buttons={[
-              {
-                value: 'none',
-                label: 'ללא',
-              },
-              {
-                value: 'city',
-                label: 'עיר',
-              },
-              {
-                value: 'distance',
-                label: 'מרחק',
-              },
-              { value: 'category', label: 'קטגוריה' },
-            ]}
-          />
-        </View>
+        <TouchableOpacity activeOpacity={touchableOpacity} style={[{ marginTop: 20 }, styles.flexRow]} onPress={() => setSearchOptionsExpended(!searchOptionsExpended)}>
+          {searchOptionsExpended ? <MaterialCommunityIcons name="arrow-up-drop-circle-outline" size={24} color="black" /> : <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={24} color="black" />}
+          <Text style={[styles.mediumText]}> סינון לפי: </Text>
 
-        <View>
-          {searchOptions == 'city' ?
+        </TouchableOpacity>
+
+        {searchOptionsExpended &&
+          <View>
+            <View style={[styles.searchOptionsContainer,]}>
+
+
+              <SegmentedButtons style={[{ margin: '5%' }]}
+                value={searchOptions}
+                onValueChange={setSearchOptions}
+                buttons={[
+                  {
+                    value: 'none',
+                    label: 'ללא',
+                  },
+                  {
+                    value: 'city',
+                    label: 'עיר',
+                  },
+                  {
+                    value: 'distance',
+                    label: 'מרחק',
+                  },
+                  { value: 'category', label: 'קטגוריה' },
+                ]}
+              />
+            </View>
+
             <View>
-              <TextInput label='עיר'
-                value={city}
-                onChangeText={value => setCity(value)} />
-            </View> :
-            searchOptions == 'distance' ?
-              <View>
-                <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
-                <ChooseLocation address={address} setAddress={setAddress} />
-              </View>
-              : searchOptions == 'category' ?
-                <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
-                : null}
-        </View>
+              {searchOptions == 'city' ?
+                <View>
+                  <TextInput label='עיר'
+                    value={city}
+                    onChangeText={value => setCity(value)} />
+                </View> :
+                searchOptions == 'distance' ?
+                  <View>
+                    <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
+                    <ChooseLocation address={address} setAddress={setAddress} />
+                  </View>
+                  : searchOptions == 'category' ?
+                    <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
+                    : null}
+            </View>
+          </View>}
+
       </View>
 
       {loading ? <ActivityIndicator /> :

@@ -127,6 +127,9 @@ export default function NewPost() {
       const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
       if (res.insertedId) {
         Alert.alert('פוסט פורסם בהצלחה!')
+
+        //find the post by ID
+        //open post page
       }
     } catch (error) {
       handleServerErros(error);
@@ -182,6 +185,7 @@ export default function NewPost() {
               <TextInput
                 label="תיאור הפריט"
                 value={description}
+                onBlur={onBlur}
                 onChangeText={(value) => { onChange(value); setDescription(value) }}
                 multiline
                 style={styles.npinput}
@@ -195,7 +199,7 @@ export default function NewPost() {
               },
 
               validate:
-                value => isValidItemName(value) || 'תיאור הפריט עד 300 תווים בלבד',
+                value => isValidDescription(value) || 'תיאור הפריט עד 300 תווים בלבד',
 
             }}
           />

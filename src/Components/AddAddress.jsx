@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingV
 import React, { useState, useMemo, useEffect } from 'react'
 // import { useForm, Controller } from 'react-hook-form';
 import { styles } from '../Styles';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, } from 'react-native-paper';
 import { GEOAPI_KEY } from '@env';
 import * as Location from 'expo-location';
 

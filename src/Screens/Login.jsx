@@ -46,11 +46,11 @@ export default function Login({ navigation }) {
             </View>
 
 
-            <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
+
 
             {loading ? <ActivityIndicator /> :
                 <View style={[]}>
-
+                    <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
                     <TextInput
                         inputMode='email' style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 

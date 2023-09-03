@@ -38,12 +38,13 @@ export const styles = StyleSheet.create({
         flexDirection: "column",
         textAlign: "center",
         //** 
-        //flex: 1,
+        flex: 1,
         justifyContent: 'center',
         backgroundColor: theme.background,
         color: 'black',
         width: '100%',
         height: '100%',
+        padding: '2%'
         //maxWidth: "100%",
 
     },
@@ -60,7 +61,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         //maxWidth: "100%",
-
+        padding: '2%'
     },
     sub_container: {
         margin: '5%',
@@ -71,11 +72,17 @@ export const styles = StyleSheet.create({
         // marginTop: '15%'
 
 
+    }, sub_container3: {
+        margin: '5%',
+        rowGap: 20,
     },
     container: {
         alignItems: 'center',
         //flex: 1,
         //margin: '5%',
+    },
+    diffBG: {  //for debugging purposes only
+        backgroundColor: 'white',
     },
     flexRow: {
         flexDirection: 'row',
@@ -91,6 +98,9 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.mainColor,
         textAlign: "center",
         marginTop: 20,
+    },
+    smallBtn: {
+        width: 250
     },
     input: {
         minWidth: "50%",
@@ -219,7 +229,7 @@ export const styles = StyleSheet.create({
         marginTop: 16,
     },
     searchOptionsContainer: {
-        marginTop: '3%'
+        // marginTop: '3%'
     },
     card: {
         marginVertical: 10,
@@ -271,7 +281,41 @@ export const styles = StyleSheet.create({
         top: 5,
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    style_FAB_Edit_Post: {
+        position: 'absolute',
+        right: 10,
+        bottom: 40,
+        //flexDirection: 'row-reverse'
+    },
+    postImgContainer: {
+        width: 250,
+        height: 250,
+        resizeMode: 'contain'
+
+
+    },
+    boxShadow: {
+        // iOS shadow properties
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.8,
+        shadowRadius: 4,
+
+        backgroundColor: '#FFF', //for the boxshadow
+        borderRadius: 10,
+
+        // Android shadow properties
+        elevation: 12,
+    },
+    postImg: {
+        borderRadius: 10,
+    },
+    postImagesList: {
+        width: 50,
+        height: 50,
+        opacity: 0.5,
+    },
 
 });
 
@@ -279,3 +323,7 @@ export const styles = StyleSheet.create({
 export const paperStyles = {
     inputIcon: { size: 20 },
 }
+
+
+//opacity level for TouchableOpacity elements
+export const touchableOpacity = 0.6;

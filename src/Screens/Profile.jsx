@@ -2,13 +2,22 @@ import React, { useEffect, useState, useContext } from 'react'
 import { styles, theme } from '../Styles'
 import { View, Text, Image, StyleSheet, SafeAreaView } from 'react-native';
 import { AppContext } from '../Contexts/AppContext';
-import { Button, FAB, AnimatedFAB, SegmentedButtons } from 'react-native-paper';
+import { Button, FAB, AnimatedFAB, SegmentedButtons, Portal, PaperProvider } from 'react-native-paper';
 import Logo from '../Components/Logo';
 
 export default function Profile() {
 
   const { users, loggedUser } = useContext(AppContext)
   const [value, setValue] = React.useState('');
+
+
+
+  const [stateFAB, setStateFAB] = useState(false);
+
+  const onStateChange = () => setStateFAB(!stateFAB);
+
+  // const { open } = state;
+
   return (
     <SafeAreaView style={[styles.main_container,]}>
       <View style={[{ flex: 0.2 }]}>
@@ -42,7 +51,7 @@ export default function Profile() {
       </View>
 
       <View style={[styles.sub_container, { flex: 0.2 },]}>
-        <SegmentedButtons
+        {/* <SegmentedButtons
           value={value}
           onValueChange={setValue}
           buttons={[
@@ -56,7 +65,50 @@ export default function Profile() {
           density='medium'
           theme={{ roundness: 2, }}
           style={[{ width: '100%' }, { alignSelf: 'center' },]}
-        />
+        /> */}
+
+
+        {/* <Button mode="contained" onPress={() => { }} style={[styles.btn, styles.smallBtn]}>
+          סטטוס בקשות
+        </Button> */}
+
+
+        <PaperProvider >
+          <Portal >
+            <FAB.Group
+              open={stateFAB}
+              visible
+              icon={stateFAB ? 'minus' : 'plus'}
+              actions={[
+                // { icon: 'plus', onPress: () => console.log('Pressed add') },
+                {
+                  icon: 'star',
+                  label: 'הפוסטים שלי',
+                  onPress: () => console.log('Pressed star'),
+                },
+                {
+                  icon: 'email',
+                  label: 'ניהול בקשות',
+                  onPress: () => console.log('Pressed email'),
+                },
+                {
+                  icon: 'pencil',
+                  label: 'עריכה',
+                  onPress: () => console.log('Pressed notifications'),
+                },
+              ]}
+              onStateChange={onStateChange}
+              onPress={() => {
+                if (stateFAB) {
+                  // do something if the speed dial is open
+                }
+              }}
+              backdropColor={'#00000000'}
+
+            />
+          </Portal>
+        </PaperProvider>
+
       </View>
     </SafeAreaView>
   );

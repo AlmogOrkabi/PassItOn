@@ -145,7 +145,7 @@ module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValid
 //         return { valid: true }
 // }
 
-// //_____________________POSTS________________________________//
+// //!_____________________POSTS________________________________//
 
 
 

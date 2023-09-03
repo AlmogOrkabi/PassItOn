@@ -39,6 +39,16 @@ export const createNewUser = async (data) => {
 // lat: parseFloat(data.location.position.split(',')[1])
 
 
+function normalizeCityName(city) {
+    //-gotta love tomtom API 😐
+    const prefixes = ["מזרח", "מערב", "צפון", "דרום"];
+    for (let prefix of prefixes) {
+        city = city.replace(prefix, '').trim();
+    }
+    return city;
+}
+
+
 export const createNewAddress = async (data) => {
     try {
         console.log("data", data)
@@ -58,7 +68,8 @@ export const createNewAddress = async (data) => {
 
         let newAddress = {
             region: data.location.address.countrySubdivision,
-            city: data.location.address.municipality,
+            // city: data.location.address.municipality,
+            city: normalizeCityName(data.location.address.municipality),
             street: data.location.address.streetName,
             house: data.location.address.streetNumber,
             apartment: data.apartment,
@@ -70,6 +81,9 @@ export const createNewAddress = async (data) => {
             lat: lat
         }
         console.log("newAddress obj ==>>", newAddress)
+
+
+
 
         const address = await addNewAddress(newAddress);
         return address;
