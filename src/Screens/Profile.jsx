@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { styles, theme } from '../Styles'
-import { View, Text, Image, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, Image, StyleSheet, SafeAreaView, I18nManager } from 'react-native';
 import { AppContext } from '../Contexts/AppContext';
 import { Button, FAB, AnimatedFAB, SegmentedButtons, Portal, PaperProvider } from 'react-native-paper';
 import Logo from '../Components/Logo';
-
-export default function Profile() {
+export default function Profile({ navigation }) {
 
   const { users, loggedUser } = useContext(AppContext)
   const [value, setValue] = React.useState('');
@@ -50,7 +49,7 @@ export default function Profile() {
 
       </View>
 
-      <View style={[styles.sub_container, { flex: 0.2 },]}>
+      <View style={[styles.sub_container, { flex: 0.2, },]} >
         {/* <SegmentedButtons
           value={value}
           onValueChange={setValue}
@@ -73,9 +72,11 @@ export default function Profile() {
         </Button> */}
 
 
-        <PaperProvider >
+        <PaperProvider  >
           <Portal >
             <FAB.Group
+              // style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}
+
               open={stateFAB}
               visible
               icon={stateFAB ? 'minus' : 'plus'}
@@ -84,17 +85,21 @@ export default function Profile() {
                 {
                   icon: 'star',
                   label: 'הפוסטים שלי',
-                  onPress: () => console.log('Pressed star'),
+                  //onPress: () => console.log('Pressed star'),
+                  onPress: () => navigation.navigate('MyPosts'),
                 },
                 {
                   icon: 'email',
                   label: 'ניהול בקשות',
-                  onPress: () => console.log('Pressed email'),
+                  //onPress: () => console.log('Pressed email'),
+                  onPress: () => navigation.navigate('ManageRequests'),
+
                 },
                 {
                   icon: 'pencil',
                   label: 'עריכה',
-                  onPress: () => console.log('Pressed notifications'),
+                  //onPress: () => console.log('Pressed notifications'),
+                  onPress: () => navigation.navigate('EditProfile'),
                 },
               ]}
               onStateChange={onStateChange}
@@ -104,6 +109,7 @@ export default function Profile() {
                 }
               }}
               backdropColor={'#00000000'}
+
 
             />
           </Portal>

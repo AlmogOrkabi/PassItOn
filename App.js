@@ -9,10 +9,14 @@ import SearchPage from './src/Screens/SearchPage';
 import Profile from './src/Screens/Profile';
 import PasswordRest from './src/Screens/PasswordRest';
 import Menu from './src/Screens/Menu';
-import MyOrders from './src/Screens/MyOrders';
-import ReportUsers from './src/Screens/ReportUsers';
 import NewPost from './src/Screens/NewPost';
 import PostPage from './src/Screens/PostPage';
+import ManageRequests from './src/Screens/ManageRequests';
+import EditPost from './src/Screens/EditPost';
+import EditProfile from './src/Screens/EditProfile';
+import ReportForm from './src/Screens/ReportForm';
+import ReportPage from './src/Screens/ReportPage';
+import MyPosts from './src/Screens/MyPosts';
 
 
 import AppContextProvider from './src/Contexts/AppContext';
@@ -45,7 +49,7 @@ function LoggedUserTabs() {
     //   style={[{ flex: 1 },]}
     // >
     <Tab.Navigator screenOptions={{ tabBarStyle: { position: 'relative' } }}>
-      <Tab.Screen name='פרופיל' component={Profile} options={{
+      <Tab.Screen name='פרופיל' component={ProfileStack} options={{
         tabBarIcon: () => <MaterialCommunityIcons name="account" size={24} />,
         headerShown: false
       }} />
@@ -57,6 +61,20 @@ function LoggedUserTabs() {
       }} />
     </Tab.Navigator>
     // </KeyboardAvoidingView>
+  )
+}
+
+function ProfileStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
+      <Stack.Screen name='ManageRequests' component={ManageRequests} options={{ headerShown: false }} />
+      <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} />
+      <Stack.Screen name='EditProfile' component={EditProfile} options={{ headerShown: false }} />
+      <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
+      <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
+      <Stack.Screen name='MyPosts' component={MyPosts} options={{ headerShown: false }} />
+    </Stack.Navigator>
   )
 }
 
@@ -86,10 +104,8 @@ export default function App() {
             {/* ********/}
             <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
             <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
-            <Stack.Screen name='My Orders' component={MyOrders} options={{ headerShown: false }} />
             {/* <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} /> */}
             <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
-            <Stack.Screen name='Report User' component={ReportUsers} options={{ headerShown: false }} />
 
           </Stack.Navigator>
         </NavigationContainer>
