@@ -1,11 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { styles } from '../Styles';
-
 export default function CardPost({ post }) {
 
-  console.log("POST ==>>", post)
 
   return (
     <Card style={styles.card}>

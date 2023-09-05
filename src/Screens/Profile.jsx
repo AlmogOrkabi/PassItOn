@@ -7,7 +7,7 @@ import Logo from '../Components/Logo';
 export default function Profile({ navigation }) {
 
   const { users, loggedUser } = useContext(AppContext)
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
 
 
@@ -49,8 +49,8 @@ export default function Profile({ navigation }) {
 
       </View>
 
-      <View style={[styles.sub_container, { flex: 0.2, },]} >
-        {/* <SegmentedButtons
+      {/* <View style={[{ flex: 1, }]} > */}
+      {/* <SegmentedButtons
           value={value}
           onValueChange={setValue}
           buttons={[
@@ -67,55 +67,55 @@ export default function Profile({ navigation }) {
         /> */}
 
 
-        {/* <Button mode="contained" onPress={() => { }} style={[styles.btn, styles.smallBtn]}>
+      {/* <Button mode="contained" onPress={() => { }} style={[styles.btn, styles.smallBtn]}>
           סטטוס בקשות
         </Button> */}
 
 
-        <PaperProvider  >
-          <Portal >
-            <FAB.Group
-              // style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}
+      <PaperProvider  >
+        <Portal >
+          <FAB.Group
+            // style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}
+            style={[styles.styles_FAB_Group_profile, stateFAB ? styles.boxShadowFAB : null]}
+            open={stateFAB}
+            visible
+            icon={stateFAB ? 'minus' : 'plus'}
+            actions={[
+              // { icon: 'plus', onPress: () => console.log('Pressed add') },
+              {
+                icon: 'star',
+                label: 'הפוסטים שלי',
+                //onPress: () => console.log('Pressed star'),
+                onPress: () => navigation.navigate('MyPosts'),
+              },
+              {
+                icon: 'email',
+                label: 'ניהול בקשות',
+                //onPress: () => console.log('Pressed email'),
+                onPress: () => navigation.navigate('ManageRequests'),
 
-              open={stateFAB}
-              visible
-              icon={stateFAB ? 'minus' : 'plus'}
-              actions={[
-                // { icon: 'plus', onPress: () => console.log('Pressed add') },
-                {
-                  icon: 'star',
-                  label: 'הפוסטים שלי',
-                  //onPress: () => console.log('Pressed star'),
-                  onPress: () => navigation.navigate('MyPosts'),
-                },
-                {
-                  icon: 'email',
-                  label: 'ניהול בקשות',
-                  //onPress: () => console.log('Pressed email'),
-                  onPress: () => navigation.navigate('ManageRequests'),
+              },
+              {
+                icon: 'pencil',
+                label: 'עריכה',
+                //onPress: () => console.log('Pressed notifications'),
+                onPress: () => navigation.navigate('EditProfile'),
+              },
+            ]}
+            onStateChange={onStateChange}
+            onPress={() => {
+              if (stateFAB) {
+                // do something if the speed dial is open
+              }
+            }}
+            //backdropColor={'#00000000'}
+            backdropColor={'#add9ff96'} //lightblue from theme but with opacity applied (96 at the end)
 
-                },
-                {
-                  icon: 'pencil',
-                  label: 'עריכה',
-                  //onPress: () => console.log('Pressed notifications'),
-                  onPress: () => navigation.navigate('EditProfile'),
-                },
-              ]}
-              onStateChange={onStateChange}
-              onPress={() => {
-                if (stateFAB) {
-                  // do something if the speed dial is open
-                }
-              }}
-              backdropColor={'#00000000'}
+          />
+        </Portal>
+      </PaperProvider>
 
-
-            />
-          </Portal>
-        </PaperProvider>
-
-      </View>
+      {/* </View> */}
     </SafeAreaView>
   );
 };

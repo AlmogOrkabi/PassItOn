@@ -88,7 +88,18 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     title: {
-        fontSize: 30
+        fontSize: 30,
+    },
+    mediumTitle: {
+        fontSize: 18,
+        fontWeight: '700'
+    },
+    smallTitle: {
+        fontSize: 15,
+        fontWeight: '700',
+    },
+    text_underline: {
+        textDecorationLine: 'underline',
     },
     mediumText: {
         fontSize: 14,
@@ -101,6 +112,12 @@ export const styles = StyleSheet.create({
     },
     smallBtn: {
         width: 250
+    },
+    native_input: {
+        borderWidth: 1,
+        padding: '2%',
+        minHeight: 100,
+
     },
     input: {
         minWidth: "50%",
@@ -288,6 +305,17 @@ export const styles = StyleSheet.create({
         bottom: 40,
         //flexDirection: 'row-reverse'
     },
+    styles_FAB_Group_profile: {
+        position: 'absolute',
+        maxHeight: 300,
+        maxWidth: 200,
+        left: 200,
+        top: 100,
+        zIndex: 1,
+        borderRadius: 15,
+        overflow: 'hidden',
+
+    },
     postImgContainer: {
         width: 250,
         height: 250,
@@ -303,11 +331,24 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 
         backgroundColor: '#FFF', //for the boxshadow
-        borderRadius: 10,
+        borderRadius: 15,
 
         // Android shadow properties
         elevation: 12,
     },
+    // boxShadowFAB: {
+    //     // iOS shadow properties
+    //     shadowColor: '#000',
+    //     shadowOffset: { width: 0, height: 4 },
+    //     shadowOpacity: 0.8,
+    //     shadowRadius: 4,
+
+    //     backgroundColor: theme.background, //for the boxshadow
+    //     borderRadius: 10,
+
+    //     // Android shadow properties
+    //     elevation: 12,
+    // },
     postImg: {
         borderRadius: 10,
     },
@@ -315,6 +356,57 @@ export const styles = StyleSheet.create({
         width: 50,
         height: 50,
         opacity: 0.5,
+    },
+    //**~Modal HERE: **/
+    modalElements: {
+        //flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        //marginTop: 22,
+        // maxWidth: '60%',
+        // maxHeight: '60%',
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        position: 'absolute',
+        // width: '100%',
+        // height: '100%',
+        width: 300,
+        height: 500,
+        bottom: 100,
+        left: 10,
+    },
+    // button: {
+    //     borderRadius: 20,
+    //     padding: 10,
+    //     elevation: 2,
+    // },
+    // buttonOpen: {
+    //     backgroundColor: '#F194FF',
+    // },
+    // buttonClose: {
+    //     backgroundColor: '#2196F3',
+    // },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
     },
 
 });

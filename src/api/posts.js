@@ -184,3 +184,26 @@ export const postSearchByDistance = async (query, distance, userCoordinates, tok
     return res;
 
 }
+
+export const postSearchByUser = async (userId, token) => {
+
+
+    const response = await fetch(`${BASE_URL}/api/posts/search/byUserId/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        throw new Error(res);
+    }
+
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+
+}

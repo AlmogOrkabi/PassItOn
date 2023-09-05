@@ -104,7 +104,7 @@ export default function App() {
             {/* ********/}
             <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
             <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
-            {/* <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} /> */}
+            <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
 
           </Stack.Navigator>

@@ -16,7 +16,7 @@ import Logo from '../Components/Logo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-
+const MemoizedCardPost = React.memo(CardPost); //React.memo - used to wrap functional components (jsx) when wanting to prevent re-renders when the props stay the same
 
 
 
@@ -121,8 +121,11 @@ export default function SearchPage({ navigation }) {
 
   const renderResult = (post) => {
     if (!post) return;
+
+    console.log("POST ==>>", post)
+
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item })}><CardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item })}><MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
     )
   }
 
@@ -141,7 +144,7 @@ export default function SearchPage({ navigation }) {
 
         <TouchableOpacity activeOpacity={touchableOpacity} style={[{ marginTop: 20 }, styles.flexRow]} onPress={() => setSearchOptionsExpended(!searchOptionsExpended)}>
           {searchOptionsExpended ? <MaterialCommunityIcons name="arrow-up-drop-circle-outline" size={24} color="black" /> : <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={24} color="black" />}
-          <Text style={[styles.mediumText]}> סינון לפי: </Text>
+          <Text style={[styles.mediumText]}> חיפוש לפי: </Text>
 
         </TouchableOpacity>
 

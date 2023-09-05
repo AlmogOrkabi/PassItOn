@@ -1,15 +1,21 @@
 import { View, Text, SafeAreaView, Image, FlatList, TouchableOpacity, Animated } from 'react-native'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { AnimatedFAB, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
+import RequestForm from '../Components/RequestForm';
 
 export default function PostPage({ route }) {
     const { post } = route.params;
     const { loggedUser, userToken } = useContext(AppContext)
-    const [mainPicure, setMainPicure] = useState(post.photos[1])
+    const [mainPicure, setMainPicure] = useState(post.photos[0])
     const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id)
+
+
+    // useEffect(() => {
+    //     console.log("POST HERE >>>>>>>>>>>>>>>>>>>>>>", post);
+    // }, []);
 
     const renderItems = ({ item }) => {
         if (!item)
@@ -23,6 +29,10 @@ export default function PostPage({ route }) {
     };
 
     const [isExtended, setIsExtended] = useState(false);
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+
 
     return (
         <SafeAreaView style={[styles.main_container2,]}>
@@ -63,9 +73,10 @@ export default function PostPage({ route }) {
                 <Text>{post.address.simplifiedAddress || post.address.notes}</Text>
 
                 {isPostOwner ? null : <View style={[styles.flexRow, { gap: 10 }]}>
-                    <Button mode="contained" onPress={() => { }} style={styles.nppostButton}>
+                    {/* <Button mode="contained" onPress={() => { }} style={styles.nppostButton}>
                         שליחת בקשה
-                    </Button>
+                    </Button> */}
+                    <RequestForm post={post} modalVisible={modalVisible} setModalVisible={setModalVisible} />
                     <Button mode="contained" onPress={() => { }} style={styles.nppostButton}>
                         דיווח על הפריט
                     </Button>
