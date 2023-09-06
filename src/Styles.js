@@ -176,7 +176,7 @@ export const styles = StyleSheet.create({
         height: 200,
         borderRadius: 100,
         //marginBottom: 10,
-        margin: '3%',
+        margin: '5%',
     },
     username: {
         fontSize: 25,
@@ -210,11 +210,12 @@ export const styles = StyleSheet.create({
     logocontainer: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: '5%',
     },
     logo: {
         width: 300,
         height: 100,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
     npcontainer: {
         padding: 16,

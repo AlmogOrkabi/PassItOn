@@ -24,7 +24,7 @@ export default function Profile({ navigation }) {
       </View>
 
       <View style={[styles.container, { flex: 0.6 }]}>
-        <View>
+        <View style={[styles.sub_container2]}>
           <Image source={
             loggedUser.photo && loggedUser.photo.url
               ? { uri: loggedUser.photo.url }
