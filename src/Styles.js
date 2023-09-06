@@ -81,6 +81,10 @@ export const styles = StyleSheet.create({
         //flex: 1,
         //margin: '5%',
     },
+    containerCenter: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     diffBG: {  //for debugging purposes only
         backgroundColor: 'white',
     },
@@ -89,6 +93,10 @@ export const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
+    },
+    titleBold: {
+        fontSize: 30,
+        fontWeight: '800'
     },
     mediumTitle: {
         fontSize: 18,
@@ -101,7 +109,14 @@ export const styles = StyleSheet.create({
     text_underline: {
         textDecorationLine: 'underline',
     },
+    smallText: {
+        fontSize: 11,
+    },
     mediumText: {
+        fontSize: 14,
+        //fontWeight: '600'
+    },
+    mediumTextBold: {
         fontSize: 14,
         fontWeight: '600'
     },
@@ -118,6 +133,9 @@ export const styles = StyleSheet.create({
         padding: '2%',
         minHeight: 100,
 
+    },
+    borderRed: {
+        borderColor: 'red'
     },
     input: {
         minWidth: "50%",
@@ -254,7 +272,7 @@ export const styles = StyleSheet.create({
     },
     errMsg: {
         color: "red",
-        margin: 20,
+        //margin: 20,
         fontWeight: "bold",
     },
     // card: {
@@ -379,7 +397,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5,
+        elevation: 10,
         position: 'absolute',
         // width: '100%',
         // height: '100%',
@@ -387,6 +405,9 @@ export const styles = StyleSheet.create({
         height: 500,
         bottom: 100,
         left: 10,
+
+        //android is affected by elevation while IOS is affected by zIndex:
+        zIndex: Platform.OS === 'ios' ? 2 : undefined,
     },
     // button: {
     //     borderRadius: 20,
@@ -419,3 +440,18 @@ export const paperStyles = {
 
 //opacity level for TouchableOpacity elements
 export const touchableOpacity = 0.6;
+
+//for the overlay alone:
+export const overlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)', // This gives the dim effect
+
+    //android is affected by elevation while IOS is affected by zIndex:
+    zIndex: Platform.OS === 'ios' ? 1 : undefined,
+    //(Android uses 'elevation' for shadow depth, while iOS relies on 'zIndex' for stacking order.)
+    elevation: 0,
+};

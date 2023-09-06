@@ -1,7 +1,8 @@
 import { uriToBase64, urisArrayToBase64 } from "../utils/index";
 import { addNewAddress, getAddress } from "./addresses";
-import { registerNewUser } from "./users";
+import { registerNewUser, getUserById } from "./users";
 import { addNewPost } from "./posts";
+import { sendNewRequest } from './requests'
 
 export const createNewUser = async (data) => {
     try {
@@ -124,60 +125,71 @@ export const createNewPost = async (itemName, description, category, photos, ite
     }
 }
 
-// export const createNewPost = async (itemName, description, category, photos, itemLocation, loggedUser, userToken) => {
-//     try {
-//         console.log("loggedUser:", loggedUser._id);
-//         console.log("data:", itemName, description, category, photos, itemLocation);
-//         console.log("itemlocation : ", itemLocation);
-
-//         // -convert the images of the item to Base64:
-//         let base64Images = await urisArrayToBase64(photos);
-
-//         // -this is a check to see if the item is at the location the user provided while registering or a new location that needs to be created:
-//         let address_id;
-//         if (itemLocation.location.type == 'Point') {
-//             address_id = itemLocation._id;
-//         }
-//         else {
-//             let address = await createNewAddress(itemLocation);
-//             address_id = address.insertedId;
-//         }
-
-//         let newPost = {
-//             owner_id: loggedUser._id,
-//             itemName: itemName,
-//             description: description,
-//             category: category,
-//             photos: base64Images,
-//             itemLocation_id: address_id
-//         }
-
-//         console.log("newPost obj ==>>", newPost);
-//         const post = await addNewPost(newPost, userToken)
-//         console.log("NEW POST CREATED! ===>>>", post);
-//         return post;
-
-//     } catch (error) {
-//         console.log("new post creation FAILED! ==>>", error);
-//         throw error;
-//     }
-// }
-
-
-
-// export const getAddresses = async (arr, token) => {
-//     const objectsWithAddresses = await Promise.all(arr.map(obj => ))
-// }
-
 export const getAddresses = async (arr, token) => {
-    const objectsWithAddresses = await Promise.all(
-        // the async keyword only applies to the function it directly modifies (directly attached to)
-        arr.map(async (obj) => {
-            const address = await getAddress(obj.itemLocation_id, token);
-            return { ...obj, address }; // spread operator (...) to include all properties of the original obj, and then add the address
-        })
-    );
+    try {
+        const objectsWithAddresses = await Promise.all(
+            // the async keyword only applies to the function it directly modifies (directly attached to)
+            arr.map(async (obj) => {
+                const address = await getAddress(obj.itemLocation_id, token);
+                return { ...obj, address }; // spread operator (...) to include all properties of the original obj, and then add the address
+            })
+        );
 
-    console.log("Objects with addresses:", objectsWithAddresses);
-    return objectsWithAddresses;
+        // console.log("Objects with addresses:", objectsWithAddresses);
+        return objectsWithAddresses;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+
+export const createNewRequest = async (postOwner_id, post_id, sender_id, message, token) => {
+    try {
+        const newRequest = {
+            sender_id: sender_id.trim(),
+            recipient_id: postOwner_id.trim(),
+            requestMessage: message.trim(),
+            post_id: post_id.trim()
+        }
+        console.log("Formatted new request:", newRequest);
+        const request = await sendNewRequest(newRequest, token)
+        return request;
+    } catch (error) {
+        console.error("Failed to create new Request: ", error);
+        throw error;
+    }
+};
+
+
+
+export const getRequestSenderData = async (requestsArr, token) => {
+    try {
+        const requestsWithUsersData = await Promise.all(
+            requestsArr.map(async (obj) => {
+                const user = await getUserById(obj.sender_id, token);
+                return { ...obj, user };
+            })
+        )
+        return requestsWithUsersData;
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+export const getRequestRecipientData = async (requestsArr, token) => {
+    try {
+        const requestsWithUsersData = await Promise.all(
+            requestsArr.map(async (obj) => {
+                const user = await getUserById(obj.recipient_id, token);
+                return { ...obj, user };
+            })
+        )
+        return requestsWithUsersData;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 };

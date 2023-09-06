@@ -1,57 +1,19 @@
 import { BASE_URL } from '@env';
-import { uriToBase64 } from '../utils/index';
 
-export const checkEmailAvailability = async (email) => {
 
-    const response = await fetch(`${BASE_URL}/api/users/checkEmailAvailability/${email}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+export const sendNewRequest = async (newRequest, token) => {
 
-    if (!response.ok) {
-        throw new Error(response.status)
-    }
-    else
-        return true;
-
-};
-
-export const login = async (email, password) => {
-    const response = await fetch(`${BASE_URL}/api/users/login`, {
+    const response = await fetch(`${BASE_URL}/api/requests/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-            email,
-            password,
+            ...newRequest
         }),
     });
 
-    const res = await response.json();
-
-    if (!response.ok) {
-        throw new Error(res.msg);
-    }
-
-    console.log("Raw data from API:", res); // Print out the raw data
-    return res;
-};
-
-
-export const registerNewUser = async (user) => {
-    console.log("resister user:", user);
-    const response = await fetch(`${BASE_URL}/api/users/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            ...user
-        }),
-    });
 
     const res = await response.json();
 
@@ -62,10 +24,11 @@ export const registerNewUser = async (user) => {
     console.log("Raw data from API:", res); // Print out the raw data
     return res;
 
-};
+}
 
-export const getUserById = async (_id, token) => {
-    const response = await fetch(`${BASE_URL}/api/users/search/byId/${_id}`, {
+
+export const getRequestsBySenderId = async (sender_id, token) => {
+    const response = await fetch(`${BASE_URL}/api/requests/find/bySenderId/${sender_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -73,9 +36,34 @@ export const getUserById = async (_id, token) => {
         },
     });
 
+
     const res = await response.json();
 
     if (!response.ok) {
+        if (response.status == 404)
+            return 404;
+        throw new Error(res.msg);
+    }
+
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+}
+
+export const getRequestsByRecipientId = async (recipient_id, token) => {
+    const response = await fetch(`${BASE_URL}/api/requests/find/byRecipientId/${recipient_id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        if (response.status == 404)
+            return 404;
         throw new Error(res.msg);
     }
 

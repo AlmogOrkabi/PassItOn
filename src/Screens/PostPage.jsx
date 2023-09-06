@@ -5,6 +5,7 @@ import Logo from '../Components/Logo';
 import { AnimatedFAB, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import RequestForm from '../Components/RequestForm';
+import Overlay from '../Components/Overlay';
 
 export default function PostPage({ route }) {
     const { post } = route.params;
@@ -53,6 +54,8 @@ export default function PostPage({ route }) {
                     style={[styles.style_FAB_Edit_Post]}
 
                 /> : null}
+
+            {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
 
             <View style={[styles.sub_container3, styles.container, { marginTop: 20 }]}>
                 <Text style={[styles.title]}>{post.itemName}</Text>

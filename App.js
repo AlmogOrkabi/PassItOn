@@ -54,7 +54,7 @@ function LoggedUserTabs() {
         headerShown: false
       }} />
 
-      <Tab.Screen name='פרסם מוצר' component={NewPost} options={{ tabBarIcon: () => <MaterialCommunityIcons name="plus" size={24} />, headerShown: false }} />
+      <Tab.Screen name='פרסם פריט' component={NewPost} options={{ tabBarIcon: () => <MaterialCommunityIcons name="plus" size={24} />, headerShown: false }} />
       <Tab.Screen name='חיפוש' component={SearchStack} options={{
         tabBarIcon: () => <MaterialCommunityIcons name="archive-search" size={24} />,
         headerShown: false

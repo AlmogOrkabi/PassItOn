@@ -3,7 +3,7 @@ import React, { useEffect, useReducer, useState } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 import { uriToBase64, validateNewUserData } from '../utils/index';
-import { createNewUser, checkEmailAvailability } from '../api/index'
+import { createNewUser, checkEmailAvailability } from '../api/index';
 
 import BasicDetailsForm from '../Components/BasicDetailsForm';
 import SecurityDetailsForm from '../Components/SecurityDetailsForm';

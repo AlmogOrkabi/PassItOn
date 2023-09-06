@@ -6,7 +6,7 @@
 //
 //
 //
-import { postCategories } from "../Data/constants";
+import { postCategories, requestStatuses } from "../Data/constants";
 
 
 export function isValidEmail(email) {
@@ -514,7 +514,42 @@ export function validateNewAddressDetails(region, city, street, house, apartment
 //     };
 // }
 
+//*****!REQUEESTS******// 
 
+function isValidRequestStatus(requestStatus) {
+    if (!isString(requestStatus) || !requestStatuses.includes(requestStatus)) {
+        return false;
+    }
+    return true;
+}
+
+function isValidRequestString(requestString) {
+    return typeof requestString === 'string' && requestString.length < 301;
+}
+
+function validateNewRequestData(requestMessage, postStatus) {
+
+    // if (!isValidObjectId(sender_id)) {
+    //     return { valid: false, msg: 'קלט לא תקין' };
+    // }
+    // if (!isValidObjectId(recipient_id)) {
+    //     return { valid: false, msg: 'קלט לא תקין' };
+    // }
+    // if (!isValidObjectId(post_id)) {
+    //     return { valid: false, msg: 'קלט לא תקין' };
+    // }
+    if (!isValidRequestString(requestMessage)) {
+        return { valid: false, msg: 'מלל הבקשה אינו תקין או ארוך מידי' };
+    }
+    if (postStatus != 'זמין') {
+        return { valid: false, msg: 'הפריט כבר אינו זמין למסירה' };
+    }
+
+    //ignore, just for debugging purposes:
+    //return { valid: false, msg: 'הפריט כבר אינו זמין למסירה' };
+
+    return { valid: true };
+}
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FOR LATER IF THERE'S TIME: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -544,4 +579,4 @@ export function validateNewAddressDetails(region, city, street, house, apartment
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData }
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validateNewRequestData }
