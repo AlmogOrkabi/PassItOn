@@ -107,7 +107,7 @@ export default function SearchPage({ navigation }) {
         setSearchResults(searchResults => 404)
       }
       else {
-        results = await getAddresses(results, userToken)
+        //results = await getAddresses(results, userToken)
         setSearchResults(searchResults => results)
       }
     } catch (error) {

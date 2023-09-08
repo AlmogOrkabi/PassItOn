@@ -5,11 +5,13 @@ import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AppContext } from '../Contexts/AppContext';
-import { getRequestsBySenderId, getRequestsByRecipientId, getRequestSenderData, getRequestRecipientData } from '../api/index';
+import { getRequestsBySenderId, getRequestsByRecipientId, getRequestSenderData, getRequestRecipientData, getRequestsPostData } from '../api/index';
 import RequestCard from '../Components/RequestCard';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function ManageRequests() {
+
+    const navigation = useNavigation();
 
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState('');
@@ -22,23 +24,25 @@ export default function ManageRequests() {
     async function loadRequests() {
         try {
             setLoading(true);
-            let sent = await getRequestsBySenderId(loggedUser._id, userToken);
+            let sent = await getRequestsBySenderId(loggedUser._id, userToken, 'true');
             console.log("SENT HERE", sent)
             if (sent == 404) {
                 console.log("404")
                 setRequestsSent(404);
             } else {
-                sent = await getRequestRecipientData(sent, userToken);
+                // sent = await getRequestRecipientData(sent, userToken);
+                // sent = await getRequestsPostData(sent, userToken);
                 setRequestsSent(sent);
             }
 
-            let received = await getRequestsByRecipientId(loggedUser._id, userToken);
+            let received = await getRequestsByRecipientId(loggedUser._id, userToken, 'true');
 
             if (received == 404) {
                 console.log("404")
                 setRequestsReceived(404);
             } else {
-                received = await getRequestSenderData(received, userToken)
+                // received = await getRequestSenderData(received, userToken)
+                // received = await getRequestsPostData(received, userToken);
                 setRequestsReceived(received);
             }
 
@@ -69,7 +73,7 @@ export default function ManageRequests() {
 
 
         return (
-            <TouchableOpacity onPress={() => console.log("pressed")}><RequestCard request={request.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('RequestPage', { request: request.item })}><RequestCard request={request.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
         )
     }
 
@@ -114,7 +118,7 @@ export default function ManageRequests() {
                                 data={requestsSent}
                                 renderItem={renderRequests}
                                 keyExtractor={item => item._id}
-                                style={[{ marginVertical: '3%', }]}
+                                style={[{ marginVertical: '3%', }, touchableOpacity]}
                             /> :
                             options == 'received' ? requestsReceived == 404 ? <Text>לא התקבלו בקשות עדיין</Text> :
 
@@ -122,7 +126,7 @@ export default function ManageRequests() {
                                     data={requestsReceived}
                                     renderItem={renderRequests}
                                     keyExtractor={item => item._id}
-                                    style={[{ marginVertical: '3%', }]}
+                                    style={[{ marginVertical: '3%', }, touchableOpacity]}
                                 /> : null}
                     </View>
                 </View>}

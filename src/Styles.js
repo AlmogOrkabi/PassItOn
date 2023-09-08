@@ -90,6 +90,10 @@ export const styles = StyleSheet.create({
     },
     flexRow: {
         flexDirection: 'row',
+        alignItems: 'center'
+    },
+    marginVertical: {
+        marginVertical: '3%',
     },
     title: {
         fontSize: 30,

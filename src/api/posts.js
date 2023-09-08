@@ -200,6 +200,9 @@ export const postSearchByUser = async (userId, token) => {
     const res = await response.json();
 
     if (!response.ok) {
+        console.log("error here")
+        console.log(res.status)
+        console.log(JSON.stringify(res));
         throw new Error(res);
     }
 
@@ -207,3 +210,23 @@ export const postSearchByUser = async (userId, token) => {
     return res;
 
 }
+
+export const postSearchById = async (postId, token) => {
+    const response = await fetch(`${BASE_URL}/api/posts/search/byId/${postId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        throw new Error(res);
+    }
+
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+
+};

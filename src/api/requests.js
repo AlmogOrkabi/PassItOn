@@ -27,8 +27,8 @@ export const sendNewRequest = async (newRequest, token) => {
 }
 
 
-export const getRequestsBySenderId = async (sender_id, token) => {
-    const response = await fetch(`${BASE_URL}/api/requests/find/bySenderId/${sender_id}`, {
+export const getRequestsBySenderId = async (sender_id, token, full = 'false') => {
+    const response = await fetch(`${BASE_URL}/api/requests/find/bySenderId/${sender_id}/${full}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -49,8 +49,8 @@ export const getRequestsBySenderId = async (sender_id, token) => {
     return res;
 }
 
-export const getRequestsByRecipientId = async (recipient_id, token) => {
-    const response = await fetch(`${BASE_URL}/api/requests/find/byRecipientId/${recipient_id}`, {
+export const getRequestsByRecipientId = async (recipient_id, token, full = 'false') => {
+    const response = await fetch(`${BASE_URL}/api/requests/find/byRecipientId/${recipient_id}/${full}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -70,3 +70,6 @@ export const getRequestsByRecipientId = async (recipient_id, token) => {
     console.log("Raw data from API:", res); // Print out the raw data
     return res;
 }
+
+
+

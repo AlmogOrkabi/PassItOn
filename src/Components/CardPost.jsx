@@ -13,7 +13,7 @@ export default function CardPost({ post }) {
         <Paragraph>קטגוריה: {post.category}</Paragraph>
         <Paragraph>סטטוס: {post.status}</Paragraph>
         <Paragraph>תאריך פרסום: {post.creationDate}</Paragraph>
-        <Paragraph>כתובת: {post.address.simplifiedAddress || post.address.notes}</Paragraph>
+        <Paragraph>כתובת: {post.address ? post.address.simplifiedAddress ? post.address.simplifiedAddress : post.address.notes ? post.address.notes : null : null}</Paragraph>
       </Card.Content>
     </Card>
   );

@@ -28,7 +28,7 @@ export default function MyPosts({ navigation }) {
             if (!results)
                 setMyPosts(404);
             else {
-                results = await getAddresses(results, userToken);
+                // results = await getAddresses(results, userToken);
                 setMyPosts(results);
             }
         } catch (error) {

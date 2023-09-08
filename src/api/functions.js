@@ -1,7 +1,7 @@
 import { uriToBase64, urisArrayToBase64 } from "../utils/index";
 import { addNewAddress, getAddress } from "./addresses";
 import { registerNewUser, getUserById } from "./users";
-import { addNewPost } from "./posts";
+import { addNewPost, postSearchById } from "./posts";
 import { sendNewRequest } from './requests'
 
 export const createNewUser = async (data) => {
@@ -188,6 +188,23 @@ export const getRequestRecipientData = async (requestsArr, token) => {
             })
         )
         return requestsWithUsersData;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+export const getRequestsPostData = async (requestsArr, token) => {
+    try {
+        const requestsWithPostData = await Promise.all(
+            requestsArr.map(async (obj) => {
+                const post = await postSearchById(obj.post_id, token);
+                return { ...obj, post };
+            })
+        )
+
+        return requestsWithPostData
+
     } catch (error) {
         console.log(error);
         throw error;

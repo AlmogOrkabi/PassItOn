@@ -17,7 +17,7 @@ import EditProfile from './src/Screens/EditProfile';
 import ReportForm from './src/Screens/ReportForm';
 import ReportPage from './src/Screens/ReportPage';
 import MyPosts from './src/Screens/MyPosts';
-
+import RequestPage from './src/Screens/RequestPage';
 
 import AppContextProvider from './src/Contexts/AppContext';
 import { styles } from './src/Styles';
@@ -74,6 +74,7 @@ function ProfileStack() {
       <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
       <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
       <Stack.Screen name='MyPosts' component={MyPosts} options={{ headerShown: false }} />
+      <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
