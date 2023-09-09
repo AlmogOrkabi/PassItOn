@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useContext } from 'react'
-import { View, Text, Alert, StyleSheet, Pressable, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, Alert, TextInput, ActivityIndicator } from 'react-native';
 import { Button, IconButton, Modal, Portal, PaperProvider, Checkbox } from 'react-native-paper';
 import { styles } from '../Styles';
 import { validateNewRequestData } from '../utils/validations';
@@ -49,7 +49,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible }) {
             const res = await createNewRequest(post.owner_id, post._id, loggedUser._id, requestText, userToken);
 
             if (res.insertedId) {
-                Alert.alert('בקשה נשלחה בהצלחה')
+                //Alert.alert('בקשה נשלחה בהצלחה')
                 setSuccess(true);
             }
 

@@ -21,6 +21,11 @@ export default function ManageRequests() {
     const [requestsSent, setRequestsSent] = useState([]);
     const [requestsReceived, setRequestsReceived] = useState([]);
 
+
+    async function handleChange(index, request) {
+
+    }
+
     async function loadRequests() {
         try {
             setLoading(true);
@@ -73,11 +78,23 @@ export default function ManageRequests() {
 
 
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('RequestPage', { request: request.item })}><RequestCard request={request.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
+            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('RequestPage', { request: request.item, index: request.index, options: options, handleChange: handleChange })}><RequestCard request={request.item} /></TouchableOpacity>
         )
     }
 
-
+    function handleChange(request, index, options) {
+        let updated;
+        if (options == 'received') {
+            updated = [...requestsReceived];
+            updated[index] = request;
+            setRequestsReceived([...updated]);
+        }
+        else if (options == 'sent') {
+            updated = [...requestsSent];
+            updated[index] = request;
+            setRequestsSent([...updated]);
+        }
+    }
 
 
 

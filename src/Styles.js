@@ -84,6 +84,7 @@ export const styles = StyleSheet.create({
     containerCenter: {
         alignItems: 'center',
         justifyContent: 'center',
+
     },
     diffBG: {  //for debugging purposes only
         backgroundColor: 'white',
@@ -94,6 +95,9 @@ export const styles = StyleSheet.create({
     },
     marginVertical: {
         marginVertical: '3%',
+    },
+    marginHorizontal: {
+        marginHorizontal: '3%',
     },
     title: {
         fontSize: 30,
@@ -123,6 +127,12 @@ export const styles = StyleSheet.create({
     mediumTextBold: {
         fontSize: 14,
         fontWeight: '600'
+    },
+    textRed: {
+        color: 'red',
+    },
+    textGreen: {
+        color: 'green',
     },
     btn: {
         backgroundColor: theme.mainColor,
@@ -199,6 +209,13 @@ export const styles = StyleSheet.create({
         backgroundColor: '#ADD8FF',
         padding: 10,
         borderRadius: 8,
+    },
+    sideComment: {
+        alignItems: 'flex-start',
+        backgroundColor: '#d3d3d396',
+        padding: '5%',
+        borderRadius: 5,
+        columnGap: 5
     },
 
 
@@ -412,7 +429,7 @@ export const styles = StyleSheet.create({
         left: 10,
 
         //android is affected by elevation while IOS is affected by zIndex:
-        zIndex: Platform.OS === 'ios' ? 2 : undefined,
+        zIndex: Platform.OS === 'ios' ? 1 : undefined,
     },
     // button: {
     //     borderRadius: 20,

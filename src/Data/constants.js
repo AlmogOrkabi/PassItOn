@@ -6,4 +6,4 @@ export const reportTypes = ["מידע שגוי/מוטעה", "שימוש לרעה
 
 export const reportStatuses = ['פתוח', 'בטיפול מנהל', 'בבירור', 'סגור'];
 
-export const requestStatuses = ['נשלח', 'אושר', 'נדחה', 'בוטל'];
+export const requestStatuses = ['נסגר', 'נשלח', 'אושר', 'נדחה', 'בוטל'];

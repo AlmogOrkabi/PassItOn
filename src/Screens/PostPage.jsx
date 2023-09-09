@@ -14,9 +14,6 @@ export default function PostPage({ route }) {
     const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id)
 
 
-    // useEffect(() => {
-    //     console.log("POST HERE >>>>>>>>>>>>>>>>>>>>>>", post);
-    // }, []);
 
     const renderItems = ({ item }) => {
         if (!item)
@@ -72,6 +69,7 @@ export default function PostPage({ route }) {
                     nestedScrollEnabled />
 
                 <Text>{post.description}</Text>
+                <Text>סטטוס:{post.status}</Text>
                 <Text>מיקום הפריט:</Text>
                 <Text>{post.address.simplifiedAddress || post.address.notes}</Text>
 

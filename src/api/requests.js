@@ -72,4 +72,31 @@ export const getRequestsByRecipientId = async (recipient_id, token, full = 'fals
 }
 
 
+export const editRequest = async (requestId, token, fields) => {
+
+    const response = await fetch(`${BASE_URL}/api/requests/edit/${requestId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            updatedData: {
+                ...fields
+            }
+        }),
+    });
+
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        throw new Error(res.msg);
+    }
+
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+
+};
+
 

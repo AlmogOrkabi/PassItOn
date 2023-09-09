@@ -18,14 +18,40 @@ export default function RequestCard({ request }) {
             <Card.Content>
                 <Title>{request.post.itemName}</Title>
                 <Paragraph>נשלח מ: {request.sender.username}</Paragraph>
-                <Paragraph>סטטוס: {request.status}</Paragraph>
+                {/* <Paragraph>סטטוס: {request.status}</Paragraph> */}
                 <Paragraph>תאריך פתיחה: {request.creationDate}</Paragraph>
                 {!isSender ? <View>
 
-                    <View style={[styles.flexRow, styles.marginVertical]}>
-                        <MaterialCommunityIcons name="clock-outline" size={24} color="black" />
-                        <Paragraph>מחכה לתגובתך</Paragraph>
-                    </View>
+                    {request.status === 'אושר' ?
+                        <View>
+                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
+                                <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה</Text>
+                            </View>
+                        </View>
+                        : request.status === 'נדחה' ?
+                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
+                                <Text style={[styles.mediumTextBold, styles.textRed]}>הבקשה נדחתה</Text>
+                            </View>
+                            :
+                            request.status === 'בוטל' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
+                                <Text style={[styles.mediumTextBold]}> הבקשה בוטלה על ידי השולח</Text>
+                            </View>
+                                :
+                                <View>
+                                    {
+                                        request.post.status === 'זמין' ?
+                                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                                <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
+                                                <Text style={[styles.mediumTextBold]}>  הבקשה ממתינה לתגובתך</Text>
+                                            </View> :
+                                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                                <MaterialCommunityIcons name="alert-circle-outline" size={30} color="black" />
+                                                <Text>הפריט כבר לא זמין</Text>
+                                            </View>}
+                                </View>}
 
 
                     {/* 
@@ -34,9 +60,44 @@ export default function RequestCard({ request }) {
                         <Ionicons name="checkmark-circle" size={24} color="green" />
                         <Text>אשר בקשה</Text>
                     </View> */}
+
+
                 </View>
-                    : <View>
-                        {request.status === 'אושר' ? <Paragraph>פרטי התקשרות: {request.recipient.phoneNumber}</Paragraph> : <Paragraph>הבקשה עדיין לא אושרה</Paragraph>}</View>}
+
+                    :
+
+                    <View>
+                        {request.status === 'אושר' ?
+                            <View>
+                                <View style={[styles.flexRow, styles.marginVertical]}>
+                                    <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
+                                    <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה!</Text>
+                                </View>
+                                <Text style={[styles.smallText, styles.text_underline]}>*פרטי התקשרות עם המפרסם נמצאים בתוך הבקשה</Text>
+                            </View>
+                            : request.status === 'נדחה' ?
+                                <View style={[styles.flexRow, styles.marginVertical]}>
+                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
+                                    <Text style={[styles.mediumTextBold, styles.textRed]}> בקשתך נדחתה/הפריט אינו זמין יותר</Text>
+                                </View>
+                                :
+                                request.status === 'בוטל' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                    <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
+                                    <Text style={[styles.mediumTextBold]}>הבקשה בוטלה</Text>
+                                </View>
+                                    :
+                                    <View>
+                                        {request.post.status === 'זמין' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                            <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
+                                            <Text style={[styles.mediumTextBold]}>  הבקשה ממתינה לתגובה</Text>
+                                        </View>
+                                            :
+                                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                                <MaterialCommunityIcons name="alert-circle-outline" size={30} color="black" />
+                                                <Text>הפריט כבר לא זמין</Text>
+                                            </View>}
+                                    </View>}
+                    </View>}
                 <MaterialCommunityIcons name="reply" size={24} color="black" />
             </Card.Content>
         </Card>

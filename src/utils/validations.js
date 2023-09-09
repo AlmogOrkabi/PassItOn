@@ -552,6 +552,30 @@ function validateNewRequestData(requestMessage, postStatus) {
 }
 
 
+function validateRequestData(updatedData) { //assuming the sender, the recipient and the post should NOT be changed.
+    let fieldsToUpdate = Object.keys(updatedData);
+
+    for (let field of fieldsToUpdate) {
+        switch (field) {
+            case 'responseMessage':
+                if (updatedData.responseMessage && !isValidRequestString(updatedData.responseMessage)) {
+                    return { valid: false, msg: 'מלל התשובה אינו תקין או ארוך מידי' };
+                }
+                break;
+            case 'status':
+                if (!isValidRequestStatus(updatedData.status)) {
+                    return { valid: false, msg: 'סטטוס הבקשה אינו תקין' };
+                }
+                break;
+            default:
+                return { valid: false, msg: `Unexpected field: ${field}` };
+        }
+    }
+    return { valid: true };
+}
+
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FOR LATER IF THERE'S TIME: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // async function checkOwnerOrAdmin(req, res, next) {
@@ -579,4 +603,4 @@ function validateNewRequestData(requestMessage, postStatus) {
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validateNewRequestData }
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validateNewRequestData, validateRequestData };
