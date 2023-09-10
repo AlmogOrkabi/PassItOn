@@ -19,9 +19,10 @@ export default function Profile({ navigation }) {
 
   return (
     <SafeAreaView style={[styles.main_container,]}>
-      <View style={[{ flex: 0.2 }]}>
+      {/* <View style={[{ flex: 0.2 }]}>
         <Logo width={200} height={80} />
-      </View>
+      </View> */}
+      <Logo width={200} height={80} />
 
       <View style={[styles.container, { flex: 0.6 }]}>
         <View style={[styles.sub_container2]}>

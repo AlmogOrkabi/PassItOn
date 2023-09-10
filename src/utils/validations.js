@@ -6,7 +6,7 @@
 //
 //
 //
-import { postCategories, requestStatuses } from "../Data/constants";
+import { postCategories, postStatuses, requestStatuses } from "../Data/constants";
 
 
 export function isValidEmail(email) {
@@ -189,67 +189,58 @@ function validateNewPostData(itemName, description, category, photos,) {
 }
 
 
-// function validatePostData(updatedData) {
-//     let fieldsToUpdate = Object.keys(updatedData);
+function validatePostData(updatedData) {
+    let fieldsToUpdate = Object.keys(updatedData);
 
-//     for (let field of fieldsToUpdate) {
-//         switch (field) {
-//             case 'owner_id':
-//                 if (!isValidObjectId(updatedData.owner_id) || updatedData.owner_id == null) {
-//                     return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
-//                 }
-//                 break;
-//             case 'itemName':
-//                 if (!isValidItemName(updatedData.itemName)) {
-//                     return { valid: false, msg: 'שם פריט אינו תקין' };
-//                 }
-//                 break;
-//             case 'description':
-//                 if (!isString(updatedData.description) || updatedData.description.length > 300) {
-//                     return { valid: false, msg: 'תיאור פריט אינו תקין' };
-//                 }
-//                 break;
-//             case 'category':
-//                 if (!isValidPostCategory(updatedData.category)) {
-//                     return { valid: false, msg: 'קטגורית הפריט אינה תקינה' };
-//                 }
-//                 break;
-//             case 'photoUrls':
-//                 if (!isValidPhotosArray(updatedData.photoUrls)) {
-//                     return { valid: false, msg: 'תמונת הפריט אינה תקינה' };
-//                 }
-//                 break;
-//             case 'itemLocation_id':
-//                 if (!isValidObjectId(updatedData.itemLocation_id) || updatedData.itemLocation_id == null) {
-//                     return { valid: false, msg: 'הכתובת אינה תקינה' };
-//                 }
-//                 break;
-//             case 'status':
-//                 if (!isValidPostStatus(updatedData.postStatus)) {
-//                     return { valid: false, msg: 'סטטוס לא תקין' };
-//                 }
-//                 break;
-//             case 'photos':
-//                 if (!isValidPhotosArray(updatedData.photos)) {
-//                     return { valid: false, msg: 'תמונות לא תקינות' };
-//                 }
-//                 break;
-//             default:
-//                 return { valid: false, msg: `Unexpected field: ${field}` };
-//         }
-//     }
-//     return { valid: true };
-// }
+    for (let field of fieldsToUpdate) {
+        switch (field) {
+            case 'itemName':
+                if (!isValidItemName(updatedData.itemName)) {
+                    return { valid: false, msg: 'שם פריט אינו תקין' };
+                }
+                break;
+            case 'description':
+                if (!isString(updatedData.description) || updatedData.description.length > 300) {
+                    return { valid: false, msg: 'תיאור פריט אינו תקין' };
+                }
+                break;
+            case 'category':
+                if (!isValidPostCategory(updatedData.category)) {
+                    return { valid: false, msg: 'קטגורית הפריט אינה תקינה' };
+                }
+                break;
+            case 'photoUrls':
+                if (!isValidPhotosArray(updatedData.photoUrls)) {
+                    return { valid: false, msg: 'תמונת הפריט אינה תקינה' };
+                }
+                break;
+            case 'itemLocation_id':
+                break;
+            case 'status':
+                if (!isValidPostStatus(updatedData.status)) {
+                    return { valid: false, msg: 'סטטוס לא תקין' };
+                }
+                break;
+            case 'recipient_id':
+                if (!isString(updatedData.recipient_id)) {
+                    return { valid: false, msg: 'מזהה המשתמש המקבל לא תקין' };
+                }
+                break;
+            default:
+                return { valid: false, msg: `Unexpected field: ${field}` };
+        }
+    }
+    return { valid: true };
+}
 
-// function isValidPostStatus(postStatus) {
-//     const validStatuses = ['זמין', 'לא זמין למסירה', 'בתהליך מסירה', 'נמסר', 'סגור', 'מבוטל', 'בבדיקת מנהל']
+function isValidPostStatus(postStatus) {
 
-//     if (!isString(postStatus) || !validStatuses.includes(postStatus)) {
-//         return { valid: false, msg: 'סטטוס לא תקין' }
-//     }
-//     else
-//         return { valid: true }
-// }
+    if (!isString(postStatus) || !postStatus.includes(postStatus)) {
+        return { valid: false, msg: 'סטטוס לא תקין' }
+    }
+    else
+        return { valid: true }
+}
 
 // function validatePostSearchData(maxDistance, userCoordinates, itemName = null) {
 //     if (itemName) {
@@ -568,7 +559,7 @@ function validateRequestData(updatedData) { //assuming the sender, the recipient
                 }
                 break;
             default:
-                return { valid: false, msg: `Unexpected field: ${field}` };
+                return { valid: false, msg: `Unexpected field:  ${field}` };
         }
     }
     return { valid: true };
@@ -603,4 +594,4 @@ function validateRequestData(updatedData) { //assuming the sender, the recipient
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validateNewRequestData, validateRequestData };
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validatePostData, isValidPostStatus, validateNewRequestData, validateRequestData, isValidRequestStatus };

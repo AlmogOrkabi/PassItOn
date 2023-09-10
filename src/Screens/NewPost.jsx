@@ -145,15 +145,14 @@ export default function NewPost() {
 
 
   return (
-    <SafeAreaView style={[styles.npcontainer, { maxHeight: '100%' }]}>
+    <SafeAreaView style={[styles.npcontainer,]}>
       {/* <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
       </View> */}
-      <View style={[{ marginTop: -50 }, { marginBottom: 20 }]}>
-        <Logo width={300} height={70} />
-      </View>
+      <Logo width={200} height={70} />
+
       {loading ? <ActivityIndicator /> :
-        <ScrollView style={{ height: '100%' }} nestedScrollEnabled >
+        <ScrollView nestedScrollEnabled >
           <Controller
             control={control}
             name="itemName"

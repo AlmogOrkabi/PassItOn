@@ -78,11 +78,11 @@ export default function ManageRequests() {
 
 
         return (
-            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('RequestPage', { request: request.item, index: request.index, options: options, handleChange: handleChange })}><RequestCard request={request.item} /></TouchableOpacity>
+            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('RequestPage', { request: request.item, index: request.index, options: options, handleRequestUpdate: handleRequestUpdate })}><RequestCard request={request.item} /></TouchableOpacity>
         )
     }
 
-    function handleChange(request, index, options) {
+    const handleRequestUpdate = (request, index, options) => {
         let updated;
         if (options == 'received') {
             updated = [...requestsReceived];

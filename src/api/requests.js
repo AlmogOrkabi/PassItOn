@@ -72,6 +72,29 @@ export const getRequestsByRecipientId = async (recipient_id, token, full = 'fals
 }
 
 
+export const getRequestBySenderAndPost = async (sender_id, post_id, token, full = 'false') => {
+    const response = await fetch(`${BASE_URL}/api/requests/find/byPostAndSender/${post_id}/${sender_id}/${full}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        if (response.status == 404)
+            return 404;
+        throw new Error(res.msg);
+    }
+
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+}
+
+
 export const editRequest = async (requestId, token, fields) => {
 
     const response = await fetch(`${BASE_URL}/api/requests/edit/${requestId}`, {

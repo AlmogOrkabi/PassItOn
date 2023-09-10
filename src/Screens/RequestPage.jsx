@@ -1,22 +1,22 @@
-import { View, Text, SafeAreaView, ActivityIndicator, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, SafeAreaView, ActivityIndicator, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { AppContext } from '../Contexts/AppContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button } from 'react-native-paper';
-import { editRequest } from '../api/index';
+import { editRequest, updatePostStatus } from '../api/index';
 import Overlay from '../Components/Overlay';
 import RequestResponseForm from '../Components/RequestResponseForm';
 import { validateRequestData } from '../utils/validations';
-import { ScrollView } from 'react-native';
+
 
 
 
 
 export default function RequestPage({ route, navigation }) {
 
-    const { request, index, options, handleChange } = route.params;
+    const { request, index, options, handleRequestUpdate } = route.params;
 
     const { loggedUser, userToken } = useContext(AppContext);
     const [isSender, setIsSender] = useState(loggedUser._id === request.sender_id);
@@ -28,6 +28,8 @@ export default function RequestPage({ route, navigation }) {
     const [response, setResponse] = useState('');
 
     const [editResponse, setEditResponse] = useState(false);
+
+    const [postStaus, setPostStaus] = useState(request.post.status);
 
     async function handleEditRequest(data, action) {
         try {
@@ -79,21 +81,48 @@ export default function RequestPage({ route, navigation }) {
     }
 
 
+    async function handleUpdatePostStatus(status) {
+        try {
+            let res = await updatePostStatus(request.post._id, status, userToken, loggedUser._id);
+            if (res.acknowledged) {
+                //request.post.status = status;
+                setPostStaus(status);
+                if (status === 'נמסר') {
+                    request.post.recipient_id = loggedUser._id;
+                }
+            }
+            else {
+                Alert.alert('שגיאה בעת שינוי הסטטוס');
+            }
+            console.log(res);
+        } catch (error) {
+            Alert.alert('שגיאה בעת שינוי הסטטוס');
+            console.log("ERR HERE", error);
+        }
+    }
+
+
 
     useEffect(() => {
         if (editResponse == true) {
-            handleChange(request, index, options);
+            handleRequestUpdate(request, index, options);
         }
 
         setEditResponse(false);
     }, [request.status])
+
+    useEffect(() => {
+        request.post.status = postStaus;
+    }, [postStaus])
+
     return (
 
-        <SafeAreaView style={[styles.main_container2]}>
+        <SafeAreaView style={[styles.main_container2, styles.paddingVertical]}>
+            <Logo width={200} height={80} />
             {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
-            <ScrollView style={[styles.marginVertical]} >
+            <ScrollView style={[]} >
                 <View>
-                    <Logo width={200} height={80} />
+
                     <Text style={[styles.mediumTitle, { alignSelf: 'center' }]}>בקשה לאיסוף פריט</Text>
                     <View style={[styles.sub_container2]}>
                         <Text style={[styles.mediumTitle]}>פרטים:</Text>
@@ -101,7 +130,7 @@ export default function RequestPage({ route, navigation }) {
                         <Text style={[styles.mediumTextBold]}>פורסם על ידי: {request.recipient.username}</Text>
                         <Text style={[styles.mediumTextBold]}>נשלח בתאריך: {request.creationDate}</Text>
                         <Text style={[styles.mediumTextBold]}>עודכן לאחרונה בתאריך: {request.updateDate}</Text>
-                        <Text style={[styles.mediumTextBold]}>סטטוס פריט: {request.post.status}</Text>
+                        <Text style={[styles.mediumTextBold]}>סטטוס פריט: {postStaus}</Text>
                         <Text style={[styles.mediumTextBold]}>מלל הבקשה (במידה ויש):</Text>
                         <Text style={[styles.mediumText]}> {request.requestMessage}</Text>
 
@@ -117,13 +146,32 @@ export default function RequestPage({ route, navigation }) {
                                             <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
                                             <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה!</Text>
                                         </View>
-                                        <View style={[styles.flexRow, styles.marginVertical, styles.sideComment]}>
-                                            <MaterialCommunityIcons name="progress-question" size={20} color="black" />
-                                            <Text>מפרסם הפריט הסכים לחשוף בפניך את פרטי ההתקשרות איתו, להמשך התהליך נא צורו קשר עם מפרסם הפריט</Text>
+                                        <View>
+                                            <View style={[styles.flexRow, styles.marginVertical, styles.sideComment]}>
+                                                <MaterialCommunityIcons name="progress-question" size={20} color="black" />
+                                                <Text>מפרסם הפריט הסכים לחשוף בפניך את פרטי ההתקשרות איתו, להמשך התהליך נא צרו קשר עם מפרסם הפריט</Text>
+                                            </View>
                                         </View>
-                                        <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
-                                        <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
-                                        <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
+                                        <View style={[styles.sub_container2]}>
+                                            <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
+                                            <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
+                                            <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
+                                        </View>
+
+                                        {postStaus === 'בתהליך מסירה' ?
+                                            <View>
+                                                <TouchableOpacity activeOpacity={touchableOpacity} style={[styles.marginHorizontal, styles.actionView]} onPress={() => {
+                                                    Alert.alert("אישור קבלת פריט", "אישור קבלת הפריט הינו סופי, האם הפריט נמצא ברשותך?", [
+                                                        { text: 'לא', onPress: () => { console.log("ביטול") } },
+                                                        { text: 'כן', onPress: () => { handleUpdatePostStatus('נמסר') } }
+                                                    ])
+                                                }}>
+                                                    <Text style={[styles.textGreen, { color: 'white' }]}>לאישור קבלת הפריט לחצו כאן</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            : <View>
+                                                <Text style={[styles.textGreen, styles.mediumTextBold, styles.text_underline]}>הפריט נמסר בהצלחה</Text>
+                                            </View>}
                                     </View>
                                         : request.status === 'נדחה' ? <View style={[styles.flexRow, styles.marginVertical]}>
                                             <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
@@ -145,7 +193,7 @@ export default function RequestPage({ route, navigation }) {
                                         : null}
 
                                 <View style={[styles.flexRowCenter, { gap: 20 }]}>
-                                    <Button mode="contained" disabled={request.status !== 'נשלח' || request.status !== 'נסגר'} onPress={() => { handleEditRequest({ status: 'בוטל' }, 'cancel') }} style={[styles.nppostButton,]}>ביטול הבקשה
+                                    <Button mode="contained" disabled={request.status !== 'נשלח' && request.status !== 'נסגר'} onPress={() => { handleEditRequest({ status: 'בוטל' }, 'cancel') }} style={[styles.nppostButton,]}>ביטול הבקשה
                                     </Button>
                                     <Button mode="contained" onPress={() => navigation.navigate('PostPage', { post: request.post })} style={[styles.nppostButton,]}>לצפיה בדף הפריט
                                     </Button>
@@ -164,7 +212,7 @@ export default function RequestPage({ route, navigation }) {
                                 {request.status === 'נשלח' || editResponse ?
 
                                     <View>
-                                        {request.post.status === 'זמין' ?
+                                        {postStaus === 'זמין' ?
                                             <View>
                                                 <View style={[styles.flexRow, styles.sub_container]}>
                                                     <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
@@ -200,6 +248,18 @@ export default function RequestPage({ route, navigation }) {
                                             <View style={[styles.flexRow, styles.marginVertical]}>
                                                 <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
                                                 <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה</Text>
+                                                <View>
+                                                    {postStaus === 'זמין' ? <TouchableOpacity activeOpacity={touchableOpacity} style={[styles.marginHorizontal, styles.actionView]} onPress={() => {
+                                                        Alert.alert("רק מוודאים", "לשנות את סטטוס הפוסט ל -  'נמצא בתהליך מסירה'?", [
+                                                            { text: 'ביטול', onPress: () => { console.log("ביטול") } },
+                                                            { text: 'אישור', onPress: () => { handleUpdatePostStatus('בתהליך מסירה') } }
+                                                        ])
+                                                    }}>
+                                                        <Text style={[styles.textGreen, { color: 'white' }]}>לשינוי סטטוס הפוסט לחץ כאן</Text>
+                                                    </TouchableOpacity> : postStaus === 'נמסר' ? <View style={[styles.marginHorizontal, styles.sideComment]}>
+                                                        <Text style={[styles.marginHorizontal, styles.textGreen, styles.mediumTextBold]}>הפריט נמסר בהצלחה</Text>
+                                                    </View> : postStaus === 'בתהליך מסירה' ? <View style={[styles.marginHorizontal]}><Text>סטטוס הפוסט שונה ל 'בתהליך מסירה'</Text></View> : null}
+                                                </View>
                                             </View>
                                             : request.status === 'נדחה' ?
                                                 <View style={[styles.flexRow, styles.marginVertical]}>
@@ -210,7 +270,7 @@ export default function RequestPage({ route, navigation }) {
                                                     <MaterialCommunityIcons name="alert-circle-outline" size={30} color="black" />
                                                     <Text>הפריט כבר לא זמין</Text>
                                                 </View>}
-                                {request.status !== 'נשלח' && request.status !== 'בוטל' && request.post.status === 'זמין' ?
+                                {request.status !== 'נשלח' && request.status !== 'בוטל' && postStaus === 'זמין' ?
                                     <View style={[]}>
                                         <Button mode='contained' style={[styles.nppostButton, { width: 150 }]} onPress={() => setEditResponse(!editResponse)}>{editResponse ? 'ביטול' : 'עריכת תגובה'}</Button>
                                     </View> : null}

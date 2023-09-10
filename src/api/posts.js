@@ -230,3 +230,28 @@ export const postSearchById = async (postId, token) => {
     return res;
 
 };
+
+
+export const updatePost = async (postId, updatedData, token) => {
+    const response = await fetch(`${BASE_URL}/api/posts/edit/${postId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            updatedData: {
+                ...updatedData
+            }
+        }),
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        throw new Error(res);
+    }
+
+    console.log("Raw data from API:", res); // Print out the raw data
+    return res;
+};

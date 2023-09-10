@@ -1,7 +1,7 @@
 import { uriToBase64, urisArrayToBase64 } from "../utils/index";
 import { addNewAddress, getAddress } from "./addresses";
 import { registerNewUser, getUserById } from "./users";
-import { addNewPost, postSearchById } from "./posts";
+import { addNewPost, postSearchById, updatePost } from "./posts";
 import { sendNewRequest } from './requests'
 
 export const createNewUser = async (data) => {
@@ -207,6 +207,36 @@ export const getRequestsPostData = async (requestsArr, token) => {
 
     } catch (error) {
         console.log(error);
+        throw error;
+    }
+};
+
+import { validatePostData } from '../utils/validations'
+
+export const updatePostStatus = async (post_id, status, token, requestingUserId = null) => {
+    try {
+
+        const updatedData = {
+            status: status,
+        }
+
+        if (requestingUserId) {
+            updatedData.recipient_id = requestingUserId;
+        }
+
+
+        let validationRes = await validatePostData(updatedData)
+        if (!validationRes.valid) {
+            throw new Error(validationRes.msg);
+        }
+
+
+
+        const res = await updatePost(post_id, updatedData, token);
+        return res;
+
+    } catch (error) {
+        console.log("ERR HERE1", error);
         throw error;
     }
 };

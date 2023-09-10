@@ -10,7 +10,7 @@ import { AppContext } from '../Contexts/AppContext';
 
 
 
-export default function RequestForm({ post, modalVisible, setModalVisible }) {
+export default function RequestForm({ post, modalVisible, setModalVisible, requestSent, setRequestsSent }) {
 
     const [loading, setLoading] = useState(false);
 
@@ -33,6 +33,9 @@ export default function RequestForm({ post, modalVisible, setModalVisible }) {
 
     async function sendNewRequest() {
         try {
+
+            console.log("TYPEOF" + typeof setRequestSent);
+
             setLoading(true);
             if (!checked) {
                 setNotAgreed(true);
@@ -50,7 +53,9 @@ export default function RequestForm({ post, modalVisible, setModalVisible }) {
 
             if (res.insertedId) {
                 //Alert.alert('בקשה נשלחה בהצלחה')
+
                 setSuccess(true);
+
             }
 
 
@@ -62,7 +67,10 @@ export default function RequestForm({ post, modalVisible, setModalVisible }) {
 
         }
     }
-
+    async function handlePress() {
+        setErrMsg(() => null);
+        await sendNewRequest()
+    }
 
     return (
 
@@ -70,13 +78,15 @@ export default function RequestForm({ post, modalVisible, setModalVisible }) {
             <Portal>
                 <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
                     {loading ?
-                        <View style={[styles.modalView,]}> <ActivityIndicator /></View>
+                        <View style={[styles.modalView,]}>
+                            <ActivityIndicator />
+                        </View>
                         :
                         success ?
                             <View style={[styles.modalView, styles.containerCenter,]}>
                                 <Text style={[styles.titleBold, { color: 'green' }]}>בקשה נשלחה בהצלחה!</Text>
                                 <MaterialCommunityIcons name="check-decagram" size={65} color="green" />
-                                <Button mode='contained' style={[styles.nppostButton, { marginTop: '50%' }]} onPress={() => setModalVisible(!modalVisible)}>
+                                <Button mode='contained' style={[styles.nppostButton, { marginTop: '50%' }]} onPress={() => { setModalVisible(!modalVisible); setRequestsSent(true); }}>
                                     סגירה
                                 </Button>
                             </View>
@@ -115,7 +125,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible }) {
                                     </View>
                                     {errMsg ? <Text style={[styles.errMsg]}>{errMsg}</Text> : null}
 
-                                    <Button mode='contained' style={[styles.nppostButton]} onPress={() => { setErrMsg(() => null); sendNewRequest() }}>
+                                    <Button mode='contained' style={[styles.nppostButton]} onPress={() => handlePress()}>
                                         שליחת בקשה
                                     </Button>
                                 </View>

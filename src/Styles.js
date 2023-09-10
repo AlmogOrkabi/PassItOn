@@ -8,10 +8,19 @@ import { StyleSheet, Text, View } from 'react-native';
 //     background: "#B94ECB"
 // }
 
+//colors:
+//light green-gray : #c7d6c7 #d3d6c7
+//#cfd6cf  #bac9ba #cccfbd #c7cfbd
+//#b1ded1
+//#b6cdc4
+//light orange-gray : #efd8bd
+//light purple-gray : #c1afc4 #bdb0bf
+
 export const theme = {
     mainColor: "#B94ECB",
     mainColorFaded: "#DEACE7",
-    background: "#DEACE7",
+    //background: "#DEACE7",
+    background: '#c7cfbd',
     strongOrange: "#f58a0a",
     mediumOrange: '#ffa63e',
     lightOrange: '#ffd6a8',
@@ -99,6 +108,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: {
         marginHorizontal: '3%',
     },
+    paddingVertical: {
+        paddingVertical: '5%',
+    },
     title: {
         fontSize: 30,
     },
@@ -141,6 +153,12 @@ export const styles = StyleSheet.create({
     },
     smallBtn: {
         width: 250
+    },
+    actionView: {
+        //backgroundColor: 'green',
+        backgroundColor: theme.strongOrange,
+        borderRadius: 10,
+        padding: '3%',
     },
     native_input: {
         borderWidth: 1,
@@ -214,7 +232,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-start',
         backgroundColor: '#d3d3d396',
         padding: '5%',
-        borderRadius: 5,
+        borderRadius: 10,
         columnGap: 5
     },
 
@@ -231,7 +249,8 @@ export const styles = StyleSheet.create({
     logocontainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: '5%',
+        //marginBottom: '5%',
+        marginTop: '5%',
     },
     logo: {
         width: 300,
@@ -344,6 +363,9 @@ export const styles = StyleSheet.create({
         right: 10,
         bottom: 40,
         //flexDirection: 'row-reverse'
+        // zIndex: Platform.OS === 'ios' ? 1 : undefined,
+        // elevation: 1,
+        zIndex: 1,
     },
     styles_FAB_Group_profile: {
         position: 'absolute',
@@ -425,11 +447,11 @@ export const styles = StyleSheet.create({
         // height: '100%',
         width: 300,
         height: 500,
-        bottom: 100,
+        bottom: 90,
         left: 10,
 
         //android is affected by elevation while IOS is affected by zIndex:
-        zIndex: Platform.OS === 'ios' ? 1 : undefined,
+        zIndex: 5,
     },
     // button: {
     //     borderRadius: 20,
@@ -473,7 +495,7 @@ export const overlayStyle = {
     backgroundColor: 'rgba(0,0,0,0.5)', // This gives the dim effect
 
     //android is affected by elevation while IOS is affected by zIndex:
-    zIndex: Platform.OS === 'ios' ? 1 : undefined,
+    zIndex: 1,
     //(Android uses 'elevation' for shadow depth, while iOS relies on 'zIndex' for stacking order.)
-    elevation: 0,
+    elevation: -1,
 };

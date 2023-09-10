@@ -4,7 +4,7 @@ import { styles } from '../Styles'
 
 export default function Logo({ width, height }) {
     return (
-        <View style={[styles.logocontainer, styles.sub_container]} >
+        <View style={[styles.logocontainer,]} >
             <Image style={[{ resizeMode: 'contain' }, { width: width }, { height: height }]} source={require('../Pictures/bpio.png')} />
         </View>
     )
