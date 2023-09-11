@@ -4,7 +4,6 @@ import { uriToBase64 } from '../utils/index';
 
 
 export const addNewPost = async (post, token) => {
-    console.log("USER TOKEN: " + token)
     const response = await fetch(`${BASE_URL}/api/posts/create`, {
         method: 'POST',
         headers: {

@@ -8,13 +8,12 @@ import RequestForm from '../Components/RequestForm';
 import Overlay from '../Components/Overlay';
 import { getRequestBySenderAndPost } from '../api/index';
 
-export default function PostPage({ route }) {
+export default function PostPage({ route, navigation }) {
     const { post } = route.params;
     const { loggedUser, userToken } = useContext(AppContext)
     const [mainPicure, setMainPicure] = useState(post.photos[0])
     const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id)
     const [requestSent, setRequestsSent] = useState(false)
-
 
     const renderItems = ({ item }) => {
         if (!item)
@@ -33,6 +32,7 @@ export default function PostPage({ route }) {
 
     useEffect(() => {
         isSent();
+
     }, []); //!updates in delay - needs to be fixed
 
     // useEffect(() => {
@@ -98,7 +98,7 @@ export default function PostPage({ route }) {
                             {requestSent ?
                                 <Button mode='contained' disabled>בקשה כבר נשלחה</Button>
                                 : <RequestForm post={post} modalVisible={modalVisible} setModalVisible={setModalVisible} requestSent={requestSent} setRequestsSent={setRequestsSent} />}
-                            <Button mode="contained" onPress={() => { }} style={styles.nppostButton}>
+                            <Button mode="contained" onPress={() => navigation.navigate('ReportForm', { post: post })} style={styles.nppostButton}>
                                 דיווח על הפריט
                             </Button>
                         </View> :

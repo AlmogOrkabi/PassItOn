@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
-import { SegmentedButtons } from 'react-native-paper'
+import { SegmentedButtons, Button } from 'react-native-paper'
 import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,9 +9,8 @@ import { getRequestsBySenderId, getRequestsByRecipientId, getRequestSenderData, 
 import RequestCard from '../Components/RequestCard';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ManageRequests() {
+export default function ManageRequests({ navigation }) {
 
-    const navigation = useNavigation();
 
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState('');
@@ -146,10 +145,12 @@ export default function ManageRequests() {
                                     style={[{ marginVertical: '3%', }, touchableOpacity]}
                                 /> : null}
                     </View>
+
+
                 </View>}
 
 
-
+            <Button mode='contained' style={[styles.smallBtn]} onPress={() => { navigation.navigate('MyReports') }}>דיווחים</Button>
         </SafeAreaView>
 
     )

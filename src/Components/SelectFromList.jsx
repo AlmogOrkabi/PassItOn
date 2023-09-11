@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { List } from 'react-native-paper';
-
+import { Divider, List } from 'react-native-paper';
+import { styles, touchableOpacity } from '../Styles'
 
 export default function SelectFromList({ list, title, picked, setPicked }) {
 
@@ -28,7 +28,7 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
             return;
 
         return (
-            <TouchableOpacity onPress={() => handlePicked(item)} >
+            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => handlePicked(item)} >
                 <List.Item title={item} />
             </TouchableOpacity>
         );
@@ -37,8 +37,8 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
 
     return (
 
-        <View style={[{ maxHeight: 400 }]}>
-            <List.Section title={title}>
+        <View style={[{ maxHeight: 400, }]}>
+            <List.Section title={title} >
                 <List.Accordion title={picked}
                     left={props => <List.Icon {...props} icon="folder"
                         expanded={expanded}
@@ -48,7 +48,8 @@ export default function SelectFromList({ list, title, picked, setPicked }) {
                     <FlatList data={list}
                         renderItem={renderItems}
                         keyExtractor={(item) => item}
-                        style={[, { maxHeight: 250 }]}
+                        style={[, { maxHeight: 250, backgroundColor: 'white' }]}
+                        ItemSeparatorComponent={<Divider theme={{ colors: { outlineVariant: 'purple' } }} />}
                         nestedScrollEnabled />
                 </List.Accordion >
             </List.Section>

@@ -14,13 +14,15 @@ import { StyleSheet, Text, View } from 'react-native';
 //#b1ded1
 //#b6cdc4
 //light orange-gray : #efd8bd
-//light purple-gray : #c1afc4 #bdb0bf
+//light purple-gray : #c1afc4 #bdb0bf #dfc1e5 #e1bdf3 #e6d3ef
+// - #e3d3ef  #e8d3f6 
 
 export const theme = {
     mainColor: "#B94ECB",
     mainColorFaded: "#DEACE7",
-    //background: "#DEACE7",
-    background: '#c7cfbd',
+    //background: "#DEACE7", -original BG color
+    //background: "#e3d3ef",
+    background: "#e8d3f6",
     strongOrange: "#f58a0a",
     mediumOrange: '#ffa63e',
     lightOrange: '#ffd6a8',

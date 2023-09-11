@@ -6,7 +6,7 @@
 //
 //
 //
-import { postCategories, postStatuses, requestStatuses } from "../Data/constants";
+import { postCategories, postStatuses, requestStatuses, reportTypes } from "../Data/constants";
 
 
 export function isValidEmail(email) {
@@ -256,7 +256,7 @@ function isValidPostStatus(postStatus) {
 //     return { valid: true };
 // }
 
-// //_____________________REPORTS________________________________//
+// //!_____________________REPORTS________________________________//
 
 
 // function isValidReportType(reportType) {
@@ -308,28 +308,34 @@ function isValidPostStatus(postStatus) {
 // //         return true;
 // // }
 
-// function validateNewReportData(owner_id, reportType, userReported, postReported, photoUrls, description) {
-//     if (!isValidObjectId(owner_id) || owner_id == null) {
-//         return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
-//     }
-//     if (!isValidReportType(reportType)) {
-//         return { valid: false, msg: 'סוג דיווח לא תקין' };
-//     }
-//     if (!isValidObjectId(userReported) || owner_id == null) { // the owner of the post in case a post was reported
-//         return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
-//     }
-//     if (!isValidObjectId(postReported)) { // can be null, the report can be only regarding a user and not a specific post
-//         return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
-//     }
-//     if (!isValidPhotosArray(photoUrls)) {
-//         return { valid: false, msg: 'תמונה לא תקינה' };
-//     }
-//     if (!isString(description) || description.length > 1000) {
-//         return { valid: false, msg: 'תיאור לא תקין או ארוך מידי' };
-//     }
+function isValidReportType(type) {
+    if (!isString(type) || !reportTypes.includes(type)) {
+        return false;
+    }
+    else
+        return true;
+}
 
-//     return { valid: true };
-// }
+
+function validateNewReportData(owner_id, reportType, userReported, postReported, description) {
+    if (!isString(owner_id) || owner_id == null) {
+        return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
+    }
+    if (!isValidReportType(reportType)) {
+        return { valid: false, msg: 'סוג דיווח לא תקין' };
+    }
+    if (!isString(userReported) || owner_id == null) { // the owner of the post in case a post was reported
+        return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
+    }
+    if (postReported != null && !isString(postReported)) { // can be null, the report can be only regarding a user and not a specific post
+        return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
+    }
+    if (description !== '' && (!isString(description) || description.length > 1000)) {
+        return { valid: false, msg: 'תיאור לא תקין או ארוך מידי' };
+    }
+
+    return { valid: true };
+}
 
 
 
@@ -594,4 +600,4 @@ function validateRequestData(updatedData) { //assuming the sender, the recipient
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validatePostData, isValidPostStatus, validateNewRequestData, validateRequestData, isValidRequestStatus };
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validatePostData, isValidPostStatus, validateNewRequestData, validateRequestData, isValidRequestStatus, validateNewReportData };

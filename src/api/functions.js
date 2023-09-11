@@ -2,7 +2,8 @@ import { uriToBase64, urisArrayToBase64 } from "../utils/index";
 import { addNewAddress, getAddress } from "./addresses";
 import { registerNewUser, getUserById } from "./users";
 import { addNewPost, postSearchById, updatePost } from "./posts";
-import { sendNewRequest } from './requests'
+import { sendNewRequest } from './requests';
+import { addNewReport } from "./reports";
 
 export const createNewUser = async (data) => {
     try {
@@ -239,4 +240,29 @@ export const updatePostStatus = async (post_id, status, token, requestingUserId 
         console.log("ERR HERE1", error);
         throw error;
     }
+};
+
+export const createNewReport = async (owner_id, reportType, userReported, postReported, photos, description, token) => {
+    try {
+
+        let base64Images = await urisArrayToBase64(photos);
+
+        const newReport = {
+            owner_id: owner_id,
+            reportType: reportType,
+            userReported: userReported,
+            postReported: postReported,
+            photos: base64Images,
+            description: description
+        }
+
+        const report = await addNewReport(newReport, token);
+
+        return report;
+
+    } catch (error) {
+        console.log("error here 1: " + error.msg);
+        throw error;
+    }
+
 };

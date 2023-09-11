@@ -131,10 +131,10 @@ export default function SearchPage({ navigation }) {
 
   return (
     <SafeAreaView style={[styles.main_container2]}>
-      <View style={[{ marginBottom: -50 }]}>
-        <Logo width={300} height={70} />
-      </View>
-      <View style={[styles.sub_container]}>
+
+      <Logo width={200} height={80} />
+
+      <View style={[styles.sub_container2]}>
         <Searchbar
           placeholder="חיפוש פריטים"
           onChangeText={onChangeSearch}

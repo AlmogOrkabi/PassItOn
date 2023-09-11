@@ -18,6 +18,7 @@ import ReportForm from './src/Screens/ReportForm';
 import ReportPage from './src/Screens/ReportPage';
 import MyPosts from './src/Screens/MyPosts';
 import RequestPage from './src/Screens/RequestPage';
+import MyReports from './src/Screens/MyReports';
 
 import AppContextProvider from './src/Contexts/AppContext';
 import { styles } from './src/Styles';
@@ -75,6 +76,7 @@ function ProfileStack() {
       <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
       <Stack.Screen name='MyPosts' component={MyPosts} options={{ headerShown: false }} />
       <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} />
+      <Stack.Screen name='MyReports' component={MyReports} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -84,6 +86,7 @@ function SearchStack() {
     <Stack.Navigator>
       <Stack.Screen name='Search' component={SearchPage} options={{ headerShown: false }} />
       <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
+      <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -107,6 +110,7 @@ export default function App() {
             <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
             <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
+            <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
 
           </Stack.Navigator>
         </NavigationContainer>
