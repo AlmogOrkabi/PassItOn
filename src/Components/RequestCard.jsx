@@ -3,8 +3,6 @@ import { Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { styles } from '../Styles';
 import { AppContext } from '../Contexts/AppContext';
 import { View, Text } from 'react-native';
-
-import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function RequestCard({ request }) {

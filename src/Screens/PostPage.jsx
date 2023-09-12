@@ -10,10 +10,11 @@ import { getRequestBySenderAndPost } from '../api/index';
 
 export default function PostPage({ route, navigation }) {
     const { post } = route.params;
-    const { loggedUser, userToken } = useContext(AppContext)
-    const [mainPicure, setMainPicure] = useState(post.photos[0])
-    const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id)
-    const [requestSent, setRequestsSent] = useState(false)
+    const { loggedUser, userToken } = useContext(AppContext);
+    const [mainPicure, setMainPicure] = useState(post.photos[0]);
+    const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id);
+    const [requestSent, setRequestsSent] = useState(false);
+    const [postReported, setPostReported] = useState(false);
 
     const renderItems = ({ item }) => {
         if (!item)
@@ -32,7 +33,7 @@ export default function PostPage({ route, navigation }) {
 
     useEffect(() => {
         isSent();
-
+        isReported();
     }, []); //!updates in delay - needs to be fixed
 
     // useEffect(() => {
@@ -47,6 +48,9 @@ export default function PostPage({ route, navigation }) {
         }
     }
 
+    async function isReported() {
+
+    }
 
     return (
         <SafeAreaView style={[styles.main_container2,]}>

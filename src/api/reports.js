@@ -25,9 +25,9 @@ export const addNewReport = async (report, token) => {
 };
 
 
-export const getReportByOwnerId = async (owner_id, token) => {
+export const getReportByOwnerId = async (owner_id, token, full = 'false') => {
 
-    const response = await fetch(`${BASE_URL}/api/reports/search/byOwnerId/${owner_id}`, {
+    const response = await fetch(`${BASE_URL}/api/reports/search/byOwnerId/${owner_id}/${full}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const getReportByOwnerId = async (owner_id, token) => {
         throw new Error(res.msg);
     }
 
-    console.log("Raw data from API:", res); // Print out the raw data
+    console.log("Raw data from API - REPORTS:", res); // Print out the raw data
     return res;
 
 };

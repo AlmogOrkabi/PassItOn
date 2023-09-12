@@ -63,13 +63,13 @@ export default function ManageRequests({ navigation }) {
         loadRequests();
     }, []);
 
-    useEffect(() => {
-        console.log("OPTIONS:", options)
-        console.log("received" + requestsReceived)
-        //console.log("sent" + Array.isArray(requestsSent));
-        let s = JSON.stringify(requestsSent[0]);
-        console.log("sent" + s);
-    }, [options]);
+    // useEffect(() => {
+    //     console.log("OPTIONS:", options)
+    //     console.log("received" + requestsReceived)
+    //     //console.log("sent" + Array.isArray(requestsSent));
+    //     let s = JSON.stringify(requestsSent[0]);
+    //     console.log("sent" + s);
+    // }, [options]);
 
 
     const renderRequests = (request) => {

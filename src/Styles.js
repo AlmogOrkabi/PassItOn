@@ -235,7 +235,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#d3d3d396',
         padding: '5%',
         borderRadius: 10,
-        columnGap: 5
+        columnGap: 5,
     },
 
 
