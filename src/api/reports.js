@@ -46,3 +46,30 @@ export const getReportByOwnerId = async (owner_id, token, full = 'false') => {
 
 };
 
+export const getReports = async (queryParams = {}, token) => {
+
+
+    const params = new URLSearchParams(queryParams);
+
+
+    const response = await fetch(`${BASE_URL}/api/reports/search?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        console.log("response: " + response.status);
+        if (response.status == 404)
+            return 404;
+        else
+            throw new Error(res);
+    }
+
+    console.log("Raw data from API - REPORTS:", res); // Print out the raw data
+    return res;
+}

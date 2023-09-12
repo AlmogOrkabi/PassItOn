@@ -6,7 +6,7 @@ import { AnimatedFAB, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import RequestForm from '../Components/RequestForm';
 import Overlay from '../Components/Overlay';
-import { getRequestBySenderAndPost } from '../api/index';
+import { getRequestBySenderAndPost, getReports } from '../api/index';
 
 export default function PostPage({ route, navigation }) {
     const { post } = route.params;
@@ -42,14 +42,29 @@ export default function PostPage({ route, navigation }) {
 
 
     async function isSent() {
-        let sent = await getRequestBySenderAndPost(loggedUser._id, post._id, userToken);
-        if (sent != 404) {
-            setRequestsSent(true);
+        try {
+            let sent = await getRequestBySenderAndPost(loggedUser._id, post._id, userToken);
+            if (sent != 404) {
+                setRequestsSent(true);
+            }
+        } catch (error) {
+            console.log("error post page1: ", error)
         }
     }
 
     async function isReported() {
+        try {
+            let report = await getReports({ owner_id: loggedUser._id, postReported_id: post._id, full: 'false' }, userToken);
 
+            if (report != 404)
+                setPostReported(true);
+            console.log(postReported)
+        } catch (error) {
+            console.log("error post page2: ", error.status);
+            console.log(error.message)
+            // console.log("error post page2: ", error.message);
+            // console.log("error post page2: ", error.stack);
+        }
     }
 
     return (
@@ -100,10 +115,11 @@ export default function PostPage({ route, navigation }) {
 
                         <View style={[styles.flexRow, { gap: 10 }]}>
                             {requestSent ?
-                                <Button mode='contained' disabled>בקשה כבר נשלחה</Button>
-                                : <RequestForm post={post} modalVisible={modalVisible} setModalVisible={setModalVisible} requestSent={requestSent} setRequestsSent={setRequestsSent} />}
-                            <Button mode="contained" onPress={() => navigation.navigate('ReportForm', { post: post })} style={styles.nppostButton}>
-                                דיווח על הפריט
+                                <Button mode='contained' disabled>בקשה כבר נשלחה</Button> :
+                                postReported ? <Button mode='contained' disabled>שליחת בקשה</Button>
+                                    : <RequestForm post={post} modalVisible={modalVisible} setModalVisible={setModalVisible} requestSent={requestSent} setRequestsSent={setRequestsSent} />}
+                            <Button mode="contained" onPress={() => navigation.navigate('ReportForm', { post: post })} style={styles.nppostButton} disabled={postReported}>
+                                {postReported ? 'כבר קיים דיווח' : 'דיווח על הפריט'}
                             </Button>
                         </View> :
                         <View>

@@ -9,7 +9,7 @@ import SearchDistance from '../Components/SearchDistance';
 import SelectFromList from '../Components/SelectFromList';
 import ChooseLocation from '../Components/ChooseLocation';
 import { postCategories } from '../Data/constants';
-import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance, getAddresses } from '../api/index';
+import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance, getAddresses, searchPosts } from '../api/index';
 
 import Logo from '../Components/Logo';
 
@@ -67,6 +67,58 @@ export default function SearchPage({ navigation }) {
     console.log("coordinates updated =>>", coordinates)
   }, [address.location]);
 
+  // const searchItems = async () => {
+  //   try {
+  //     setLoading(true);
+  //     console.log("search query:", searchQuery);
+  //     console.log("search type:", searchOptions);
+  //     console.log("city:", city);
+  //     console.log("category:", category);
+  //     console.log("distance:", searchDistance);
+
+  //     let results;
+  //     // -depending on the searching option the user chose:
+  //     switch (searchOptions) {
+  //       case 'none':
+  //         results = await postSearch(searchQuery, userToken);
+  //         break;
+  //       case 'city':
+  //         if (city.trim() == '')
+  //           Alert.alert('נא הכנס עיר')
+  //         else
+  //           results = await postSearchByCity(searchQuery, city, userToken);
+  //         break;
+  //       case 'distance':
+  //         const currentCoordinates = coordinates; // -the user get to choose between the address in his profile and his current location according to his mobile device
+  //         results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
+  //         break;
+  //       case 'category':
+  //         if (category.trim() == '')
+  //           Alert.alert('נא בחר קטגוריה');
+  //         else
+  //           results = await postSearchByCategory(searchQuery, category, userToken)
+  //         break;
+  //       default:
+  //         console.log("no search option");
+  //         break;
+  //     }
+  //     if (results == 404) {
+  //       Alert.alert('לא נמצאו פריטים')
+  //       setSearchResults(searchResults => 404)
+  //     }
+  //     else {
+  //       //results = await getAddresses(results, userToken)
+  //       setSearchResults(searchResults => results)
+  //     }
+  //   } catch (error) {
+  //     console.log("failed search: " + error)
+  //   }
+  //   finally {
+  //     setLoading(false);
+  //   }
+  // }
+
+
   const searchItems = async () => {
     try {
       setLoading(true);
@@ -76,32 +128,44 @@ export default function SearchPage({ navigation }) {
       console.log("category:", category);
       console.log("distance:", searchDistance);
 
-      let results;
-      // -depending on the searching option the user chose:
+
+      const query = {
+        keywords: searchQuery.trim(),
+        full: true,
+
+      }
+
       switch (searchOptions) {
-        case 'none':
-          results = await postSearch(searchQuery, userToken);
-          break;
+        // case 'none':
+        //   results = await searchPosts(query, userToken);
+        //   break;
         case 'city':
           if (city.trim() == '')
             Alert.alert('נא הכנס עיר')
           else
-            results = await postSearchByCity(searchQuery, city, userToken);
+            //results = await searchPosts(searchQuery, city, userToken);
+            query.city = city.trim();
           break;
-        case 'distance':
+        case 'maxDistance':
           const currentCoordinates = coordinates; // -the user get to choose between the address in his profile and his current location according to his mobile device
-          results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
+          //results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
+          query.maxDistance = searchDistance;
+          query.userCoordinates = currentCoordinates;
           break;
         case 'category':
           if (category.trim() == '')
             Alert.alert('נא בחר קטגוריה');
           else
-            results = await postSearchByCategory(searchQuery, category, userToken)
+            //results = await postSearchByCategory(searchQuery, category, userToken)
+            query.category = category.trim();
           break;
         default:
           console.log("no search option");
           break;
       }
+      console.log("query: " + JSON.stringify(query));
+      const results = await searchPosts(query, userToken);
+
       if (results == 404) {
         Alert.alert('לא נמצאו פריטים')
         setSearchResults(searchResults => 404)
@@ -112,11 +176,19 @@ export default function SearchPage({ navigation }) {
       }
     } catch (error) {
       console.log("failed search: " + error)
+      if (error.Error == 404)
+        setSearchResults(404)
     }
     finally {
       setLoading(false);
     }
   }
+
+
+
+
+
+
 
 
   const renderResult = (post) => {
@@ -166,7 +238,7 @@ export default function SearchPage({ navigation }) {
                     label: 'עיר',
                   },
                   {
-                    value: 'distance',
+                    value: 'maxDistance',
                     label: 'מרחק',
                   },
                   { value: 'category', label: 'קטגוריה' },
@@ -181,7 +253,7 @@ export default function SearchPage({ navigation }) {
                     value={city}
                     onChangeText={value => setCity(value)} />
                 </View> :
-                searchOptions == 'distance' ?
+                searchOptions == 'maxDistance' ?
                   <View>
                     <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
                     <ChooseLocation address={address} setAddress={setAddress} />

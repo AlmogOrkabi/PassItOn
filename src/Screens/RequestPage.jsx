@@ -4,8 +4,8 @@ import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { AppContext } from '../Contexts/AppContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Button } from 'react-native-paper';
-import { editRequest, updatePostStatus } from '../api/index';
+import { Button, AnimatedFAB } from 'react-native-paper';
+import { editRequest, updatePostStatus, getReports } from '../api/index';
 import Overlay from '../Components/Overlay';
 import RequestResponseForm from '../Components/RequestResponseForm';
 import { validateRequestData } from '../utils/validations';
@@ -30,6 +30,8 @@ export default function RequestPage({ route, navigation }) {
     const [editResponse, setEditResponse] = useState(false);
 
     const [postStaus, setPostStaus] = useState(request.post.status);
+
+    const [isReported, setIsReported] = useState(false);
 
     async function handleEditRequest(data, action) {
         try {
@@ -101,7 +103,7 @@ export default function RequestPage({ route, navigation }) {
         }
     }
 
-
+    // const [isExtended, setIsExtended] = useState(false);
 
     useEffect(() => {
         if (editResponse == true) {
@@ -115,11 +117,41 @@ export default function RequestPage({ route, navigation }) {
         request.post.status = postStaus;
     }, [postStaus])
 
+
+    useEffect(() => {
+        checkReported()
+    }, []);
+
+
+
+    async function checkReported() {
+        try {
+            let report = await getReports({ owner_id: loggedUser._id, postReported_id: request.post._id, full: 'false' }, userToken)
+            if (report != 404)
+                setIsReported(true);
+            console.log(isReported)
+        } catch (error) {
+            console.log("error request page: ", error.status);
+            console.log(error.message)
+        }
+    }
+
     return (
 
         <SafeAreaView style={[styles.main_container2, styles.paddingVertical]}>
             <Logo width={200} height={80} />
             {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
+            {/* <AnimatedFAB
+                icon={'alert-circle-outline'}
+                label={'דיווח על הפריט/משתמש'}
+                extended={isExtended}
+                onPress={() => navigation.navigate('ReportForm')}
+                onLongPress={() => setIsExtended(!isExtended)} // Toggle the extended state on long press
+                animateFrom={'left'}
+                iconMode={'absolute'}
+                style={[styles.style_FAB_Edit_Post]}
+                disabled={request.post.status === 'בבדיקת מנהל' || request.post.status === 'סגור' || request.post.status === 'מבוטל' || isReported}
+            /> */}
             <ScrollView style={[]} >
                 <View>
 
@@ -276,6 +308,7 @@ export default function RequestPage({ route, navigation }) {
                                     </View> : null}
 
                             </View>}
+                        <Button mode='contained' style={[styles.smallBtn, { alignSelf: 'center' }]} onPress={() => navigation.navigate('ReportForm', { post: request.post })} disabled={isReported}>דיווח</Button>
                     </View>
                 </View>
             </ScrollView >

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { styles, touchableOpacity } from '../Styles'
 import { AppContext } from '../Contexts/AppContext';
 import Logo from '../Components/Logo'
-import { getReportByOwnerId } from '../api/index'
+import { getReports } from '../api/index'
 import ReportCard from '../Components/ReportCard'
 
 export default function MyReports({ navigation }) {
@@ -21,7 +21,7 @@ export default function MyReports({ navigation }) {
     async function loadReports() {
         try {
             setLoading(true);
-            let reports = await getReportByOwnerId(loggedUser._id, userToken, 'true');
+            let reports = await getReports({ owner_id: loggedUser._id, full: 'true' }, userToken);
             if (reports == 404) {
                 console.log(404);
                 setReportsSubmitted(404);

@@ -254,3 +254,31 @@ export const updatePost = async (postId, updatedData, token) => {
     console.log("Raw data from API:", res); // Print out the raw data
     return res;
 };
+
+export const searchPosts = async (searchQuery = {}, token) => {
+
+    console.log("search query:", searchQuery);
+    const params = new URLSearchParams(searchQuery);
+
+    const response = await fetch(`${BASE_URL}/api/posts/search?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        console.log("response: " + response.status);
+        if (response.status == 404)
+            return 404;
+        else
+            throw new Error(res);
+    }
+
+    console.log("Raw data from API - POSTS:", res); // Print out the raw data
+    return res;
+
+};
