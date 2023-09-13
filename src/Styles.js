@@ -455,6 +455,26 @@ export const styles = StyleSheet.create({
         //android is affected by elevation while IOS is affected by zIndex:
         zIndex: 5,
     },
+    smallModal: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 10,
+        position: 'absolute',
+        left: 150,
+        bottom: 280,
+        zIndex: 5,
+
+        padding: '1%',
+    },
     // button: {
     //     borderRadius: 20,
     //     padding: 10,
@@ -476,6 +496,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
 
+
 });
 
 
@@ -494,10 +515,11 @@ export const overlayStyle = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)', // This gives the dim effect
-
+    backgroundColor: 'rgba(0,0,0,0.3)', // This gives the dim effect
+    // height: '100%',
+    // with: '100%',
     //android is affected by elevation while IOS is affected by zIndex:
     zIndex: 1,
     //(Android uses 'elevation' for shadow depth, while iOS relies on 'zIndex' for stacking order.)
-    elevation: -1,
+    elevation: 1,
 };

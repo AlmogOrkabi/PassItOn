@@ -7,6 +7,7 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 //***expo-image-picker does not automatically ask for permissions
 
+
 // import { isValidPassword, isValidUserName, isValidName } from '../utils/validations'
 import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
 
@@ -19,14 +20,6 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
 
     const [image, setImage] = useState(null);
 
-    // const { control, handleSubmit, formState: { errors } } = useForm(
-    //     { mode: 'all' }
-    // );
-
-    // const onSubmit = (data) => {
-    //     // Handle form submission
-    //     console.log(data);
-    // };
 
     const {
         control,

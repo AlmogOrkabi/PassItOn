@@ -63,7 +63,8 @@ export const getReports = async (queryParams = {}, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        console.log("response: " + response.status);
+        console.log("response: REPORTS " + response.status);
+        console.log("response: REPORTS " + JSON.stringify(res, null, 2));
         if (response.status == 404)
             return 404;
         else
@@ -72,4 +73,4 @@ export const getReports = async (queryParams = {}, token) => {
 
     console.log("Raw data from API - REPORTS:", res); // Print out the raw data
     return res;
-}
+};

@@ -5,7 +5,7 @@ import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AppContext } from '../Contexts/AppContext';
-import { getRequestsBySenderId, getRequestsByRecipientId, getRequestSenderData, getRequestRecipientData, getRequestsPostData } from '../api/index';
+import { getRequests } from '../api/index';
 import RequestCard from '../Components/RequestCard';
 import { useNavigation } from '@react-navigation/native';
 
@@ -28,7 +28,7 @@ export default function ManageRequests({ navigation }) {
     async function loadRequests() {
         try {
             setLoading(true);
-            let sent = await getRequestsBySenderId(loggedUser._id, userToken, 'true');
+            let sent = await getRequests({ sender_id: loggedUser._id, full: 'true' }, userToken);
             console.log("SENT HERE", sent)
             if (sent == 404) {
                 console.log("404")
@@ -39,7 +39,7 @@ export default function ManageRequests({ navigation }) {
                 setRequestsSent(sent);
             }
 
-            let received = await getRequestsByRecipientId(loggedUser._id, userToken, 'true');
+            let received = await getRequests({ recipient_id: loggedUser._id, full: 'true' }, userToken);
 
             if (received == 404) {
                 console.log("404")

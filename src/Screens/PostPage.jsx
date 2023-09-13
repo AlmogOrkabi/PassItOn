@@ -6,7 +6,7 @@ import { AnimatedFAB, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import RequestForm from '../Components/RequestForm';
 import Overlay from '../Components/Overlay';
-import { getRequestBySenderAndPost, getReports } from '../api/index';
+import { getRequests, getReports } from '../api/index';
 
 export default function PostPage({ route, navigation }) {
     const { post } = route.params;
@@ -43,12 +43,15 @@ export default function PostPage({ route, navigation }) {
 
     async function isSent() {
         try {
-            let sent = await getRequestBySenderAndPost(loggedUser._id, post._id, userToken);
+            let sent = await getRequests({ sender_id: loggedUser._id, post_id: post._id, full: 'false' }, userToken);
             if (sent != 404) {
                 setRequestsSent(true);
             }
         } catch (error) {
             console.log("error post page1: ", error)
+            // console.log("error post page1: ", error)
+            // console.log("error post page1: ", JSON.stringify(error, null, 2))
+            // console.log("error post page1: ", Object.getPrototypeOf(error))
         }
     }
 

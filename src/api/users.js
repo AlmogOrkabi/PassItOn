@@ -82,3 +82,27 @@ export const getUserById = async (_id, token) => {
     console.log("Raw data from API:", res); // Print out the raw data
     return res;
 }
+
+export const getUsers = async (queryParams = {}, token) => {
+    const params = new URLSearchParams(queryParams);
+
+    const response = await fetch(`${BASE_URL}/api/users/search?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        if (response.status == 404)
+            return 404;
+        else
+            throw new Error(response);
+    }
+
+    console.log("Raw data from API - USERS : ", res); // Print out the raw data
+    return res;
+};

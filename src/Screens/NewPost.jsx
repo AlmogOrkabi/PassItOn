@@ -18,7 +18,7 @@ import { createNewPost } from '../api/index';
 
 import ChooseLocation from '../Components/ChooseLocation';
 import SelectFromList from '../Components/SelectFromList';
-
+import AddPictures from '../Components/AddPictures';
 
 export default function NewPost() {
 
@@ -217,7 +217,7 @@ export default function NewPost() {
 
 
           {/* Photo Selection */}
-          <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
+          {/* <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
           <View style={styles.npphotoContainer}>
             {photos.map((photoUri, index) => (
               <View key={index} style={styles.npphotoItem}>
@@ -242,7 +242,11 @@ export default function NewPost() {
                 style={styles.npaddPhotoButton}
               />
             )}
-          </View>
+          </View> */}
+
+
+          <AddPictures photos={photos} setPhotos={setPhotos} title='תמונות של הפריט (עד 6):' />
+
 
           {err && err.field == 'photos' ? <Text style={[styles.inputError,]} >{err.msg}</Text> : null}
 

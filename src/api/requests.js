@@ -122,4 +122,31 @@ export const editRequest = async (requestId, token, fields) => {
 
 };
 
+export const getRequests = async (queryParams = {}, token) => {
 
+    const params = new URLSearchParams(queryParams);
+
+    const response = await fetch(`${BASE_URL}/api/requests/search?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+        // console.log("response: REQUESTS: " + response.status);
+        // console.log("response: REQUESTS: " + Object.getPrototypeOf(res))
+        // console.log("response: REQUESTS: " + JSON.stringify(res, null, 2))
+        if (response.status == 404)
+            return 404;
+        else
+            throw new Error(response);
+    }
+
+    console.log("Raw data from API - REQUESTS : ", res); // Print out the raw data
+    return res;
+
+};
