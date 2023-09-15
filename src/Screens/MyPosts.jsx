@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { styles, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
 import { AppContext } from '../Contexts/AppContext';
-import { postSearchByUser, getAddresses } from '../api/index';
+import { searchPosts, getAddresses } from '../api/index';
 import CardPost from '../Components/CardPost';
 import { Button } from 'react-native-paper'
 
@@ -24,7 +24,7 @@ export default function MyPosts({ navigation }) {
     async function getUserPosts() {
         try {
             setLoading(true);
-            let results = await postSearchByUser(loggedUser._id, userToken);
+            let results = await searchPosts({ owner_id: loggedUser._id, full: 'true' }, userToken);
             if (!results)
                 setMyPosts(404);
             else {

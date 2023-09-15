@@ -174,7 +174,7 @@ export const styles = StyleSheet.create({
     input: {
         minWidth: "50%",
         margin: 7,
-        backgroundColor: theme.mainColorFaded,
+        //backgroundColor: theme.mainColorFaded,
         height: 45,
         fontSize: 15,
 
@@ -495,6 +495,45 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: 'center',
     },
+    outlinedInputBorder: {
+        borderRadius: 30,
+        //  borderTopLeftRadius: 15,
+        borderWidth: 1.5,
+    },
+    editformFieldContainer: {
+        // maxWidth: '90%',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        paddingVertical: 1,
+        borderBottomWidth: 3,
+        borderRightWidth: 2,
+        //borderBottomColor: 'lightgray',
+        borderColor: 'lightgray',
+        borderRadius: 10,
+
+    },
+    editFormText: {
+        fontWeight: 'bold',
+        maxWidth: '80%'
+    },
+    // editformText1: {
+    //     backgroundColor: 'rgba(255,255,255,0.5)',
+    //     paddingVertical: 1,
+    //     borderBottomWidth: 3,
+    //     borderBottomColor: 'lightgray',
+    //     borderRadius: 50
+    // },
+    fieldsGap: {
+        rowGap: 20,
+    },
+    coolTitleByMistake: {
+        backgroundColor: 'lightgray',
+        paddingVertical: 1,
+        borderBottomWidth: 3,
+        borderBottomColor: 'gray',
+        borderRadius: 50
+    },
+
+
 
 
 });

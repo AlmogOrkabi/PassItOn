@@ -80,7 +80,7 @@ export default function PostPage({ route, navigation }) {
                     icon={'pencil'}
                     label={'עריכה'}
                     extended={isExtended}
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => navigation.navigate('EditPost', { post: post })}
                     onLongPress={() => setIsExtended(!isExtended)} // Toggle the extended state on long press
                     visible={isPostOwner}
                     animateFrom={'left'}

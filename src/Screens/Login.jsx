@@ -37,6 +37,8 @@ export default function Login({ navigation }) {
             setLoading(false);
         }
     }
+    // <TextInput
+    //     inputMode='email' style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 
 
     return (
@@ -52,15 +54,17 @@ export default function Login({ navigation }) {
                 <View style={[]}>
                     <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
                     <TextInput
-                        inputMode='email' style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                        inputMode='email' style={[styles.input]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)}
+                        mode='outlined'
+                        outlineStyle={styles.outlinedInputBorder} />
 
                     <TextInput style={[styles.input]} label="סיסמה" value={password}
                         onChangeText={password => setPassword(password)}
                         secureTextEntry={!passwordVisible}
                         right={<TextInput.Icon icon="eye" size={paperStyles.inputIcon.size} name={passwordVisible ? "eye-off" : "eye"} onPress={() => setPasswordVisible(!passwordVisible)} />}
-                        theme={{
-                            colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
-                        }} />
+                        outlineStyle={styles.outlinedInputBorder}
+                        mode='outlined'
+                    />
 
                     {err ? <Text style={[styles.errMsg]}>{err}</Text> : null}
 
