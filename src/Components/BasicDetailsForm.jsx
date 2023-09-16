@@ -10,7 +10,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 // import { isValidPassword, isValidUserName, isValidName } from '../utils/validations'
 import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
-
+import { openMediaLibrary } from '../utils/index';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PrivateValueStore } from '@react-navigation/native';
@@ -30,47 +30,38 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
 
 
     //for media on the device
+    // const pickImage = async () => {
+    //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //     console.log(status)
+    //     if (status !== 'granted') {
+    //         alert('הרשאה נדחתה');
+    //         return;
+    //     }
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //         allowsEditing: true,
+    //         aspect: [4, 3],
+    //         quality: 1,
+    //     });
+
+    //     console.log(result);
+
+    //     if (!result.canceled) {
+    //         setImage(result.assets[0].uri);
+    //         handleChange('basicDetails', 'image', result.uri);
+    //     }
+    // };
+
+
     const pickImage = async () => {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        console.log(status)
-        if (status !== 'granted') {
-            alert('הרשאה נדחתה');
-            return;
-        }
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
+        const result = await openMediaLibrary()
 
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.uri);
-            handleChange('basicDetails', 'image', result.uri);
+        if (result) {
+            setImage(result);
+            handleChange('basicDetails', 'image', result);
         }
     };
 
-
-    //for camera
-    // const pickImage = async () => {
-    //     try {
-    //         const result = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //         if (result.status !== 'granted') {
-    //             alert('הרשאה נדחתה');
-    //             return;
-    //         }
-    //         let captureResult = await ImagePicker.launchCameraAsync();
-
-    //         if (!captureResult.canceled) {
-    //             setImage(captureResult.uri);
-    //         }
-    //         return captureResult;
-    //     } catch (error) {
-    //         console.log('Error in pickImage:', error);
-    //     }
-    // }
 
     useEffect(() => {
         if (validErr)

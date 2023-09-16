@@ -5,11 +5,14 @@ import { styles } from '../Styles';
 import { TextInput, Button, } from 'react-native-paper';
 import { GEOAPI_KEY } from '@env';
 import * as Location from 'expo-location';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default function AddAddress({ address, handleChange }) {
 
     const [loading, setLoading] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
+    const [retryCount, setRetryCount] = useState(3); //retries if the api fails to respond (happens quite a lot)
 
     function debounce(func, delay) {
         let debounceTimer;
@@ -87,23 +90,42 @@ export default function AddAddress({ address, handleChange }) {
 
 
     const getLocation = async () => {
+        let timeoutId; // in case the api doesnt respond
+        let apiResponded = false;
         try {
             setLoading(true);
             setSuggestions([])
+
+            timeoutId = setTimeout(() => {
+                setLoading(false);
+                if (apiResponded) return;
+                if (retryCount > 0) {
+                    setRetryCount((retryCount) => retryCount - 1);
+                    console.log("retry count: " + retryCount)
+                    getLocation();
+                } else {
+                    console.log("getLocation failed")
+                }
+
+            }, 10000);
+
+
             let currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
-            console.log("Location from device: ", currentLocation);
-            console.log("coordinates:", currentLocation.coords.latitude, currentLocation.coords.longitude);
-            //setLocation(await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude));
+            apiResponded = true;
+            clearTimeout(timeoutId); // Clear the timeout if the API responds
+            setRetryCount(0);
+            // console.log("Location from device: ", currentLocation);
+            // console.log("coordinates:", currentLocation.coords.latitude, currentLocation.coords.longitude);
             const deviceLocation = await reverseGeocode(currentLocation.coords.latitude, currentLocation.coords.longitude)
             console.log("deviceLocation:", deviceLocation);
-            // if (deviceLocation[0]) {
             const simplifiedAddress = await simplifyAddress(deviceLocation[0]);
             await handleChange((prev) => ({ ...prev, location: deviceLocation[0], addressInput: simplifiedAddress }))
-            //    }
 
 
         } catch (error) {
+            clearTimeout(timeoutId); // Clear the timeout in case of an error
             console.error(error, "error1");
+
         }
     }
     async function reverseGeocode(lat, lon) {
@@ -125,7 +147,7 @@ export default function AddAddress({ address, handleChange }) {
 
     useEffect(() => {
         if (address.location) {
-            console.log("Location updated:", address.location);
+            //console.log("Location updated:", address.location);
             setLoading(false);
         }
 
@@ -136,15 +158,18 @@ export default function AddAddress({ address, handleChange }) {
 
 
     return (
-        <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20 },]}>
+        <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20, maxWidth: '80%', alignItems: 'center' },]}>
             <View style={[{ justifyContent: 'flex-start' }]}>
-                <TextInput style={[styles.input,]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
+                <TextInput style={[styles.input, { minWidth: '90%', marginTop: -2 }]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
                     //setAddressInput(text);
                     //handleInputChange(text);
                     handleChange((prev) => ({ ...prev, addressInput: text }));
                     debouncedHandleInputChange(text);
 
-                }} />
+                }}
+                    mode='outlined'
+                    outlineStyle={styles.outlinedInputBorder}
+                />
 
                 {suggestions ? <FlatList
                     style={[styles.addressFlatList,]}
@@ -156,8 +181,14 @@ export default function AddAddress({ address, handleChange }) {
             </View>
 
             {
-                loading ? <ActivityIndicator /> :
-                    <TouchableOpacity onPress={() => getLocationPermission()} style={[{ backgroundColor: "lightblue", padding: 10 }]} activeOpacity={0.5} ><Text>למיקום נוכחי לחץ כאן</Text></TouchableOpacity>
+                loading ? <View style={[styles.locationBtn]}>
+                    <ActivityIndicator />
+                </View> :
+                    <TouchableOpacity onPress={() => getLocationPermission()} style={[styles.locationBtn,]} activeOpacity={0.5} >
+                        <Ionicons name="location-outline" size={24} color="black" />
+                        {/* <Text> מיקום נוכחי</Text> */}
+
+                    </TouchableOpacity>
             }
 
 

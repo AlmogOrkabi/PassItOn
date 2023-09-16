@@ -421,6 +421,11 @@ export const styles = StyleSheet.create({
         height: 50,
         opacity: 0.5,
     },
+    postImagesListMedium: {
+        width: 100,
+        height: 100,
+        //opacity: 0.5,
+    },
     //**~Modal HERE: **/
     modalElements: {
         //flex: 1,
@@ -496,6 +501,11 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     outlinedInputBorder: {
+        borderRadius: 10,
+        //  borderTopLeftRadius: 15,
+        //borderWidth: 1.5,
+    },
+    outlinedInputBorder2: {
         borderRadius: 30,
         //  borderTopLeftRadius: 15,
         borderWidth: 1.5,
@@ -532,7 +542,23 @@ export const styles = StyleSheet.create({
         borderBottomColor: 'gray',
         borderRadius: 50
     },
-
+    locationBtn: {
+        backgroundColor: theme.mediumOrange,
+        padding: 10,
+        borderRadius: 10,
+        borderColor: 'lightgray',
+        borderBottomWidth: 3,
+        borderRightWidth: 2,
+    },
+    deletedFAB_edit: {
+        position: 'absolute',
+        // width: '25%',
+        // height: '25%',
+        left: 5,
+        bottom: 5,
+        borderRadius: 20,
+    },
+    // { backgroundColor: "lightblue", padding: 10, }
 
 
 

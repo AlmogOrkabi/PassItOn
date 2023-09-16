@@ -68,8 +68,10 @@ export const openMediaLibrary = async () => {
     console.log(result);
 
     if (!result.canceled) {
-        addPhoto(result.uri);
+        //addPhoto(result.uri);
+        return result.assets[0].uri
     }
+    else return null;
 }
 
 
@@ -87,6 +89,8 @@ export const openCamera = async () => {
     console.log(result);
 
     if (!result.canceled) {
-        addPhoto(result.uri);
+        //addPhoto(result.uri);
+        return result.assets[0].uri
     }
+    else return null;
 }

@@ -28,12 +28,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { ScrollView } from 'react-native';
 
 
 //Right To Left (Hebrew)
 import { I18nManager } from 'react-native';
-import { ScrollView } from 'react-native';
+
 I18nManager.forceRTL(true);
 I18nManager.allowRTL(true);
 

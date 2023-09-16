@@ -237,10 +237,45 @@ export const updatePostStatus = async (post_id, status, token, requestingUserId 
         return res;
 
     } catch (error) {
-        console.log("ERR HERE1", error);
+        console.log("ERR HERE1 ", error);
         throw error;
     }
 };
+
+export const updatePostData = async (post_id, updatedData, token, toAdd = [], toRemove = [], address = null) => {
+    try {
+
+
+        let validationRes = await validatePostData(updatedData)
+        if (!validationRes.valid) {
+            throw new Error(validationRes.msg);
+        }
+
+
+        let newAddress;
+        if (address) {
+            newAddress = createNewAddress(address);
+            updatedData.itemLocation_id = newAddress.insertedId;
+        }
+
+
+        let imgsToAdd;
+        if (toAdd && toAdd.length > 0) {
+            imgsToAdd = await urisArrayToBase64(toAdd);
+        }
+
+
+        const res = await updatePost(post_id, updatedData, token, imgsToAdd, toRemove);
+        console.log("we got here1");
+        return res;
+
+
+    } catch (error) {
+        console.log("ERR HERE2 ", error);
+        throw error;
+    }
+}
+
 
 export const createNewReport = async (owner_id, reportType, userReported, postReported, photos, description, token) => {
     try {

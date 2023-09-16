@@ -110,6 +110,7 @@ export default function PostPage({ route, navigation }) {
                         nestedScrollEnabled />
 
                     <Text>{post.description}</Text>
+                    <Text>קטגוריה: {post.category}</Text>
                     <Text>סטטוס:{post.status === 'זמין' ? 'זמין' : post.status === 'סגור' ? 'סגור' : post.status === 'בתהליך מסירה' ? 'בתהליך מסירה' : post.status === 'נמסר' ? 'נמסר' : 'לא זמין'}</Text>
                     <Text>מיקום הפריט:</Text>
                     <Text>{post.address.simplifiedAddress || post.address.notes}</Text>

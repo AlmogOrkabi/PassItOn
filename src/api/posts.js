@@ -231,7 +231,7 @@ export const postSearchById = async (postId, token) => {
 };
 
 
-export const updatePost = async (postId, updatedData, token) => {
+export const updatePost = async (postId, updatedData, token, toAdd = [], toRemove = []) => {
     const response = await fetch(`${BASE_URL}/api/posts/edit/${postId}`, {
         method: 'PUT',
         headers: {
@@ -241,17 +241,20 @@ export const updatePost = async (postId, updatedData, token) => {
         body: JSON.stringify({
             updatedData: {
                 ...updatedData
-            }
+            },
+            toAdd: [...toAdd],
+            toRemove: [...toRemove]
         }),
     });
 
     const res = await response.json();
-
+    console.log("we got here2");
     if (!response.ok) {
+        console.log("response: " + response.status)
         throw new Error(res);
     }
 
-    console.log("Raw data from API:", res); // Print out the raw data
+    console.log("Raw data from API - update post:", res); // Print out the raw data
     return res;
 };
 
@@ -282,3 +285,8 @@ export const searchPosts = async (searchQuery = {}, token) => {
     return res;
 
 };
+
+
+// export const updatePost = async (postId, updatedData, toAdd, toRemove, token) => {
+
+// }

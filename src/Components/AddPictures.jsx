@@ -89,11 +89,22 @@ export default function AddPictures({ photos, setPhotos, title }) {
         setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
     };
 
-    function handlePress() {
+    async function handlePress(option) {
         // Alert.alert(null, null, [
         //     { text: 'מצלמה', onPress: () => openCamera() },
         //     { text: 'ספריה', onPress: () => openMediaLibrary() }
         // ])
+        let res
+        if (option == 1) {
+            res = await openCamera();
+        }
+        else if (option == 2) {
+            res = await openMediaLibrary();
+        }
+
+        if (res) {
+            addPhoto(res)
+        }
         setVisible(!visible);
 
     }
@@ -138,9 +149,9 @@ export default function AddPictures({ photos, setPhotos, title }) {
 
                 <View style={[styles.smallModal]}>
                     <View style={[{ gap: 10 }]}>
-                        <Button mode='text' style={[{ margin: '1%' }]} onPress={() => { openCamera(); setVisible(!visible) }}>מצלמה</Button>
+                        <Button mode='text' style={[{ margin: '1%' }]} onPress={() => { handlePress(1); setVisible(!visible) }}>מצלמה</Button>
                         <Divider />
-                        <Button mode='text' style={[{ margin: '1%' }]} onPress={() => { openMediaLibrary(); setVisible(!visible) }}>ספריה</Button>
+                        <Button mode='text' style={[{ margin: '1%' }]} onPress={() => { handlePress(2); setVisible(!visible) }}>ספריה</Button>
                     </View>
                 </View>
                 {visible && <Overlay onClose={hide} />}

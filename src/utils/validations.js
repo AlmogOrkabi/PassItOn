@@ -214,8 +214,8 @@ function validatePostData(updatedData) {
                     return { valid: false, msg: 'תמונת הפריט אינה תקינה' };
                 }
                 break;
-            case 'itemLocation_id':
-                break;
+            // case 'itemLocation_id':
+            //     break;
             case 'status':
                 if (!isValidPostStatus(updatedData.status)) {
                     return { valid: false, msg: 'סטטוס לא תקין' };
@@ -435,7 +435,7 @@ export function validateNewAddressDetails(region, city, street, house, apartment
     if (!isValidCoordinates(lon, lat)) {
         return { valid: false, msg: 'קלט לא תקין' };
     }
-    if (!isString(notes) || notes.length > 100) {
+    if (notes !== '' && (!isString(notes) || notes.length > 100)) {
         return { valid: false, msg: 'תיאור לא תקין או ארוך מידי' };
     }
     if (!isString(simplifiedAddress) || simplifiedAddress.length > 51) {

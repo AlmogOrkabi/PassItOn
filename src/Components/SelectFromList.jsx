@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Divider, List } from 'react-native-paper';
 import { styles, touchableOpacity } from '../Styles'
 
-export default function SelectFromList({ list, title, picked, setPicked = null, dispatch = null }) {
+export default function SelectFromList({ list, title, picked, setPicked = null, dispatch = null, field = null }) {
 
 
     const [expanded, setExpanded] = useState(true);
@@ -15,7 +15,7 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
 
     const handlePicked = (item) => {
         if (dispatch) {
-            dispatch({ type: 'update', field: 'status', value: item })
+            dispatch({ type: 'update', field: field, value: item })
         }
 
         else {
