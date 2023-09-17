@@ -11,15 +11,26 @@ const MemoizedCardPost = React.memo(CardPost); //React.memo - used to wrap funct
 
 export default function MyPosts({ navigation }) {
     const [loading, setLoading] = useState(true);
-    const [myPosts, setMyPosts] = useState([])
-    const { loggedUser, userToken } = useContext(AppContext);
 
+    const { loggedUser, userToken, myPosts, setMyPosts } = useContext(AppContext);
+
+
+    // useEffect(() => {
+    //     getUserPosts()
+    // }, []);
 
     useEffect(() => {
-        getUserPosts()
-    }, []);
+        // This function is called every time the screen comes into focus
+        const loadPosts = () => {
+            getUserPosts()
+        };
 
+        // Set up the listener
+        const unsubscribe = navigation.addListener('focus', loadPosts);
 
+        // Clean up the listener when the component is unmounted
+        return unsubscribe;
+    }, [navigation]);
 
     async function getUserPosts() {
         try {
@@ -41,14 +52,21 @@ export default function MyPosts({ navigation }) {
     }
 
 
-
     const renderResult = (post) => {
         if (!post) return;
 
         console.log("POST ==>>", post)
 
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item })}><MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
+            // <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item, index: post.index })}>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('common', {
+                    screen: 'PostPage',
+                    params: { post: post.item }
+                });
+            }}>
+
+                <MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
         )
     }
 

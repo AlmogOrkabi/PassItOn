@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 //style={[styles.xxxx,]}
 
@@ -206,11 +206,25 @@ export const styles = StyleSheet.create({
 
     },
     profilePicture: {
-        width: 200,
-        height: 200,
+        width: 150,
+        height: 150,
+        // width: '100%',
+        // height: '100%',
         borderRadius: 100,
         //marginBottom: 10,
-        margin: '5%',
+        // margin: '5%',
+
+    },
+    profilePictureContainer: {
+        borderColor: 'lightgray',
+        borderBottomWidth: 4,
+        borderRightWidth: 3,
+        borderRadius: 80,
+        // width: 150,
+        // height: 150,
+        margin: '3%',
+        padding: 1,
+        backgroundColor: 'rgba(255, 255, 255,0.3)',
     },
     username: {
         fontSize: 25,
@@ -252,7 +266,9 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         //marginBottom: '5%',
-        marginTop: '5%',
+        // marginTop: '5%',
+        marginTop: Platform.OS === 'android' ? '8%' : '5%',
+
     },
     logo: {
         width: 300,
@@ -337,16 +353,16 @@ export const styles = StyleSheet.create({
     // },
     style_FAB_picture: {
         position: 'absolute',
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         // fontSize: 5,
         // textAlign: 'center',
         borderRadius: 50,
-        left: 140,
+        left: 105,
         bottom: 35,
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'black',
+        //color: 'black',
     },
     style_FAB: {
         position: 'absolute',
@@ -550,6 +566,16 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderRightWidth: 2,
     },
+    canceEditlBtn: {
+        backgroundColor: theme.mediumOrange,
+        borderRadius: 10,
+        borderColor: 'lightgray',
+        borderBottomWidth: 3,
+        borderRightWidth: 2,
+        width: 48,
+        height: 48,
+        marginBottom: -2,
+    },
     deletedFAB_edit: {
         position: 'absolute',
         // width: '25%',
@@ -559,6 +585,20 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
     },
     // { backgroundColor: "lightblue", padding: 10, }
+    suggestionList_item: {
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        marginBottom: 2,
+        marginLeft: 10,
+        width: 210,
+        borderRadius: 5,
+        padding: 1
+    },
+    suggestionList_text: {
+        fontSize: 13
+    },
+    textInput: {
+        width: '80%',
+    },
 
 
 

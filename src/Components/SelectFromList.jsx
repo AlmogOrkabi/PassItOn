@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Divider, List } from 'react-native-paper';
 import { styles, touchableOpacity } from '../Styles'
@@ -9,11 +9,16 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
     const [expanded, setExpanded] = useState(true);
 
     const handlePress = () => {
-        setExpanded(!expanded)
+        setExpanded(() => !expanded)
     }
+
+    const toggleAccordion = () => {
+        setExpanded((prev) => !prev);
+    };
 
 
     const handlePicked = (item) => {
+        setExpanded(() => !expanded)
         if (dispatch) {
             dispatch({ type: 'update', field: field, value: item })
         }
@@ -22,6 +27,7 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
             setPicked(item);
         }
         //setExpanded((prev) => !prev); // not working :(
+
     }
 
     // useEffect(() => { //not working :(
@@ -30,19 +36,20 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
     // }, [picked]);
 
     useEffect(() => {
-        setExpanded(!expanded)
-    }, [])
+        //setExpanded(!expanded)
+        console.log("expended " + expanded)
+    }, [expanded])
 
-    const renderItems = ({ item }) => {
-        if (!item)
-            return;
+    // const renderItems = ({ item }) => {
+    //     if (!item)
+    //         return;
 
-        return (
-            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => handlePicked(item)} >
-                <List.Item title={item} />
-            </TouchableOpacity>
-        );
-    };
+    //     return (
+    //         <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => handlePicked(item)} >
+    //             <List.Item title={item} />
+    //         </TouchableOpacity>
+    //     );
+    // };
 
 
     return (
@@ -55,12 +62,23 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
                         onPress={handlePress}
                     />} >
 
-                    <FlatList data={list}
+                    {/* <FlatList data={list}
                         renderItem={renderItems}
                         keyExtractor={(item) => item}
                         style={[, { maxHeight: 250, backgroundColor: 'white' }]}
                         ItemSeparatorComponent={<Divider theme={{ colors: { outlineVariant: 'purple' } }} />}
-                        nestedScrollEnabled />
+                        nestedScrollEnabled /> */}
+
+                    <ScrollView nestedScrollEnabled style={{ maxHeight: 250, backgroundColor: 'white' }}>
+                        {list.map((item, index) => (
+                            <React.Fragment key={item}>
+                                <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => handlePicked(item)}>
+                                    <List.Item title={item} />
+                                </TouchableOpacity>
+                                {index < list.length - 1 && <Divider theme={{ colors: { outlineVariant: 'purple' } }} />}
+                            </React.Fragment>
+                        ))}
+                    </ScrollView>
                 </List.Accordion >
             </List.Section>
         </View>

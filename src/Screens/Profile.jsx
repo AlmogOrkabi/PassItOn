@@ -23,7 +23,7 @@ export default function Profile({ navigation }) {
       <Logo width={200} height={80} />
 
       <View style={[styles.container, { flex: 0.6 }]}>
-        <View style={[styles.sub_container2]}>
+        <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer]}>
           <Image source={
             loggedUser.photo && loggedUser.photo.url
               ? { uri: loggedUser.photo.url }
@@ -115,7 +115,7 @@ export default function Profile({ navigation }) {
       </PaperProvider>
 
       {/* </View> */}
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 

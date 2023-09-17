@@ -6,7 +6,7 @@ import React, { useState, useEffect, useContext, useReducer } from 'react';
 import { userAllowedPostStatuses, postCategories } from '../Data/constants';
 import { openMediaLibrary } from '../utils/index';
 import { validatePostData } from '../utils/validations'
-import { updatePostData } from '../api/index';
+import { searchPosts, updatePostData } from '../api/index';
 
 import { styles, touchableOpacity } from '../Styles';
 import { AppContext } from '../Contexts/AppContext';
@@ -99,10 +99,10 @@ function formReducer(state, action) {
 // dispatch({ type: 'addPhoto', photo: 'newPhotoURL' });
 // dispatch({ type: 'removePhoto', photo: 'photoURLToRemove' });
 
-export default function EditPost({ route }) {
-    const { post } = route.params;
+export default function EditPost({ route, navigation }) {
+    const { post, index } = route.params;
 
-    const { loggedUser, userToken } = useContext(AppContext);
+    const { loggedUser, userToken, myPosts, setMyPosts } = useContext(AppContext);
     const [formState, dispatch] = useReducer(formReducer, initialState);
 
     const [address, setAddress] = useState({
@@ -153,8 +153,7 @@ export default function EditPost({ route }) {
     function handlePhotoRemove(index, mode) {
         if (mode === 'old') {
             const photo = pictures[index];
-            console.log("photo: " + photo)
-            dispatch({ type: 'removephoto', photo: photo.url });
+            dispatch({ type: 'removePhoto', photo: photo.url });
             setPictures((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
         }
         else {
@@ -178,8 +177,8 @@ export default function EditPost({ route }) {
         try {
             setLoading(true);
             setErr(null);
-            console.log("address  => " + address.location, address.addressInput);
-            console.log(formState)
+            // console.log("address  => " + address.location, address.addressInput);
+            // console.log(formState)
 
             const updatedData = {};
 
@@ -205,14 +204,35 @@ export default function EditPost({ route }) {
 
             let result = await updatePostData(post._id, updatedData, userToken, formState.photos.toAdd, formState.photos.toRemove, address);
 
+            console.log("result =>" + result.acknowledged)
+            // if (result.acknowledged) {
 
+            //     //await updatePostsArray()
+            //     const updatedPost = await searchPosts({ _id: post._id, full: 'true' }, userToken)
+            //     let postsArr = myPosts;
+            //     postsArr[index] = updatedPost;
+            //     setMyPosts([...postsArr])
+            //     //navigation.navigate('PostPage', { post: updatedPost, index: index })
+            // }
+
+            //navigation.navigate('PostPage', { post: myPosts[index], index: index })
+            //navigation.goBack();
+            navigation.navigate('MyPosts')
 
         } catch (error) {
-            console.log("error  => ", error);
+            console.log("error  => ", error.message);
         } finally {
             setLoading(false);
         }
     }
+
+
+    // async function updatePostsArray() {
+    //     const updatedPost = await searchPosts({ _id: post._id, full: 'true' }, userToken)
+    //     let postsArr = myPosts;
+    //     postsArr[index] = updatedPost;
+    //     setMyPosts([...postsArr])
+    // }
 
 
     return (

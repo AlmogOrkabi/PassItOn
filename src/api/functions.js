@@ -253,8 +253,8 @@ export const updatePostData = async (post_id, updatedData, token, toAdd = [], to
 
 
         let newAddress;
-        if (address) {
-            newAddress = createNewAddress(address);
+        if (address.location) {
+            newAddress = await createNewAddress(address);
             updatedData.itemLocation_id = newAddress.insertedId;
         }
 
@@ -264,7 +264,7 @@ export const updatePostData = async (post_id, updatedData, token, toAdd = [], to
             imgsToAdd = await urisArrayToBase64(toAdd);
         }
 
-
+        console.log(toRemove)
         const res = await updatePost(post_id, updatedData, token, imgsToAdd, toRemove);
         console.log("we got here1");
         return res;

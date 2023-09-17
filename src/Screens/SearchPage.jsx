@@ -197,7 +197,7 @@ export default function SearchPage({ navigation }) {
     console.log("POST ==>>", post)
 
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item })}><MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('common', { screen: 'PostPage', params: { post: post.item } })}><MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
     )
   }
 

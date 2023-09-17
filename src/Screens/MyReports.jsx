@@ -41,7 +41,7 @@ export default function MyReports({ navigation }) {
 
 
         return (
-            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('ReportPage', { report: report.item })}><ReportCard report={report.item} /></TouchableOpacity>
+            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('common', { screen: 'ReportPage', params: { report: report.item } })}><ReportCard report={report.item} /></TouchableOpacity>
         )
     }
 

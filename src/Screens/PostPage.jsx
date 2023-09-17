@@ -9,8 +9,8 @@ import Overlay from '../Components/Overlay';
 import { getRequests, getReports } from '../api/index';
 
 export default function PostPage({ route, navigation }) {
-    const { post } = route.params;
-    const { loggedUser, userToken } = useContext(AppContext);
+    const { post, index } = route.params;
+    const { loggedUser, userToken, myPosts } = useContext(AppContext);
     const [mainPicure, setMainPicure] = useState(post.photos[0]);
     const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id);
     const [requestSent, setRequestsSent] = useState(false);
@@ -36,9 +36,7 @@ export default function PostPage({ route, navigation }) {
         isReported();
     }, []); //!updates in delay - needs to be fixed
 
-    // useEffect(() => {
-    //     console.log(requestSent)
-    // }, [requestSent]);
+
 
 
     async function isSent() {
@@ -70,6 +68,21 @@ export default function PostPage({ route, navigation }) {
         }
     }
 
+
+    // const handlePostUpdate = (updatedPost) => {
+    //     // Update any local state if necessary
+    //     navigation.goBack();
+    // };
+
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //         post = myPosts[index];
+    //     });
+
+    //     return unsubscribe;
+    // }, [navigation]);
+
+
     return (
         <SafeAreaView style={[styles.main_container2,]}>
             <Logo width={300} height={70} />
@@ -80,7 +93,7 @@ export default function PostPage({ route, navigation }) {
                     icon={'pencil'}
                     label={'עריכה'}
                     extended={isExtended}
-                    onPress={() => navigation.navigate('EditPost', { post: post })}
+                    onPress={() => navigation.navigate('EditPost', { post: post, index: index })}
                     onLongPress={() => setIsExtended(!isExtended)} // Toggle the extended state on long press
                     visible={isPostOwner}
                     animateFrom={'left'}

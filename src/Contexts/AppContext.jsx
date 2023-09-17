@@ -7,7 +7,7 @@ export default function AppContextProvider({ children }) {
 
     const [users, setUsers] = useState([]);
     const [userToken, setUserToken] = useState('');
-
+    const [myPosts, setMyPosts] = useState([])
     // async function LoadUsers() {
     //     let data = require('../Data/users.json');
     //     setUsers(data);
@@ -33,7 +33,7 @@ export default function AppContextProvider({ children }) {
 
 
 
-    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken };
+    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts };
 
 
     return (

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Pressable, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Pressable, ActivityIndicator, ScrollView } from 'react-native'
 import React, { useState, useMemo, useEffect } from 'react'
 // import { useForm, Controller } from 'react-hook-form';
 import { styles } from '../Styles';
@@ -28,7 +28,7 @@ export default function AddAddress({ address, handleChange }) {
 
     const debouncedHandleInputChange = useMemo(() => {
         return debounce(async (query) => {
-            const url = `https://api.tomtom.com/search/2/geocode/${query}.json?key=${GEOAPI_KEY}&limit=3&countrySet=IL&language=he-IL`;
+            const url = `https://api.tomtom.com/search/2/geocode/${query}.json?key=${GEOAPI_KEY}&limit=5&countrySet=IL&language=he-IL`;
 
             try {
                 const response = await fetch(url);
@@ -87,11 +87,11 @@ export default function AddAddress({ address, handleChange }) {
         }
         await getLocation();
     }
-
+    const [apiResponded, setApiResponded] = useState(false);
 
     const getLocation = async () => {
         let timeoutId; // in case the api doesnt respond
-        let apiResponded = false;
+        //let apiResponded = false;
         try {
             setLoading(true);
             setSuggestions([])
@@ -99,19 +99,30 @@ export default function AddAddress({ address, handleChange }) {
             timeoutId = setTimeout(() => {
                 setLoading(false);
                 if (apiResponded) return;
-                if (retryCount > 0) {
-                    setRetryCount((retryCount) => retryCount - 1);
-                    console.log("retry count: " + retryCount)
-                    getLocation();
-                } else {
-                    console.log("getLocation failed")
-                }
+                // if (retryCount > 0) {
+                //     setRetryCount(() => retryCount - 1);
+                //     console.log("retry count: " + retryCount)
+                //     getLocation();
+                // } else {
+                //     console.log("getLocation failed")
+                // }
+
+                setRetryCount(prevRetryCount => {
+                    if (prevRetryCount > 0) {
+                        console.log("retry count: " + (prevRetryCount - 1));
+                        getLocation();
+                        return prevRetryCount - 1;
+                    } else {
+                        console.log("getLocation failed");
+                        return prevRetryCount;
+                    }
+                });
 
             }, 10000);
 
 
             let currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
-            apiResponded = true;
+            setApiResponded(true);
             clearTimeout(timeoutId); // Clear the timeout if the API responds
             setRetryCount(0);
             // console.log("Location from device: ", currentLocation);
@@ -158,9 +169,9 @@ export default function AddAddress({ address, handleChange }) {
 
 
     return (
-        <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20, maxWidth: '80%', alignItems: 'center' },]}>
-            <View style={[{ justifyContent: 'flex-start' }]}>
-                <TextInput style={[styles.input, { minWidth: '90%', marginTop: -2 }]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
+        <SafeAreaView style={[styles.container, styles.flexRow, { padding: 20, maxWidth: '80%', alignItems: 'flex-start' },]}>
+            <View style={[{ justifyContent: 'center' }]}>
+                <TextInput style={[styles.input, { minWidth: '90%', marginTop: -6 }]} label="כתובת" value={address.addressInput} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} onChangeText={(text) => {
                     //setAddressInput(text);
                     //handleInputChange(text);
                     handleChange((prev) => ({ ...prev, addressInput: text }));
@@ -171,13 +182,24 @@ export default function AddAddress({ address, handleChange }) {
                     outlineStyle={styles.outlinedInputBorder}
                 />
 
-                {suggestions ? <FlatList
+                {/* {suggestions ? <FlatList
                     style={[styles.addressFlatList,]}
                     data={suggestions}
                     renderItem={renderSuggestion}
                     keyExtractor={(item) => item.value}
                     nestedScrollEnabled
-                /> : null}
+                /> : null} */}
+                <ScrollView nestedScrollEnabled style={[{ maxHeight: 100 }]}>
+                    {suggestions ? suggestions.map((suggestion, index) => (
+                        <TouchableOpacity style={[styles.suggestionList_item]} key={index} onPress={() => handleSuggestionPress(suggestion)}>
+                            <Text style={[styles.suggestionList_text]}>{simplifyAddress(suggestion)}</Text>
+                        </TouchableOpacity>
+                    ))
+                        : null
+                    }
+                </ScrollView>
+
+
             </View>
 
             {

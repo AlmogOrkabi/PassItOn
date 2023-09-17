@@ -70,13 +70,14 @@ function ProfileStack() {
     <Stack.Navigator>
       <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name='ManageRequests' component={ManageRequests} options={{ headerShown: false }} />
-      <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} />
+      {/* <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} /> */}
       <Stack.Screen name='EditProfile' component={EditProfile} options={{ headerShown: false }} />
-      <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
-      <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
+      {/* <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} /> */}
+      {/* <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} /> */}
       <Stack.Screen name='MyPosts' component={MyPosts} options={{ headerShown: false }} />
-      <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} />
+      {/* <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} /> */}
       <Stack.Screen name='MyReports' component={MyReports} options={{ headerShown: false }} />
+      <Stack.Screen name='common' component={CommonScreens} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -85,8 +86,21 @@ function SearchStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name='Search' component={SearchPage} options={{ headerShown: false }} />
+      {/* <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} /> */}
+      {/* <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} /> */}
+      <Stack.Screen name='common' component={CommonScreens} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  )
+}
+
+function CommonScreens() {
+  return (
+    <Stack.Navigator>
       <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
       <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
+      <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
+      <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} />
+      <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -106,12 +120,17 @@ export default function App() {
             <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
             <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
             {/* ********/}
-            <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
+            {/* <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
             <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
             <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
+            <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} /> */}
+            {/* <Stack.Screen name='CommonScreens' component={CommonScreens} options={{ headerShown: false }} /> */}
+            {/* <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
-
+            <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
+            <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} />
+            <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </AppContextProvider>

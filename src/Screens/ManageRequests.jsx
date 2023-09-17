@@ -77,7 +77,7 @@ export default function ManageRequests({ navigation }) {
 
 
         return (
-            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('RequestPage', { request: request.item, index: request.index, options: options, handleRequestUpdate: handleRequestUpdate })}><RequestCard request={request.item} /></TouchableOpacity>
+            <TouchableOpacity activeOpacity={touchableOpacity} onPress={() => navigation.navigate('common', { screen: 'RequestPage', params: { request: request.item, index: request.index, options: options, handleRequestUpdate: handleRequestUpdate } })}><RequestCard request={request.item} /></TouchableOpacity>
         )
     }
 
