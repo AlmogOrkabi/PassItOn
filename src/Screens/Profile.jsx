@@ -20,9 +20,9 @@ export default function Profile({ navigation }) {
   return (
     <SafeAreaView style={[styles.main_container2,]}>
 
-      <Logo width={200} height={80} />
+      <Logo width={200} height={70} />
 
-      <View style={[styles.container, { flex: 0.6 }]}>
+      <View style={[styles.container,]}>
         <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer]}>
           <Image source={
             loggedUser.photo && loggedUser.photo.url
@@ -30,7 +30,7 @@ export default function Profile({ navigation }) {
               : require('../Pictures/DefaultPfp.jpg')
           } style={[styles.profilePicture,]}
           />
-          <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'white' } }} />
+          <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'white' } }} customSize={25} />
         </View>
         <Text style={styles.username}>{loggedUser.username}</Text>
         <View style={[styles.sub_container2, { gap: 10 }, { backgroundColor: 'white' }, { padding: 10 }, { borderRadius: 10 }, { alignSelf: 'flex-start' }]}>
@@ -79,6 +79,7 @@ export default function Profile({ navigation }) {
             open={stateFAB}
             visible
             icon={stateFAB ? 'minus' : 'plus'}
+            customSize={30}
             actions={[
               // { icon: 'plus', onPress: () => console.log('Pressed add') },
               {

@@ -41,6 +41,9 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('screen');
 
 
 function LoggedUserTabs() {
@@ -49,7 +52,7 @@ function LoggedUserTabs() {
     //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     //   style={[{ flex: 1 },]}
     // >
-    <Tab.Navigator screenOptions={{ tabBarStyle: { position: 'relative' } }}>
+    <Tab.Navigator screenOptions={{ tabBarStyle: { position: 'static' } }}>
       <Tab.Screen name='פרופיל' component={ProfileStack} options={{
         tabBarIcon: () => <MaterialCommunityIcons name="account" size={24} />,
         headerShown: false
@@ -109,6 +112,8 @@ export default function App() {
 
   return (
     <SafeAreaView style={[{ width: '100%' }, { height: '100%' }]}>
+      {/* <SafeAreaView style={[{ flex: 1 }]}> */}
+
       {/* <StatusBar hidden={true} /> */}
       <AppContextProvider>
         <NavigationContainer>

@@ -72,7 +72,8 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         //maxWidth: "100%",
-        padding: '2%'
+        padding: '2%',
+        paddingBottom: 0
     },
     sub_container: {
         margin: '5%',
@@ -206,13 +207,14 @@ export const styles = StyleSheet.create({
 
     },
     profilePicture: {
-        width: 150,
-        height: 150,
-        // width: '100%',
-        // height: '100%',
+        // width: 150,
+        // height: 150,
+        width: '100%',
+        height: '100%',
         borderRadius: 100,
         //marginBottom: 10,
         // margin: '5%',
+        resizeMode: 'contain',
 
     },
     profilePictureContainer: {
@@ -225,6 +227,8 @@ export const styles = StyleSheet.create({
         margin: '3%',
         padding: 1,
         backgroundColor: 'rgba(255, 255, 255,0.3)',
+        width: '35%',
+        height: '27%',
     },
     username: {
         fontSize: 25,
@@ -353,16 +357,21 @@ export const styles = StyleSheet.create({
     // },
     style_FAB_picture: {
         position: 'absolute',
-        width: 30,
-        height: 30,
+        // width: 30,
+        // height: 30,
+        // width: '21%',
+        // height: '21%',
         // fontSize: 5,
         // textAlign: 'center',
         borderRadius: 50,
-        left: 105,
-        bottom: 35,
+        // left: 105,
+        // bottom: 35,
+        left: '60%',
+        bottom: '15%',
         alignItems: 'center',
         justifyContent: 'center',
         //color: 'black',
+
     },
     style_FAB: {
         position: 'absolute',
@@ -385,16 +394,31 @@ export const styles = StyleSheet.create({
         // elevation: 1,
         zIndex: 1,
     },
+    // styles_FAB_Group_profile: {
+    //     position: 'absolute',
+    //     //position: 'relative',
+    //     maxHeight: 300,
+    //     maxWidth: 200,
+    //     left: 200,
+    //     top: 100,
+    //     zIndex: 1,
+    //     borderRadius: 15,
+    //     flex: 1,
+    //     overflow: 'hidden',
+
+    // },
     styles_FAB_Group_profile: {
         position: 'absolute',
-        maxHeight: 300,
-        maxWidth: 200,
-        left: 200,
-        top: 100,
+        //position: 'relative',
+        // left: '50%',
+        // top: '50%',
+        // bottom: '20%',
         zIndex: 1,
         borderRadius: 15,
+        flexs: 1,
         overflow: 'hidden',
-
+        // alignItems: 'center', // Center children horizontally
+        // justifyContent: 'center', // Center children vertically
     },
     postImgContainer: {
         width: 250,
@@ -628,3 +652,6 @@ export const overlayStyle = {
     //(Android uses 'elevation' for shadow depth, while iOS relies on 'zIndex' for stacking order.)
     elevation: 1,
 };
+export const FAB_style_1 = {
+
+}
