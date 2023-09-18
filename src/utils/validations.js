@@ -89,52 +89,52 @@ function validateNewUserData(username, firstName, lastName, phoneNumber, email, 
 
 module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData }
 
-// function validateUserData(updatedData) {
-//     let fieldsToUpdate = Object.keys(updatedData);
+function validateUserData(updatedData) {
+    let fieldsToUpdate = Object.keys(updatedData);
 
-//     for (let field of fieldsToUpdate) {
-//         switch (field) {
-//             case 'username':
-//                 if (!isValidUserName(updatedData.username)) {
-//                     return { valid: false, msg: 'שם המשתמש אינו תקין' };
-//                 }
-//                 break;
-//             case 'firstName':
-//                 if (!isValidName(updatedData.firstName)) {
-//                     return { valid: false, msg: 'שם פרטי אינו תקין' };
-//                 }
-//                 break;
-//             case 'lastName':
-//                 if (!isValidName(updatedData.lastName)) {
-//                     return { valid: false, msg: 'שם משפחה אינו תקין' };
-//                 }
-//                 break;
-//             case 'phoneNumber':
-//                 if (!isValidPhoneNumber(updatedData.phoneNumber)) {
-//                     return { valid: false, msg: 'מספר הטלפון שהוכנס אינו תקין' };
-//                 }
-//                 break;
-//             case 'email':
-//                 if (!isValidEmail(updatedData.email)) {
-//                     return { valid: false, msg: 'כתובת דואר אלקטורני אינה תקינה' };
-//                 }
-//                 break;
-//             case 'password':
-//                 if (!isValidPassword(updatedData.password)) {
-//                     return { valid: false, msg: 'הסיסמה אינה תקינה' };
-//                 }
-//                 break;
-//             case 'address_id':
-//                 if (!isValidObjectId(updatedData.address_id)) {
-//                     return { valid: false, msg: 'הכתובת אינה תקינה' };
-//                 }
-//                 break;
-//             default:
-//                 return { valid: false, msg: `Unexpected field: ${field}` };
-//         }
-//     }
-//     return { valid: true };
-// }
+    for (let field of fieldsToUpdate) {
+        switch (field) {
+            case 'username':
+                if (!isValidUserName(updatedData.username)) {
+                    return { valid: false, msg: 'שם המשתמש אינו תקין', field: 'username' };
+                }
+                break;
+            case 'firstName':
+                if (!isValidName(updatedData.firstName)) {
+                    return { valid: false, msg: 'שם פרטי אינו תקין', field: 'firstName' };
+                }
+                break;
+            case 'lastName':
+                if (!isValidName(updatedData.lastName)) {
+                    return { valid: false, msg: 'שם משפחה אינו תקין', field: 'lastName' };
+                }
+                break;
+            case 'phoneNumber':
+                if (!isValidPhoneNumber(updatedData.phoneNumber)) {
+                    return { valid: false, msg: 'מספר הטלפון שהוכנס אינו תקין', field: 'phoneNumber' };
+                }
+                break;
+            case 'email':
+                if (!isValidEmail(updatedData.email)) {
+                    return { valid: false, msg: 'כתובת דואר אלקטורני אינה תקינה', field: 'email' };
+                }
+                break;
+            case 'password':
+                if (!isValidPassword(updatedData.password)) {
+                    return { valid: false, msg: 'הסיסמה אינה תקינה', field: 'password' };
+                }
+                break;
+            // case 'address_id':
+            //     if (!isValidObjectId(updatedData.address_id)) {
+            //         return { valid: false, msg: 'הכתובת אינה תקינה' };
+            //     }
+            //     break;
+            default:
+                return { valid: false, msg: `Unexpected field: ${field}` };
+        }
+    }
+    return { valid: true };
+}
 
 // function isValidUserStatus(userStatus) {
 //     console.log(userStatus)
@@ -607,4 +607,4 @@ function validateRequestData(updatedData) { //assuming the sender, the recipient
 
 // module.exports = { isValidObjectId, isString, validateSort, validateNewUserData, validateUserData, isValidUserStatus, validateNewPostData, validatePostData, validatePostSearchData, isValidPostStatus, validateNewReportData, validateReportData, isValidReportStatus, validateNewAddressDetails, validateAddressData, isValidPhoto, validateObjectId }
 
-module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validatePostData, isValidPostStatus, validateNewRequestData, validateRequestData, isValidRequestStatus, validateNewReportData };
+module.exports = { isString, isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateNewUserData, validateUserData, isValidAddressNotes, isValidPostCategory, isValidItemName, isValidDescription, validateNewPostData, validatePostData, isValidPostStatus, validateNewRequestData, validateRequestData, isValidRequestStatus, validateNewReportData };

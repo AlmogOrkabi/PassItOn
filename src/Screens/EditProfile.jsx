@@ -115,11 +115,11 @@ export default function EditProfile() {
             <Logo width={200} height={80} />
             <Text style={[styles.mediumTitle]}>עריכת פרטי משתמש:</Text>
             <ScrollView nestedScrollEnabled style={[styles.sub_container2,]} >
-                <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer]}>
+                <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer,]}>
                     <Image source={{ uri: pfp }} style={[styles.profilePicture,]}
                     />
                     {/* <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.mediumOrange, onPrimaryContainer: 'white' } }} onPress={() => handleChangePicture()} /> */}
-                    <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: 'white', onPrimaryContainer: theme.mediumOrange } }} onPress={() => handleChangePicture()} />
+                    <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: 'white', onPrimaryContainer: theme.mediumOrange } }} customSize={40} onPress={() => handleChangePicture()} />
                 </View >
                 <View style={[styles.fieldsGap]} >
                     {
@@ -350,6 +350,7 @@ export default function EditProfile() {
 
                             </View>
                     }
+
 
                 </View>
 
