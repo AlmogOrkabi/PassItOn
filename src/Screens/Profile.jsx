@@ -22,7 +22,7 @@ export default function Profile({ navigation }) {
 
       <Logo width={200} height={70} />
 
-      <View style={[styles.container,]}>
+      <View style={[styles.container, { flex: 1 }]}>
         <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer]}>
           <Image source={
             loggedUser.photo && loggedUser.photo.url
@@ -75,7 +75,7 @@ export default function Profile({ navigation }) {
         <Portal >
           <FAB.Group
             // style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}
-            style={[styles.styles_FAB_Group_profile, stateFAB ? styles.boxShadowFAB : null]}
+            style={[styles.styles_FAB_Group_profile,]}
             open={stateFAB}
             visible
             icon={stateFAB ? 'minus' : 'plus'}
