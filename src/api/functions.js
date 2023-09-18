@@ -253,7 +253,7 @@ export const updatePostData = async (post_id, updatedData, token, toAdd = [], to
 
 
         let newAddress;
-        if (address.location) {
+        if (address) {
             newAddress = await createNewAddress(address);
             updatedData.itemLocation_id = newAddress.insertedId;
         }

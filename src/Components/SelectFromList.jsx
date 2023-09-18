@@ -54,7 +54,7 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
 
     return (
 
-        <View style={[{ maxHeight: 400, }]}>
+        <View style={[{ maxHeight: 400, flex: 1 }]}>
             <List.Section title={title} >
                 <List.Accordion title={picked}
                     left={props => <List.Icon {...props} icon="folder"

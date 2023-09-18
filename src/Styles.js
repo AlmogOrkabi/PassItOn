@@ -602,6 +602,7 @@ export const styles = StyleSheet.create({
         width: 48,
         height: 48,
         marginBottom: -2,
+
     },
     deletedFAB_edit: {
         position: 'absolute',

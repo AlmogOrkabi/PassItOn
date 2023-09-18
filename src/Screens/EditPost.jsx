@@ -36,9 +36,6 @@ const initialState = {
     },
     address: {
         edited: false,
-        location: null,
-        simplifiedAddress: '',
-        notes: '',
     },
     photos: {
         edited: true,
@@ -56,6 +53,14 @@ function formReducer(state, action) {
                 [action.field]: {
                     ...state[action.field],
                     edited: true
+                }
+            }
+        case 'cancel':
+            return {
+                ...state,
+                [action.field]: {
+                    ...state[action.field],
+                    edited: false
                 }
             }
         case 'update':
@@ -114,7 +119,7 @@ export default function EditPost({ route, navigation }) {
     const [pictures, setPictures] = useState(post.photos);
     const [newPictures, setNewPictures] = useState([])
     const [loading, setLoading] = useState(false);
-    const [err, setErr] = useState(null);
+    const [err, setErr] = useState({ valid: false, reason: '', msg: '' });
     const renderPictures = ({ item, index }) => {
         if (!item)
             return;
@@ -196,18 +201,33 @@ export default function EditPost({ route, navigation }) {
                 updatedData.status = formState.status.value;
             }
             console.log("updatedData: " + JSON.stringify(updatedData))
-            const validationsRes = validatePostData(updatedData);
+            const validationsRes = await validatePostData(updatedData);
+            console.log(validationsRes)
             if (!validationsRes.valid) {
-                setErr(validationsRes.msg);
+                setErr({ ...validationsRes });
+                return;
+            }
+            console.log("pictures" + formState.photos.toAdd.length)
+            if (pictures && pictures.length + formState.photos.toAdd.length < 1) {
+                setErr((prev) => ({ ...prev, reason: 'pictures', msg: 'נא לצרף לפחות תמונה אחת' }));
                 return;
             }
 
-            let result = await updatePostData(post._id, updatedData, userToken, formState.photos.toAdd, formState.photos.toRemove, address);
+            if (formState.address.edited && !address.location) {
+                setErr((prev) => ({ reason: 'address', msg: 'נא הכנס כתובת תקינה' }));
+            }
+
+            let result;
+            console.log(formState.address.edited)
+            if (formState.address.edited && address)
+                result = await updatePostData(post._id, updatedData, userToken, formState.photos.toAdd, formState.photos.toRemove, address);
+            else
+                result = await updatePostData(post._id, updatedData, userToken, formState.photos.toAdd, formState.photos.toRemove);
 
             console.log("result =>" + result.acknowledged)
             // if (result.acknowledged) {
 
-            //     //await updatePostsArray()
+            //     //await updatePostsArray()               
             //     const updatedPost = await searchPosts({ _id: post._id, full: 'true' }, userToken)
             //     let postsArr = myPosts;
             //     postsArr[index] = updatedPost;
@@ -247,17 +267,23 @@ export default function EditPost({ route, navigation }) {
 
                     <View style={[styles.fieldsGap]}>
                         {
-                            formState.itemName.edited ? <View>
+                            formState.itemName.edited ? <View style={[styles.flexRow]}>
                                 <TextInput
                                     label="שם הפריט"
                                     value={formState.itemName.value}
                                     onChangeText={text => dispatch({ type: 'update', field: 'itemName', value: text })}
                                     mode='outlined'
                                     placeholder={post.itemName}
-                                    style={[]}
+                                    style={[styles.textInput]}
                                     //theme={{ roundness: 50, activeOutlineColor: 'white' }}
                                     //activeOutlineColor='red'
                                     outlineStyle={styles.outlinedInputBorder}
+                                />
+                                <IconButton
+                                    icon="close-thick"
+                                    size={20}
+                                    onPress={() => dispatch({ type: 'cancel', field: 'itemName' })}
+                                    style={[styles.canceEditlBtn]}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
@@ -270,17 +296,24 @@ export default function EditPost({ route, navigation }) {
 
                                 </View>
                         }
+                        {err && err.reason == 'itemName' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
                         {
-                            formState.description.edited ? <View>
+                            formState.description.edited ? <View style={[styles.flexRow]}>
                                 <TextInput
                                     label="תיאור הפריט"
                                     value={formState.itemName.value}
                                     onChangeText={text => dispatch({ type: 'update', field: 'description', value: text })}
                                     mode='outlined'
                                     placeholder={post.description}
-                                    style={[]}
+                                    style={[styles.textInput]}
                                     outlineStyle={styles.outlinedInputBorder}
                                     multiline={true}
+                                />
+                                <IconButton
+                                    icon="close-thick"
+                                    size={20}
+                                    onPress={() => dispatch({ type: 'cancel', field: 'description' })}
+                                    style={[styles.canceEditlBtn]}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
@@ -293,9 +326,16 @@ export default function EditPost({ route, navigation }) {
 
                                 </View>
                         }
+                        {err && err.reason == 'description' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
                         {
-                            formState.category.edited ? <View>
+                            formState.category.edited ? <View style={[styles.flexRow]}>
                                 <SelectFromList list={postCategories} title='' picked={formState.category.value === '' ? post.category : formState.category.value} setPicked={null} dispatch={dispatch} field='category' />
+                                <IconButton
+                                    icon="close-thick"
+                                    size={20}
+                                    onPress={() => dispatch({ type: 'cancel', field: 'category' })}
+                                    style={[styles.canceEditlBtn]}
+                                />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
                                     <IconButton
@@ -307,10 +347,16 @@ export default function EditPost({ route, navigation }) {
 
                                 </View>
                         }
-
+                        {err && err.reason == 'category' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
                         {
-                            formState.status.edited ? <View>
+                            formState.status.edited ? <View style={[styles.flexRow]}>
                                 <SelectFromList list={userAllowedPostStatuses} title='' picked={formState.status.value === '' ? post.status : formState.status.value} setPicked={null} dispatch={dispatch} field='status' />
+                                <IconButton
+                                    icon="close-thick"
+                                    size={20}
+                                    onPress={() => dispatch({ type: 'cancel', field: 'status' })}
+                                    style={[styles.canceEditlBtn]}
+                                />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
                                     <IconButton
@@ -322,7 +368,7 @@ export default function EditPost({ route, navigation }) {
 
                                 </View>
                         }
-
+                        {err && err.reason == 'status' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
                         <View>
                             <Text style={[styles.editFormText]}>תמונות הפריט:</Text>
                             <View style={[styles.flexRow]}>
@@ -352,21 +398,29 @@ export default function EditPost({ route, navigation }) {
                                 ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
                                 nestedScrollEnabled />
                         </View>
-
+                        {err && err.reason == 'pictures' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
 
                         {
                             formState.address.edited ? <View>
                                 <AddAddress address={address} handleChange={setAddress} />
-                                <TextInput
-                                    label="הערות לכתובת"
-                                    value={address.notes}
-                                    onChangeText={text => setAddress((prev) => ({ ...prev, notes: text }))}
-                                    mode='outlined'
-                                    placeholder={post.address.notes}
-                                    style={[]}
-                                    outlineStyle={styles.outlinedInputBorder}
-                                    multiline={true}
-                                />
+                                <View style={[styles.flexRow]}>
+                                    <TextInput
+                                        label="הערות לכתובת"
+                                        value={address.notes}
+                                        onChangeText={text => setAddress((prev) => ({ ...prev, notes: text }))}
+                                        mode='outlined'
+                                        placeholder={post.address.notes}
+                                        style={[styles.textInput]}
+                                        outlineStyle={styles.outlinedInputBorder}
+                                        multiline={true}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'cancel', field: 'address' })}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
                                     <IconButton
@@ -378,9 +432,8 @@ export default function EditPost({ route, navigation }) {
 
                                 </View>
                         }
-
                     </View>
-                    {err ? <Text style={[styles.errMsg]}>{err}</Text> : null}
+
                     <Button mode='contained' style={[styles.nppostButton, styles.smallBtn, { alignSelf: 'center' }]} onPress={() => { handleChanges() }}>שמור שינויים</Button>
                 </ScrollView>}
 

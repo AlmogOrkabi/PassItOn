@@ -196,17 +196,17 @@ function validatePostData(updatedData) {
         switch (field) {
             case 'itemName':
                 if (!isValidItemName(updatedData.itemName)) {
-                    return { valid: false, msg: 'שם פריט אינו תקין' };
+                    return { valid: false, msg: 'שם פריט אינו תקין', reason: 'itemName' };
                 }
                 break;
             case 'description':
                 if (!isString(updatedData.description) || updatedData.description.length > 300) {
-                    return { valid: false, msg: 'תיאור פריט אינו תקין' };
+                    return { valid: false, msg: 'תיאור פריט אינו תקין', reason: 'description' };
                 }
                 break;
             case 'category':
                 if (!isValidPostCategory(updatedData.category)) {
-                    return { valid: false, msg: 'קטגורית הפריט אינה תקינה' };
+                    return { valid: false, msg: 'קטגורית הפריט אינה תקינה', reason: 'category' };
                 }
                 break;
             case 'photoUrls':
@@ -218,7 +218,7 @@ function validatePostData(updatedData) {
             //     break;
             case 'status':
                 if (!isValidPostStatus(updatedData.status)) {
-                    return { valid: false, msg: 'סטטוס לא תקין' };
+                    return { valid: false, msg: 'סטטוס לא תקין', reason: 'status' };
                 }
                 break;
             case 'recipient_id':
@@ -235,12 +235,19 @@ function validatePostData(updatedData) {
 
 function isValidPostStatus(postStatus) {
 
-    if (!isString(postStatus) || !postStatus.includes(postStatus)) {
-        return { valid: false, msg: 'סטטוס לא תקין' }
-    }
+    if (!isString(postStatus) || !postStatuses.includes(postStatus))
+        return false;
     else
-        return { valid: true }
+        return true;
 }
+// function isValidPostStatus(postStatus) {
+
+//     if (!isString(postStatus) || !postStatuses.includes(postStatus)) {
+//         return { valid: false, msg: 'סטטוס לא תקין' }
+//     }
+//     else
+//         return { valid: true }
+// }
 
 // function validatePostSearchData(maxDistance, userCoordinates, itemName = null) {
 //     if (itemName) {
