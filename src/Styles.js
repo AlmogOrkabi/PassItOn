@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
         height: '100%',
         //maxWidth: "100%",
         padding: '2%',
-        paddingBottom: 0
+        paddingBottom: 0,
     },
     sub_container: {
         margin: '5%',
@@ -410,17 +410,18 @@ export const styles = StyleSheet.create({
     styles_FAB_Group_profile: {
         position: 'absolute',
         //position: 'relative',
+        // width: '50%',
         left: '50%',
-        top: '20%',
+        //top: '10%',
         // maxHeight: 500,
         // maxWidth: 200,
-        bottom: '5%',
+        // bottom: '5%',
         zIndex: 1,
         borderRadius: 15,
-        flexs: 1,
+        //flexs: 1,
         overflow: 'hidden',
-        // alignItems: 'center', // Center children horizontally
-        // justifyContent: 'center', // Center children vertically
+        //alignItems: 'center', // Center children horizontally
+        //justifyContent: 'center', // Center children vertically
     },
     postImgContainer: {
         width: 250,
