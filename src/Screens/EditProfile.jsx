@@ -1,11 +1,16 @@
-import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Image, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect, useContext, useReducer } from 'react'
 import { Button, TextInput, FAB, IconButton } from 'react-native-paper'
+import { useForm, Controller } from 'react-hook-form';
+import { editUser, checkEmailAvailability, getUsers } from '../api/index';
+
 
 import { openMediaLibrary } from '../utils/index'
 
-import { styles, touchableOpacity, theme } from '../Styles'
+import { styles, touchableOpacity, theme, paperStyles } from '../Styles'
 import { AppContext } from '../Contexts/AppContext'
+
+import { isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateUserData } from '../utils/index'
 
 import Logo from '../Components/Logo'
 import AddAddress from '../Components/AddAddress'
@@ -34,6 +39,9 @@ const initialState = {
     },
     password: {
         edited: false,
+        value: '',
+    },
+    confirmPassword: {
         value: ''
     },
     profilePicture: {
@@ -61,7 +69,8 @@ function formReducer(state, action) {
                 ...state,
                 [action.field]: {
                     ...state[action.field],
-                    edited: false
+                    edited: false,
+                    value: '' //this is the line i added
                 }
             }
         case 'update':
@@ -80,9 +89,9 @@ function formReducer(state, action) {
 
 
 
-export default function EditProfile() {
+export default function EditProfile({ navigation }) {
 
-    const { loggedUser, userToken } = useContext(AppContext)
+    const { setLoggedUser, loggedUser, userToken } = useContext(AppContext)
 
     const [formState, dispatch] = useReducer(formReducer, initialState);
 
@@ -97,6 +106,27 @@ export default function EditProfile() {
         notes: null
     });
 
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [rePasswordVisible, setRePasswordVisible] = useState(false);
+    const [isEmailTaken, setIsEmailTaken] = useState(false);
+
+    const {
+        control,
+        watch,
+        trigger,
+        formState: { errors },
+        setValue,
+        handleSubmit,
+    } = useForm({ mode: 'all' })
+
+    const password = watch('password');
+
+    useEffect(() => {
+        if (formState.password != '' && formState.confirmPassword != '')
+            trigger('confirmPassword');
+    }, [password])
+
+
     async function handleChangePicture() {
         if (!formState.profilePicture.edited)
             dispatch({ type: 'edit', field: 'profilePicture' })
@@ -109,253 +139,451 @@ export default function EditProfile() {
 
     }
 
+    async function handleChanges() {
+        try {
+            setLoading(true);
+
+            const newData = {};
+            if (formState.username.edited) {
+                newData.username = formState.username.value;
+            }
+            if (formState.firstName.edited) {
+                newData.firstName = formState.firstName.value;
+            }
+            if (formState.lastName.edited) {
+                newData.lastName = formState.lastName.value;
+            }
+            if (formState.phoneNumber.edited) {
+                newData.phoneNumber = formState.phoneNumber.value;
+            }
+            if (formState.email.edited) {
+                newData.email = formState.email.value;
+            }
+            if (formState.password.edited) {
+                newData.password = formState.password.value;
+            }
+
+            const validationsRes = await validateUserData(newData);
+            if (!validationsRes.valid) {
+                trigger(validationsRes.field);
+                return;
+            }
+
+            console.log("email edited?: " + formState.email.edited)
+            if (formState.email.edited) {
+                checkEmail = await checkEmailAvailability(formState.email.value); //throws an error if the email is already taken
+            }
+
+            if (formState.profilePicture.edited) {
+                newData.newPhoto = formState.profilePicture.value;
+                newData.photo = loggedUser.photo; // used to delete the previous picture from the cloud service in the server
+                console.log("pfp: " + newData.newPhoto);
+            }
+
+            let result;
+            if (formState.address.edited)
+                result = await editUser(loggedUser._id, newData, userToken, address)
+            else
+                result = await editUser(loggedUser._id, newData, userToken)
+
+            console.log("result =>" + result.acknowledged)
+            if (result.acknowledged) {
+                if (formState.password.edited || formState.email.edited) //if verification details are edited relogging required
+                    navigation.navigate('Login')
+                else {
+                    const updatedUser = await getUsers({ _id: loggedUser._id, full: 'true' }, userToken);
+                    setLoggedUser(updatedUser[0]);
+                    navigation.navigate('Profile');
+                }
+            }
+
+
+        } catch (error) {
+            if (error.message == 409) {
+                setIsEmailTaken(() => true);
+                return;
+            }
+            console.log("error here: " + error);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={80} />
+            <Logo width={200} height={70} />
             <Text style={[styles.mediumTitle]}>עריכת פרטי משתמש:</Text>
-            <ScrollView nestedScrollEnabled style={[styles.sub_container2,]} >
-                <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer,]}>
-                    <Image source={{ uri: pfp }} style={[styles.profilePicture,]}
-                    />
-                    {/* <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.mediumOrange, onPrimaryContainer: 'white' } }} onPress={() => handleChangePicture()} /> */}
-                    <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: 'white', onPrimaryContainer: theme.mediumOrange } }} customSize={40} onPress={() => handleChangePicture()} />
-                </View >
-                <View style={[styles.fieldsGap]} >
-                    {
-                        formState.username.edited ? <View style={[styles.flexRow,]}>
-                            <TextInput
-                                label="שם משתמש"
-                                value={formState.username.value}
-                                onChangeText={text => dispatch({ type: 'update', field: 'username', value: text })}
-                                mode='outlined'
-                                placeholder={loggedUser.username}
-                                style={[styles.textInput]}
-                                //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                //activeOutlineColor='red'
-                                outlineStyle={styles.outlinedInputBorder}
-                            />
-                            <IconButton
-                                icon="close-thick"
-                                size={20}
-                                onPress={() => dispatch({ type: 'cancel', field: 'username' })}
-                                style={[styles.canceEditlBtn]}
-                            />
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'username' })}
+            {loading ? <View style={[styles.main_container]}>
+                <ActivityIndicator />
+            </View> :
+                <ScrollView nestedScrollEnabled style={[styles.sub_container2,]} >
+                    <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer,]}>
+                        <Image source={{ uri: pfp }} style={[styles.profilePicture,]}
+                        />
+                        <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: 'white', onPrimaryContainer: theme.mediumOrange } }} customSize={40} onPress={() => handleChangePicture()} />
+                    </View >
+                    <View style={[styles.fieldsGap]} >
+                        {
+                            formState.username.edited ? <View>
+                                <View style={[styles.flexRow,]}>
+                                    <Controller
+                                        control={control}
+                                        name='username'
+                                        defaultValue={formState.username.value}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput
+                                                label="שם משתמש"
+                                                value={value}
+                                                onBlur={onBlur}
+                                                onChangeText={value => { onChange(value); dispatch({ type: 'update', field: 'username', value: value }) }}
+                                                mode='outlined'
+                                                placeholder={loggedUser.username}
+                                                style={[styles.textInput]}
+                                                outlineStyle={styles.outlinedInputBorder}
+                                            />
+                                        )}
+                                        rules={{
+                                            required: {
+                                                value: true,
+                                                message: 'שדה חובה'
+                                            },
+                                            validate:
+                                                value => isValidUserName(value) || 'שם המשתמש אינו תקין'
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => { dispatch({ type: 'cancel', field: 'username' }); setValue('username', '') }}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                                {errors.username && <Text style={[styles.inputError,]} >{errors.username.message}</Text>}
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'username' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>שם משתמש: {loggedUser.username}</Text>
+
+                                </View>
+                        }
+                        {
+                            formState.firstName.edited ? <View>
+                                <View style={[styles.flexRow,]}>
+                                    <Controller
+                                        control={control}
+                                        name='firstName'
+                                        defaultValue={formState.firstName.value}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput
+                                                label="שם פרטי"
+                                                value={value}
+                                                onBlur={onBlur}
+                                                onChangeText={value => { onChange(value); dispatch({ type: 'update', field: 'firstName', value: value }) }}
+                                                mode='outlined'
+                                                placeholder={loggedUser.firstName}
+                                                style={[styles.textInput]}
+                                                outlineStyle={styles.outlinedInputBorder}
+                                            />
+                                        )}
+                                        rules={{
+                                            required: {
+                                                value: true,
+                                                message: 'שדה חובה'
+                                            },
+                                            validate:
+                                                value => isValidName(value) || 'שם פרטי אינו תקין'
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => { dispatch({ type: 'cancel', field: 'firstName' }); setValue('firstName', '') }}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                                {errors.firstName && <Text style={[styles.inputError,]} >{errors.firstName.message}</Text>}
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'firstName' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>שם פרטי: {loggedUser.firstName}</Text>
+
+                                </View>
+                        }
+                        {
+                            formState.lastName.edited ? <View>
+                                <View style={[styles.flexRow,]}>
+                                    <Controller
+                                        control={control}
+                                        name='lastName'
+                                        defaultValue={formState.lastName.value}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput
+                                                label="שם משפחה"
+                                                value={value}
+                                                onBlur={onBlur}
+                                                onChangeText={text => { onChange(value); dispatch({ type: 'update', field: 'lastName', value: text }) }}
+                                                mode='outlined'
+                                                placeholder={loggedUser.lastName}
+                                                style={[styles.textInput]}
+                                                outlineStyle={styles.outlinedInputBorder}
+                                            />
+                                        )}
+                                        rules={{
+                                            required: {
+                                                value: true,
+                                                message: 'שדה חובה'
+                                            },
+                                            validate:
+                                                value => isValidName(value) || 'שם המשפחה אינו תקין'
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => { dispatch({ type: 'cancel', field: 'lastName' }); setValue('lastName', '') }}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                                {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'lastName' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>שם משפחה: {loggedUser.lastName}</Text>
+
+                                </View>
+                        }
+                        {
+                            formState.phoneNumber.edited ? <View>
+                                <View style={[styles.flexRow,]}>
+                                    <Controller
+                                        control={control}
+                                        name='phoneNumber'
+                                        defaultValue={formState.phoneNumber.value}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput
+                                                inputMode='tel'
+                                                label="מספר טלפון נייד"
+                                                value={value}
+                                                onBlur={onBlur}
+                                                onChangeText={value => { onChange(value); dispatch({ type: 'update', field: 'phoneNumber', value: value }) }}
+                                                mode='outlined'
+                                                placeholder={loggedUser.phoneNumber}
+                                                style={[styles.textInput]}
+                                                outlineStyle={styles.outlinedInputBorder}
+                                            />
+                                        )}
+                                        rules={{
+                                            required: {
+                                                value: true,
+                                                message: 'שדה חובה'
+                                            },
+                                            validate:
+                                                value => isValidPhoneNumber(value) || 'מספר הטלפון שהוכנס אינו תקין'
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => { dispatch({ type: 'cancel', field: 'phoneNumber' }); setValue('phoneNumber', '') }}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                                {errors.phoneNumber && <Text style={[styles.inputError,]} >{errors.phoneNumber.message}</Text>}
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'phoneNumber' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>מספר טלפון נייד: {loggedUser.phoneNumber}</Text>
+
+                                </View>
+                        }
+                        {
+                            formState.email.edited ? <View>
+                                <View style={[styles.flexRow,]}>
+                                    <Controller
+                                        control={control}
+                                        name='email'
+                                        defaultValue={formState.email.value}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput
+                                                inputMode='email'
+                                                label="כתובת מייל"
+                                                value={value}
+                                                onBlur={onBlur}
+                                                onChangeText={value => { onChange(value); dispatch({ type: 'update', field: 'email', value: value }); isEmailTaken ? setIsEmailTaken(false) : null }}
+                                                mode='outlined'
+                                                placeholder={loggedUser.email}
+                                                style={[styles.textInput]}
+                                                outlineStyle={styles.outlinedInputBorder}
+                                            />
+                                        )}
+                                        rules={{
+                                            required: {
+                                                value: true,
+                                                message: 'שדה חובה'
+                                            },
+                                            validate:
+                                                value => isValidEmail(value) || 'כתובת המייל שהוכנסה אינה תקינה'
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => { dispatch({ type: 'cancel', field: 'email' }); setValue('email', '') }}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                                {errors.email && <Text style={[styles.inputError,]} >{errors.email.message}</Text>
+                                    || isEmailTaken && <Text style={[styles.inputError,]}>כתובת המייל אינה פנויה</Text>}
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'email' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>כתובת מייל: {loggedUser.email}</Text>
+
+                                </View>
+                        }
+                        {
+                            formState.password.edited ? <View >
+                                <View style={[styles.flexRow,]}>
+                                    <Controller
+                                        control={control}
+                                        name="password"
+                                        defaultValue={formState.password.value}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput
+                                                label="סיסמה"
+                                                value={value}
+                                                onBlur={onBlur}
+                                                onChangeText={value => { onChange(value); dispatch({ type: 'update', field: 'password', value: value }) }}
+                                                mode='outlined'
+                                                style={[styles.textInput]}
+                                                secureTextEntry={!passwordVisible}
+                                                outlineStyle={styles.outlinedInputBorder}
+                                                right={<TextInput.Icon icon="eye" size={paperStyles.inputIcon.size} name={passwordVisible ? "eye-off" : "eye"} onPress={() => setPasswordVisible(!passwordVisible)} />}
+                                            />
+                                        )}
+
+                                        rules={{
+                                            required: {
+                                                value: true,
+                                                message: 'שדה חובה'
+                                            },
+
+                                            validate: {
+                                                validPassword: value => isValidPassword(value) || '8 - 16 תווים , אות גדולה אחת ומספר אחד לפחות',
+                                                // passwordsMatch: value => value === watch('confirmPassword') || 'הסיסמאות אינן זהות',
+
+                                            }
+
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => {
+                                            dispatch({ type: 'cancel', field: 'password' }); setValue('password', ''); setValue('confirmPassword', '');
+                                        }}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                                {errors.password && <Text style={[styles.inputError,]} >{errors.password.message}</Text>}
+                                <Controller
+                                    control={control}
+                                    name="confirmPassword"
+                                    defaultValue={formState.confirmPassword.value}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextInput
+                                            label="ווידוא סיסמה"
+                                            value={value}
+                                            onBlur={onBlur}
+                                            onChangeText={value => { onChange(value); dispatch({ type: 'update', field: 'confirmPassword', value: value }) }}
+                                            mode='outlined'
+                                            style={[styles.textInput]}
+                                            outlineStyle={styles.outlinedInputBorder}
+                                            secureTextEntry={!rePasswordVisible}
+                                            right={<TextInput.Icon icon="eye" size={paperStyles.inputIcon.size} name={rePasswordVisible ? "eye-off" : "eye"} onPress={() => setRePasswordVisible(!rePasswordVisible)} />}
+                                        />
+                                    )}
+                                    rules={{
+                                        required: {
+                                            value: true,
+                                            message: 'שדה חובה'
+                                        },
+
+                                        validate: {
+                                            validPassword: value => isValidPassword(value) || '8 - 16 תווים , אות גדולה אחת ומספר אחד לפחות',
+                                            passwordsMatch: value => value === watch('password') || 'הסיסמאות אינן זהות',
+                                        }
+                                    }}
                                 />
-                                <Text style={[styles.editFormText]}>שם משתמש: {loggedUser.username}</Text>
+                                {errors.confirmPassword && <Text style={[styles.inputError,]} >{errors.confirmPassword.message}</Text>}
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'password' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>שינוי סיסמה</Text>
 
-                            </View>
-                    }
+                                </View>
+                        }
+                        {
+                            formState.address.edited ? <View>
+                                <AddAddress address={address} handleChange={setAddress} />
+                                <View style={[styles.flexRow]}>
+                                    <TextInput
+                                        label="הערות לכתובת"
+                                        value={address.notes}
+                                        onChangeText={text => setAddress((prev) => ({ ...prev, notes: text }))}
+                                        mode='outlined'
+                                        placeholder={loggedUser.address.notes}
+                                        style={[styles.textInput]}
+                                        outlineStyle={styles.outlinedInputBorder}
+                                        multiline={true}
+                                    />
+                                    <IconButton
+                                        icon="close-thick"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'cancel', field: 'address' })}
+                                        style={[styles.canceEditlBtn]}
+                                    />
+                                </View>
+                            </View> :
+                                <View style={[styles.flexRow, styles.editformFieldContainer]}>
+                                    <IconButton
+                                        icon="pencil"
+                                        size={20}
+                                        onPress={() => dispatch({ type: 'edit', field: 'address' })}
+                                    />
+                                    <Text style={[styles.editFormText]}>כתובת: {loggedUser.address.simplifiedAddress}</Text>
 
-                    {
-                        formState.firstName.edited ? <View style={[styles.flexRow,]}>
-                            <TextInput
-                                label="שם פרטי"
-                                value={formState.firstName.value}
-                                onChangeText={text => dispatch({ type: 'update', field: 'firstName', value: text })}
-                                mode='outlined'
-                                placeholder={loggedUser.firstName}
-                                style={[styles.textInput]}
-                                //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                //activeOutlineColor='red'
-                                outlineStyle={styles.outlinedInputBorder}
-                            />
-                            <IconButton
-                                icon="close-thick"
-                                size={20}
-                                onPress={() => dispatch({ type: 'cancel', field: 'firstName' })}
-                                style={[styles.canceEditlBtn]}
-                            />
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'firstName' })}
-                                />
-                                <Text style={[styles.editFormText]}>שם פרטי: {loggedUser.firstName}</Text>
-
-                            </View>
-                    }
-
-
-                    {
-                        formState.lastName.edited ? <View style={[styles.flexRow,]}>
-                            <TextInput
-                                label="שם משפחה"
-                                value={formState.lastName.value}
-                                onChangeText={text => dispatch({ type: 'update', field: 'lastName', value: text })}
-                                mode='outlined'
-                                placeholder={loggedUser.lastName}
-                                style={[styles.textInput]}
-                                //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                //activeOutlineColor='red'
-                                outlineStyle={styles.outlinedInputBorder}
-                            />
-                            <IconButton
-                                icon="close-thick"
-                                size={20}
-                                onPress={() => dispatch({ type: 'cancel', field: 'lastName' })}
-                                style={[styles.canceEditlBtn]}
-                            />
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'lastName' })}
-                                />
-                                <Text style={[styles.editFormText]}>שם משפחה: {loggedUser.lastName}</Text>
-
-                            </View>
-                    }
-                    {
-                        formState.phoneNumber.edited ? <View style={[styles.flexRow,]}>
-                            <TextInput
-                                label="מספר טלפון נייד"
-                                value={formState.lastName.value}
-                                onChangeText={text => dispatch({ type: 'update', field: 'phoneNumber', value: text })}
-                                mode='outlined'
-                                placeholder={loggedUser.phoneNumber}
-                                style={[styles.textInput]}
-                                //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                //activeOutlineColor='red'
-                                outlineStyle={styles.outlinedInputBorder}
-                            />
-                            <IconButton
-                                icon="close-thick"
-                                size={20}
-                                onPress={() => dispatch({ type: 'cancel', field: 'phoneNumber' })}
-                                style={[styles.canceEditlBtn]}
-                            />
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'phoneNumber' })}
-                                />
-                                <Text style={[styles.editFormText]}>מספר טלפון נייד: {loggedUser.phoneNumber}</Text>
-
-                            </View>
-                    }
-                    {
-                        formState.email.edited ? <View style={[styles.flexRow,]}>
-                            <TextInput
-                                label="כתובת מייל"
-                                value={formState.lastName.value}
-                                onChangeText={text => dispatch({ type: 'update', field: 'email', value: text })}
-                                mode='outlined'
-                                placeholder={loggedUser.email}
-                                style={[styles.textInput]}
-                                //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                //activeOutlineColor='red'
-                                outlineStyle={styles.outlinedInputBorder}
-                            />
-                            <IconButton
-                                icon="close-thick"
-                                size={20}
-                                onPress={() => dispatch({ type: 'cancel', field: 'email' })}
-                                style={[styles.canceEditlBtn]}
-                            />
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'email' })}
-                                />
-                                <Text style={[styles.editFormText]}>כתובת מייל: {loggedUser.email}</Text>
-
-                            </View>
-                    }
-                    {
-                        formState.password.edited ? <View >
-                            <View style={[styles.flexRow,]}>
-                                <TextInput
-                                    label="סיסמה"
-                                    value={formState.password.value}
-                                    onChangeText={text => dispatch({ type: 'update', field: 'password', value: text })}
-                                    mode='outlined'
-                                    //placeholder={}
-                                    style={[styles.textInput]}
-                                    //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                    //activeOutlineColor='red'
-                                    outlineStyle={styles.outlinedInputBorder}
-                                />
-                                <IconButton
-                                    icon="close-thick"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'cancel', field: 'password' })}
-                                    style={[styles.canceEditlBtn]}
-                                />
-                            </View>
-                            <TextInput
-                                label="ווידוא סיסמה"
-                                value={formState.password.value}
-                                onChangeText={text => dispatch({ type: 'update', field: 'password', value: text })}
-                                mode='outlined'
-                                //placeholder={}
-                                style={[styles.textInput]}
-                                //theme={{ roundness: 50, activeOutlineColor: 'white' }}
-                                //activeOutlineColor='red'
-                                outlineStyle={styles.outlinedInputBorder}
-                            />
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'password' })}
-                                />
-                                <Text style={[styles.editFormText]}>שינוי סיסמה</Text>
-
-                            </View>
-                    }
-                    {
-                        formState.address.edited ? <View>
-                            <AddAddress address={address} handleChange={setAddress} />
-                            <View style={[styles.flexRow]}>
-                                <TextInput
-                                    label="הערות לכתובת"
-                                    value={address.notes}
-                                    onChangeText={text => setAddress((prev) => ({ ...prev, notes: text }))}
-                                    mode='outlined'
-                                    placeholder={loggedUser.address.notes}
-                                    style={[styles.textInput]}
-                                    outlineStyle={styles.outlinedInputBorder}
-                                    multiline={true}
-                                />
-                                <IconButton
-                                    icon="close-thick"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'cancel', field: 'address' })}
-                                    style={[styles.canceEditlBtn]}
-                                />
-                            </View>
-                        </View> :
-                            <View style={[styles.flexRow, styles.editformFieldContainer]}>
-                                <IconButton
-                                    icon="pencil"
-                                    size={20}
-                                    onPress={() => dispatch({ type: 'edit', field: 'address' })}
-                                />
-                                <Text style={[styles.editFormText]}>כתובת: {loggedUser.address.simplifiedAddress}</Text>
-
-                            </View>
-                    }
-
-
-                </View>
-
-
-            </ScrollView>
+                                </View>
+                        }
+                    </View>
+                    <Button mode='contained' style={[styles.nppostButton, styles.smallBtn, { alignSelf: 'center' }]} onPress={() => handleChanges(handleSubmit)}>שמור שינויים</Button>
+                </ScrollView>}
         </SafeAreaView>
     )
 }

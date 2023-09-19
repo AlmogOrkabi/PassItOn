@@ -1,9 +1,13 @@
 import { uriToBase64, urisArrayToBase64 } from "../utils/index";
 import { addNewAddress, getAddress } from "./addresses";
-import { registerNewUser, getUserById } from "./users";
+import { registerNewUser, getUserById, editUserData } from "./users";
 import { addNewPost, postSearchById, updatePost } from "./posts";
 import { sendNewRequest } from './requests';
 import { addNewReport } from "./reports";
+
+
+import { validatePostData, validateUserData } from '../utils/validations'
+
 
 export const createNewUser = async (data) => {
     try {
@@ -212,8 +216,6 @@ export const getRequestsPostData = async (requestsArr, token) => {
     }
 };
 
-import { validatePostData } from '../utils/validations'
-
 export const updatePostStatus = async (post_id, status, token, requestingUserId = null) => {
     try {
 
@@ -301,3 +303,26 @@ export const createNewReport = async (owner_id, reportType, userReported, postRe
     }
 
 };
+
+
+export const editUser = async (userId, data, token, address = null) => {
+    try {
+
+        if (data.newPhoto) {
+            data.newPhoto = await uriToBase64(data.newPhoto);
+        }
+        if (address) {
+            let newAddress = await createNewAddress(address)
+            data.address_id = newAddress.insertedId;
+        }
+
+
+        const response = editUserData(userId, data, token);
+
+        return response;
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

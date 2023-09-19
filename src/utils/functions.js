@@ -1,4 +1,5 @@
 import * as ImagePicker from 'expo-image-picker'
+import { Alert } from 'react-native';
 
 
 
@@ -55,7 +56,9 @@ export const openMediaLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     console.log(status)
     if (status !== 'granted') {
-        alert('הרשאה נדחתה');
+        Alert.alert('', 'הגישה נדחתה. כדי להעלות להעלות תמונה יש לאפשר לאפליקציה גישה למדיה דרך הגדרות המכשיר', [
+            { text: 'אישור', onPress: () => { } }
+        ]);
         return;
     }
     let result = await ImagePicker.launchImageLibraryAsync({

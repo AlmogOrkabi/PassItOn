@@ -113,7 +113,7 @@ export default function Register({ navigation }) {
         } catch (error) {
             console.log("registering error:", error) // *for debugging
 
-            // -email is not aviable error: 
+            // -email is not available error: 
             if (error.message == 409) {
                 setIsEmailTaken((prev) => true); // *for ui purposes
                 setFormPage((prev) => 2); // * navigates to the correct component of the registration form

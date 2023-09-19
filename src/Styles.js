@@ -411,18 +411,22 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         //position: 'relative',
         // width: '50%',
-        left: '50%',
+        left: '45%',
         //top: '10%',
+        //top: '5%',
         // maxHeight: 500,
         // maxWidth: 200,
-        // bottom: '5%',
+        bottom: '5%',
         zIndex: 1,
         borderRadius: 15,
         //flexs: 1,
         overflow: 'hidden',
-        //alignItems: 'center', // Center children horizontally
+        //alignContent: 'center', // Center children horizontally
         //justifyContent: 'center', // Center children vertically
+        justifyContent: 'flex-end', // Center children horizontally
+
     },
+
     postImgContainer: {
         width: 250,
         height: 250,
@@ -626,6 +630,7 @@ export const styles = StyleSheet.create({
     },
     textInput: {
         width: '80%',
+        marginBottom: '1%',
     },
 
 

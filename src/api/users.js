@@ -10,6 +10,7 @@ export const checkEmailAvailability = async (email) => {
         },
     });
 
+
     if (!response.ok) {
         throw new Error(response.status)
     }
@@ -106,3 +107,33 @@ export const getUsers = async (queryParams = {}, token) => {
     console.log("Raw data from API - USERS : ", res); // Print out the raw data
     return res;
 };
+
+
+export const editUserData = async (userId, updatedData, token) => {
+    console.log("Edit User Data: " + JSON.stringify(updatedData));
+    const response = await fetch(`${BASE_URL}/api/users/edit/${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+
+            updatedData: { ...updatedData }
+        }),
+    });
+
+
+
+    const res = await response.json();
+    console.log("RESPONSE" + response.status)
+    if (!response.ok) {
+        if (response.status == 404)
+            return 404;
+        else
+            throw new Error(response);
+    }
+
+    console.log("Raw data from API - USERS : ", res); // Print out the raw data
+    return res;
+}
