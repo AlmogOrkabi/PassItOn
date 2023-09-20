@@ -98,6 +98,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
 
 
+
     },
     diffBG: {  //for debugging purposes only
         backgroundColor: 'white',

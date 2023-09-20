@@ -101,7 +101,7 @@ export default function ManageRequests({ navigation }) {
         <SafeAreaView style={[styles.main_container2]}>
             <Logo width={200} height={80} />
             {loading ? <View style={[styles.main_container]}><ActivityIndicator /></View> :
-                <View>
+                <View style={[{ flex: 1 }]}>
                     {/* <Logo width={200} height={80} /> */}
                     <View>
                         <Text>הבקשות שלי</Text>
@@ -126,7 +126,7 @@ export default function ManageRequests({ navigation }) {
                         />
                     </View>
 
-                    <View style={[styles.containerCenter]}>
+                    <View style={[styles.container, { flex: 1 },]}>
                         {options == '' ? null : options == 'sent' ? requestsSent == 404 ?
                             <Text>לא נשלחו בקשות עדיין</Text>
                             :
