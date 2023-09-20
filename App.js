@@ -1,3 +1,4 @@
+import React, { useState, useContext, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
@@ -21,7 +22,7 @@ import MyPosts from './src/Screens/MyPosts';
 import RequestPage from './src/Screens/RequestPage';
 import MyReports from './src/Screens/MyReports';
 
-import AppContextProvider from './src/Contexts/AppContext';
+import AppContextProvider, { AppContext } from './src/Contexts/AppContext';
 import { styles } from './src/Styles';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -46,8 +47,11 @@ import { Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
-
 function LoggedUserTabs() {
+
+  const { serverError, setServerError } = useContext(AppContext);
+
+
   return (
     // <KeyboardAvoidingView
     //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -110,6 +114,8 @@ function CommonScreens() {
 }
 
 
+import ErrorsUI from './src/ErrorHandling/ErrorsUI';
+
 export default function App() {
 
   return (
@@ -120,6 +126,7 @@ export default function App() {
       <PaperProvider>
         <AppContextProvider>
           <NavigationContainer>
+
             <Stack.Navigator>
               <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
@@ -139,6 +146,7 @@ export default function App() {
             <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} />
             <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} /> */}
             </Stack.Navigator>
+            <ErrorsUI />
           </NavigationContainer>
         </AppContextProvider>
       </PaperProvider>

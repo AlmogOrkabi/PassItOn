@@ -14,7 +14,7 @@ import { createNewReport } from '../api/index';
 export default function ReportForm({ route }) {
 
     const { post } = route.params;
-    const { loggedUser, userToken } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
     const [photos, setPhotos] = useState([]);
     const [reportReason, setReportReason] = useState('נא לבחור את סוג הדיווח');
     const [reportTarget, setReportTarget] = useState('post')
@@ -50,6 +50,7 @@ export default function ReportForm({ route }) {
 
         } catch (error) {
             console.log("error here")
+            setServerError({ ...error });
         } finally {
             setLoading(false);
         }

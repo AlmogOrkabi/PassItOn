@@ -12,7 +12,10 @@ export const checkEmailAvailability = async (email) => {
 
 
     if (!response.ok) {
-        throw new Error(response.status)
+        if (response.status === 409)
+            return 409
+        else
+            throw { ...res, status: response.status };
     }
     else
         return true;
@@ -34,7 +37,9 @@ export const login = async (email, password) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        //throw new Error(res.msg);
+        //throw { ...res, status: response.status };
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -57,7 +62,8 @@ export const registerNewUser = async (user) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
+
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -77,7 +83,8 @@ export const getUserById = async (_id, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
+
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -98,10 +105,10 @@ export const getUsers = async (queryParams = {}, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        if (response.status == 404)
+        if (response.status === 404)
             return 404;
         else
-            throw new Error(response);
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - USERS : ", res); // Print out the raw data
@@ -128,10 +135,7 @@ export const editUserData = async (userId, updatedData, token) => {
     const res = await response.json();
     console.log("RESPONSE" + response.status)
     if (!response.ok) {
-        if (response.status == 404)
-            return 404;
-        else
-            throw new Error(response);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - USERS : ", res); // Print out the raw data

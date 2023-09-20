@@ -18,7 +18,7 @@ export const sendNewRequest = async (newRequest, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -42,7 +42,8 @@ export const getRequestsBySenderId = async (sender_id, token, full = 'false') =>
     if (!response.ok) {
         if (response.status == 404)
             return 404;
-        throw new Error(res.msg);
+        else
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -64,7 +65,8 @@ export const getRequestsByRecipientId = async (recipient_id, token, full = 'fals
     if (!response.ok) {
         if (response.status == 404)
             return 404;
-        throw new Error(res.msg);
+        else
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -87,7 +89,8 @@ export const getRequestBySenderAndPost = async (sender_id, post_id, token, full 
     if (!response.ok) {
         if (response.status == 404)
             return 404;
-        throw new Error(res.msg);
+        else
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -114,7 +117,7 @@ export const editRequest = async (requestId, token, fields) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -143,7 +146,7 @@ export const getRequests = async (queryParams = {}, token) => {
         if (response.status == 404)
             return 404;
         else
-            throw new Error(response);
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - REQUESTS : ", res); // Print out the raw data

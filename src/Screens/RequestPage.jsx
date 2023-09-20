@@ -18,7 +18,7 @@ export default function RequestPage({ route, navigation }) {
 
     const { request, index, options, handleRequestUpdate } = route.params;
 
-    const { loggedUser, userToken } = useContext(AppContext);
+    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext);
     const [isSender, setIsSender] = useState(loggedUser._id === request.sender_id);
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -72,6 +72,7 @@ export default function RequestPage({ route, navigation }) {
             return res;
         } catch (error) {
             console.log("error here: ", error);
+            setServerError({ ...error })
         }
 
     }
@@ -98,8 +99,9 @@ export default function RequestPage({ route, navigation }) {
             }
             console.log(res);
         } catch (error) {
-            Alert.alert('שגיאה בעת שינוי הסטטוס');
             console.log("ERR HERE", error);
+            setServerError({ ...error });
+
         }
     }
 
@@ -132,7 +134,7 @@ export default function RequestPage({ route, navigation }) {
             console.log(isReported)
         } catch (error) {
             console.log("error request page: ", error.status);
-            console.log(error.message)
+            setServerError({ ...error })
         }
     }
 

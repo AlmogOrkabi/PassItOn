@@ -4,6 +4,8 @@ import { View, Text, Image, StyleSheet, SafeAreaView, I18nManager } from 'react-
 import { AppContext } from '../Contexts/AppContext';
 import { Button, FAB, AnimatedFAB, SegmentedButtons, Portal, PaperProvider } from 'react-native-paper';
 import Logo from '../Components/Logo';
+
+
 export default function Profile({ navigation }) {
 
   const { users, loggedUser } = useContext(AppContext)

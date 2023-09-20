@@ -107,7 +107,7 @@ function formReducer(state, action) {
 export default function EditPost({ route, navigation }) {
     const { post, index } = route.params;
 
-    const { loggedUser, userToken, myPosts, setMyPosts } = useContext(AppContext);
+    const { loggedUser, userToken, myPosts, setMyPosts, serverError, setServerError } = useContext(AppContext);
     const [formState, dispatch] = useReducer(formReducer, initialState);
 
     const [address, setAddress] = useState({
@@ -241,6 +241,7 @@ export default function EditPost({ route, navigation }) {
 
         } catch (error) {
             console.log("error  => ", error.message);
+            setServerError({ ...error });
         } finally {
             setLoading(false);
         }

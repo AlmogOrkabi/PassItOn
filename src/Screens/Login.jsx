@@ -10,7 +10,7 @@ export default function Login({ navigation }) {
 
     const [loading, setLoading] = useState(false);
 
-    const { setLoggedUser, loggedUser, setUserToken, userToken } = useContext(AppContext)
+    const { setLoggedUser, loggedUser, setUserToken, userToken, serverError, setServerError } = useContext(AppContext)
 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [email, setEmail] = useState('')
@@ -30,8 +30,16 @@ export default function Login({ navigation }) {
             navigation.navigate('LoggedIn');
 
         } catch (error) {
-            console.log("login error:", error.message);
-            setErr((prev) => error.message);
+            if (error.status === 500) {
+                await setServerError({ status: 500, msg: 'אופס, התרחשה שגיאה בשרת' })
+                console.log(serverError)
+                return;
+            }
+            else {
+                console.log("status log error " + error.status)
+                console.log("login error:", error.msg);
+                setErr((prev) => error.msg);
+            }
         }
         finally {
             setLoading(false);

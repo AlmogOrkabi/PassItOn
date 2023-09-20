@@ -24,7 +24,7 @@ const MemoizedCardPost = React.memo(CardPost); //React.memo - used to wrap funct
 
 export default function SearchPage({ navigation }) {
 
-  const { loggedUser, userToken } = useContext(AppContext);
+  const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -176,8 +176,10 @@ export default function SearchPage({ navigation }) {
       }
     } catch (error) {
       console.log("failed search: " + error)
-      if (error.Error == 404)
+      if (error.status == 404)
         setSearchResults(404)
+      else
+        setServerError(error)
     }
     finally {
       setLoading(false);

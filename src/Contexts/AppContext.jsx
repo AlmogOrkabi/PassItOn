@@ -17,6 +17,11 @@ export default function AppContextProvider({ children }) {
     useEffect(() => {
         //LoadUsers();
     }, []);
+    useEffect(() => {
+        console.log("server error: ", serverError)
+    }, [serverError]);
+
+
 
 
     const Login = (username, password) => {
@@ -29,11 +34,21 @@ export default function AppContextProvider({ children }) {
     const [loggedUser, setLoggedUser] = useState({});
 
 
+    const [serverError, setServerError] = useState(null);
+
+    // const handleServerErrors = () => {
+    //     if (!error) return;
+    //     if (error.status == 404) {
+    //         return 404;
+
+    //     } else if (error.status == 401) {
+
+    //     }
+    // }
 
 
 
-
-    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts };
+    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts, serverError, setServerError };
 
 
     return (

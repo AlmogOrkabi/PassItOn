@@ -15,15 +15,15 @@ export default function ManageRequests({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState('');
 
-    const { loggedUser, userToken } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
 
     const [requestsSent, setRequestsSent] = useState([]);
     const [requestsReceived, setRequestsReceived] = useState([]);
 
 
-    async function handleChange(index, request) {
+    // async function handleChange(index, request) {
 
-    }
+    // }
 
     async function loadRequests() {
         try {
@@ -52,6 +52,7 @@ export default function ManageRequests({ navigation }) {
 
         } catch (error) {
             console.log("ERROR", error)
+            setServerError({ ...error });
         }
         finally {
             setLoading(false);

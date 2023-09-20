@@ -10,7 +10,7 @@ import { getRequests, getReports } from '../api/index';
 
 export default function PostPage({ route, navigation }) {
     const { post, index } = route.params;
-    const { loggedUser, userToken, myPosts } = useContext(AppContext);
+    const { loggedUser, userToken, myPosts, serverError, setServerError } = useContext(AppContext);
     const [mainPicure, setMainPicure] = useState(post.photos[0]);
     const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id);
     const [requestSent, setRequestsSent] = useState(false);
@@ -47,6 +47,7 @@ export default function PostPage({ route, navigation }) {
             }
         } catch (error) {
             console.log("error post page1: ", error)
+            setServerError({ ...error });
             // console.log("error post page1: ", error)
             // console.log("error post page1: ", JSON.stringify(error, null, 2))
             // console.log("error post page1: ", Object.getPrototypeOf(error))
@@ -63,6 +64,7 @@ export default function PostPage({ route, navigation }) {
         } catch (error) {
             console.log("error post page2: ", error.status);
             console.log(error.message)
+            setServerError({ ...error });
             // console.log("error post page2: ", error.message);
             // console.log("error post page2: ", error.stack);
         }

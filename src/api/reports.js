@@ -16,7 +16,7 @@ export const addNewReport = async (report, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -38,7 +38,7 @@ export const getReportByOwnerId = async (owner_id, token, full = 'false') => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - REPORTS:", res); // Print out the raw data
@@ -63,12 +63,10 @@ export const getReports = async (queryParams = {}, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        console.log("response: REPORTS " + response.status);
-        console.log("response: REPORTS " + JSON.stringify(res, null, 2));
         if (response.status == 404)
             return 404;
         else
-            throw new Error(res);
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - REPORTS:", res); // Print out the raw data

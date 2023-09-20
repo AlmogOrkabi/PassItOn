@@ -24,7 +24,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
 
     const [success, setSuccess] = useState(false);
 
-    const { loggedUser, userToken } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
 
 
     useEffect(() => {
@@ -61,6 +61,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
 
         } catch (error) {
             console.log(error)
+            setServerError({ ...error });
         }
         finally {
             setLoading(false);

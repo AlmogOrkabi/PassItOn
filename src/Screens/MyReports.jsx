@@ -8,7 +8,7 @@ import ReportCard from '../Components/ReportCard'
 
 export default function MyReports({ navigation }) {
 
-    const { loggedUser, userToken } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
 
     const [reportsSubmitted, setReportsSubmitted] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -31,6 +31,7 @@ export default function MyReports({ navigation }) {
             console.log("reports ===>>>" + reportsSubmitted)
         } catch (error) {
             console.log("ERROR REPORTS", error)
+            setServerError({ ...error });
         } finally {
             setLoading(false);
         }

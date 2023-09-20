@@ -1,9 +1,10 @@
 import { View, Text, SafeAreaView, Alert, ActivityIndicator } from 'react-native'
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer, useState, useContext } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 import { uriToBase64, validateNewUserData } from '../utils/index';
 import { createNewUser, checkEmailAvailability } from '../api/index';
+import { AppContext } from '../Contexts/AppContext';
 
 import BasicDetailsForm from '../Components/BasicDetailsForm';
 import SecurityDetailsForm from '../Components/SecurityDetailsForm';
@@ -54,7 +55,7 @@ function formReducer(state, action) {
 
 export default function Register({ navigation }) {
     const { control, handleSubmit, trigger, setValue, getValues, setError } = useForm();
-
+    const { serverError, setServerError } = useContext(AppContext);
     const [loading, setLoading] = useState(false);
 
     const [formPage, setFormPage] = useState(1);
@@ -121,6 +122,8 @@ export default function Register({ navigation }) {
             // -address is not valid error:
             else if (error.message == 'הכתובת אינה תקינה')
                 setValidErr('addressNull'); // *for the ui
+            else
+                setServerError({ ...error });
         }
         finally {
             // -no matter the outcome, the loading has finished.

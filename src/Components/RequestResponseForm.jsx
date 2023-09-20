@@ -21,7 +21,7 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
 
     const [success, setSuccess] = useState(false);
 
-    const { loggedUser, userToken } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
 
 
     useEffect(() => {
@@ -54,6 +54,7 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
             setLoading(false);
         } catch (error) {
             console.log("error here =>", error);
+            setServerError({ ...error });
         }
         // finally {
         //     setLoading(false);

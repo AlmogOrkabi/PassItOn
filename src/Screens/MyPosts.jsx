@@ -12,7 +12,7 @@ const MemoizedCardPost = React.memo(CardPost); //React.memo - used to wrap funct
 export default function MyPosts({ navigation }) {
     const [loading, setLoading] = useState(true);
 
-    const { loggedUser, userToken, myPosts, setMyPosts } = useContext(AppContext);
+    const { loggedUser, userToken, myPosts, setMyPosts, serverError, setServerError } = useContext(AppContext);
 
 
     // useEffect(() => {
@@ -44,6 +44,7 @@ export default function MyPosts({ navigation }) {
             }
         } catch (error) {
             console.log(error);
+            setServerError({ ...error });
         }
         finally {
             setLoading(false);

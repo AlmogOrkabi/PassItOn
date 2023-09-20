@@ -23,7 +23,7 @@ import AddPictures from '../Components/AddPictures';
 export default function NewPost() {
 
   const [loading, setLoading] = useState(false);
-  const { loggedUser, userToken } = useContext(AppContext)
+  const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
   const [err, setErr] = useState(null);
 
   const {
@@ -75,37 +75,37 @@ export default function NewPost() {
   //   );
   // };
 
-  const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    console.log(status)
-    if (status !== 'granted') {
-      alert('הרשאה נדחתה');
-      return;
-    }
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      // aspect: [4, 3],
-      // quality: 1,
-    });
+  // const pickImage = async () => {
+  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //   console.log(status)
+  //   if (status !== 'granted') {
+  //     alert('הרשאה נדחתה');
+  //     return;
+  //   }
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     // aspect: [4, 3],
+  //     // quality: 1,
+  //   });
 
-    console.log(result);
+  //   console.log(result);
 
-    if (!result.canceled) {
-      addPhoto(result.uri);
-    }
-  };
+  //   if (!result.canceled) {
+  //     addPhoto(result.uri);
+  //   }
+  // };
 
 
-  const addPhoto = (photoUri) => {
-    if (photos.length < 6) {
-      setPhotos((prevPhotos) => [...prevPhotos, photoUri]);
-    }
-  };
+  // const addPhoto = (photoUri) => {
+  //   if (photos.length < 6) {
+  //     setPhotos((prevPhotos) => [...prevPhotos, photoUri]);
+  //   }
+  // };
 
-  const removePhoto = (index) => {
-    setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-  };
+  // const removePhoto = (index) => {
+  //   setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+  // };
 
   const handlePost = async () => {
     try {
@@ -132,7 +132,9 @@ export default function NewPost() {
         //open post page
       }
     } catch (error) {
-      handleServerErros(error);
+      //handleServerErros(error);
+      console.log("new post error: " + error)
+      setServerError({ ...error });
     }
     finally {
       setLoading(false);

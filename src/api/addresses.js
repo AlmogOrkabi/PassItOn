@@ -15,7 +15,7 @@ export const addNewAddress = async (address) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg)
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -36,7 +36,10 @@ export const getAddress = async (address_id, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg)
+        if (response.status === 404)
+            return 404;
+        else
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data

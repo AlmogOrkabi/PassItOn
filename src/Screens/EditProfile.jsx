@@ -91,7 +91,7 @@ function formReducer(state, action) {
 
 export default function EditProfile({ navigation }) {
 
-    const { setLoggedUser, loggedUser, userToken } = useContext(AppContext)
+    const { setLoggedUser, loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
 
     const [formState, dispatch] = useReducer(formReducer, initialState);
 
@@ -199,11 +199,13 @@ export default function EditProfile({ navigation }) {
 
 
         } catch (error) {
-            if (error.message == 409) {
+            if (error.status == 409) {
                 setIsEmailTaken(() => true);
                 return;
             }
+
             console.log("error here: " + error);
+            setServerError({ ...error });
         }
         finally {
             setLoading(false);

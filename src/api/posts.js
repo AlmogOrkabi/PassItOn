@@ -18,7 +18,7 @@ export const addNewPost = async (post, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        throw new Error(res.msg);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API:", res); // Print out the raw data
@@ -56,7 +56,7 @@ export const postSearch = async (query, token) => {
         if (response.status == 404)
             return 404;
         else
-            throw new Error(`Network response was not ok. Status: ${response.status}, Body: ${text}`);
+            throw { ...res, status: response.status };
     }
 
     const data = await response.json();
@@ -248,10 +248,8 @@ export const updatePost = async (postId, updatedData, token, toAdd = [], toRemov
     });
 
     const res = await response.json();
-    console.log("we got here2");
     if (!response.ok) {
-        console.log("response: " + response.status)
-        throw new Error(res);
+        throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - update post:", res); // Print out the raw data
@@ -274,11 +272,10 @@ export const searchPosts = async (searchQuery = {}, token) => {
     const res = await response.json();
 
     if (!response.ok) {
-        console.log("response: " + response.status);
         if (response.status == 404)
             return 404;
         else
-            throw new Error(res);
+            throw { ...res, status: response.status };
     }
 
     console.log("Raw data from API - POSTS:", res); // Print out the raw data
