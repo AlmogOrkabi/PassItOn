@@ -134,7 +134,7 @@ export default function ManageRequests({ navigation }) {
                                 data={requestsSent}
                                 renderItem={renderRequests}
                                 keyExtractor={item => item._id}
-                                style={[{ marginVertical: '3%', }, touchableOpacity]}
+                                style={[{ marginVertical: '3%', },]}
                             /> :
                             options == 'received' ? requestsReceived == 404 ? <Text>לא התקבלו בקשות עדיין</Text> :
 
@@ -142,7 +142,7 @@ export default function ManageRequests({ navigation }) {
                                     data={requestsReceived}
                                     renderItem={renderRequests}
                                     keyExtractor={item => item._id}
-                                    style={[{ marginVertical: '3%', }, touchableOpacity]}
+                                    style={[{ marginVertical: '3%', },]}
                                 /> : null}
                     </View>
 

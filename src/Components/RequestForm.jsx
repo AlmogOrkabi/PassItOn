@@ -74,7 +74,8 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
 
     return (
 
-        <PaperProvider >
+
+        <View>
             <Portal>
                 <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
                     {loading ?
@@ -94,7 +95,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
                             <View>
                                 <IconButton
                                     icon="close"
-                                    style={[{ position: 'relative', bottom: 570, left: 35, zIndex: 1, }]}
+                                    style={[styles.modalCloseBtn]}
                                     size={20}
                                     onPress={() => setModalVisible(!modalVisible)}
                                 />
@@ -136,7 +137,8 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
             <Button mode='contained' style={[styles.nppostButton]} onPress={() => { setModalVisible(true) }}>
                 שליחת בקשה
             </Button>
-        </PaperProvider>
+        </View>
+
 
     )
 

@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         flexDirection: "column",
         textAlign: "center",
         //** 
-        //flex: 1,
+        flex: 1,
         //justifyContent: 'center',
         paddingTop: '5%',
         backgroundColor: theme.background,
@@ -96,6 +96,7 @@ export const styles = StyleSheet.create({
     containerCenter: {
         alignItems: 'center',
         justifyContent: 'center',
+
 
     },
     diffBG: {  //for debugging purposes only
@@ -497,15 +498,29 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 10,
         position: 'absolute',
+        zIndex: 2,
         // width: '100%',
         // height: '100%',
-        width: 300,
-        height: 500,
-        bottom: 90,
-        left: 10,
+        // width: 300,
+        // height: 500,
+        // bottom: 90,
+        // left: 10,
+        width: '80%',
+        height: 450,
+        //height: '100%',
+        left: 15,
+        top: -250,
+
+
 
         //android is affected by elevation while IOS is affected by zIndex:
-        zIndex: 5,
+
+    },
+    modalCloseBtn: {
+        position: 'relative',
+        bottom: 225,
+        left: 35,
+        zIndex: 3,
     },
     smallModal: {
         backgroundColor: 'white',

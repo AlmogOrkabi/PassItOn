@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 
 
 import Start from './src/Screens/Start';
@@ -108,37 +109,39 @@ function CommonScreens() {
   )
 }
 
+
 export default function App() {
 
   return (
-    <SafeAreaView style={[{ width: '100%' }, { height: '100%' }]}>
+    <SafeAreaView style={[{ width: '100%', height: '100%' }]}>
       {/* <SafeAreaView style={[{ flex: 1 }]}> */}
 
       {/* <StatusBar hidden={true} /> */}
-      <AppContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-
-            <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
-            <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
-            <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
-            <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
-            {/* ********/}
-            {/* <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
+      <PaperProvider>
+        <AppContextProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
+              <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+              <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
+              <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+              <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
+              {/* ********/}
+              {/* <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
             <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
             <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
             <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} /> */}
-            {/* <Stack.Screen name='CommonScreens' component={CommonScreens} options={{ headerShown: false }} /> */}
-            {/* <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
+              {/* <Stack.Screen name='CommonScreens' component={CommonScreens} options={{ headerShown: false }} /> */}
+              {/* <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} />
             <Stack.Screen name='ReportPage' component={ReportPage} options={{ headerShown: false }} />
             <Stack.Screen name='EditPost' component={EditPost} options={{ headerShown: false }} />
             <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} /> */}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AppContextProvider>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AppContextProvider>
+      </PaperProvider>
     </SafeAreaView>
   );
 }
