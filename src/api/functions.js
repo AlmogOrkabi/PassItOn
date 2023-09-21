@@ -9,6 +9,7 @@ import { addNewReport } from "./reports";
 import { validatePostData, validateUserData } from '../utils/validations'
 
 
+
 export const createNewUser = async (data) => {
     try {
         // *a profile picture is not mandatory
@@ -99,7 +100,7 @@ export const createNewAddress = async (data) => {
     }
 }
 
-export const createNewPost = async (itemName, description, category, photos, itemLocation, loggedUser, userToken) => {
+export const createNewPost = async (itemName, description, category, photos, itemLocation, loggedUser) => {
     try {
         // -convert the images of the item to Base64:
         let base64Images = await urisArrayToBase64(photos);
@@ -122,7 +123,7 @@ export const createNewPost = async (itemName, description, category, photos, ite
             photos: base64Images,
             itemLocation_id: address_id
         }
-        const post = await addNewPost(newPost, userToken)
+        const post = await addNewPost(newPost)
         return post;
     } catch (error) {
         console.log("new post creation FAILED! ==>>", error);
@@ -130,12 +131,12 @@ export const createNewPost = async (itemName, description, category, photos, ite
     }
 }
 
-export const getAddresses = async (arr, token) => {
+export const getAddresses = async (arr) => {
     try {
         const objectsWithAddresses = await Promise.all(
             // the async keyword only applies to the function it directly modifies (directly attached to)
             arr.map(async (obj) => {
-                const address = await getAddress(obj.itemLocation_id, token);
+                const address = await getAddress(obj.itemLocation_id);
                 return { ...obj, address }; // spread operator (...) to include all properties of the original obj, and then add the address
             })
         );
@@ -149,7 +150,7 @@ export const getAddresses = async (arr, token) => {
 };
 
 
-export const createNewRequest = async (postOwner_id, post_id, sender_id, message, token) => {
+export const createNewRequest = async (postOwner_id, post_id, sender_id, message) => {
     try {
         const newRequest = {
             sender_id: sender_id.trim(),
@@ -158,7 +159,7 @@ export const createNewRequest = async (postOwner_id, post_id, sender_id, message
             post_id: post_id.trim()
         }
         console.log("Formatted new request:", newRequest);
-        const request = await sendNewRequest(newRequest, token)
+        const request = await sendNewRequest(newRequest)
         return request;
     } catch (error) {
         console.error("Failed to create new Request: ", error);
@@ -168,11 +169,11 @@ export const createNewRequest = async (postOwner_id, post_id, sender_id, message
 
 
 
-export const getRequestSenderData = async (requestsArr, token) => {
+export const getRequestSenderData = async (requestsArr) => {
     try {
         const requestsWithUsersData = await Promise.all(
             requestsArr.map(async (obj) => {
-                const user = await getUserById(obj.sender_id, token);
+                const user = await getUserById(obj.sender_id);
                 return { ...obj, user };
             })
         )
@@ -184,11 +185,11 @@ export const getRequestSenderData = async (requestsArr, token) => {
     }
 };
 
-export const getRequestRecipientData = async (requestsArr, token) => {
+export const getRequestRecipientData = async (requestsArr) => {
     try {
         const requestsWithUsersData = await Promise.all(
             requestsArr.map(async (obj) => {
-                const user = await getUserById(obj.recipient_id, token);
+                const user = await getUserById(obj.recipient_id);
                 return { ...obj, user };
             })
         )
@@ -199,11 +200,11 @@ export const getRequestRecipientData = async (requestsArr, token) => {
     }
 };
 
-export const getRequestsPostData = async (requestsArr, token) => {
+export const getRequestsPostData = async (requestsArr) => {
     try {
         const requestsWithPostData = await Promise.all(
             requestsArr.map(async (obj) => {
-                const post = await postSearchById(obj.post_id, token);
+                const post = await postSearchById(obj.post_id);
                 return { ...obj, post };
             })
         )
@@ -216,7 +217,7 @@ export const getRequestsPostData = async (requestsArr, token) => {
     }
 };
 
-export const updatePostStatus = async (post_id, status, token, requestingUserId = null) => {
+export const updatePostStatus = async (post_id, status, requestingUserId = null) => {
     try {
 
         const updatedData = {
@@ -235,7 +236,7 @@ export const updatePostStatus = async (post_id, status, token, requestingUserId 
 
 
 
-        const res = await updatePost(post_id, updatedData, token);
+        const res = await updatePost(post_id, updatedData);
         return res;
 
     } catch (error) {
@@ -244,7 +245,7 @@ export const updatePostStatus = async (post_id, status, token, requestingUserId 
     }
 };
 
-export const updatePostData = async (post_id, updatedData, token, toAdd = [], toRemove = [], address = null) => {
+export const updatePostData = async (post_id, updatedData, toAdd = [], toRemove = [], address = null) => {
     try {
 
 
@@ -267,7 +268,7 @@ export const updatePostData = async (post_id, updatedData, token, toAdd = [], to
         }
 
         console.log(toRemove)
-        const res = await updatePost(post_id, updatedData, token, imgsToAdd, toRemove);
+        const res = await updatePost(post_id, updatedData, imgsToAdd, toRemove);
         console.log("we got here1");
         return res;
 
@@ -279,7 +280,7 @@ export const updatePostData = async (post_id, updatedData, token, toAdd = [], to
 }
 
 
-export const createNewReport = async (owner_id, reportType, userReported, postReported, photos, description, token) => {
+export const createNewReport = async (owner_id, reportType, userReported, postReported, photos, description) => {
     try {
 
         let base64Images = await urisArrayToBase64(photos);
@@ -293,7 +294,7 @@ export const createNewReport = async (owner_id, reportType, userReported, postRe
             description: description
         }
 
-        const report = await addNewReport(newReport, token);
+        const report = await addNewReport(newReport);
 
         return report;
 
@@ -305,7 +306,7 @@ export const createNewReport = async (owner_id, reportType, userReported, postRe
 };
 
 
-export const editUser = async (userId, data, token, address = null) => {
+export const editUser = async (userId, data, address = null) => {
     try {
 
         if (data.newPhoto) {
@@ -317,7 +318,7 @@ export const editUser = async (userId, data, token, address = null) => {
         }
 
 
-        const response = editUserData(userId, data, token);
+        const response = editUserData(userId, data);
 
         return response;
 

@@ -1,7 +1,8 @@
 import { BASE_URL } from '@env';
+import { getToken } from '../utils/index';
 
-export const addNewReport = async (report, token) => {
-
+export const addNewReport = async (report) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/reports/create`, {
         method: 'POST',
         headers: {
@@ -25,8 +26,8 @@ export const addNewReport = async (report, token) => {
 };
 
 
-export const getReportByOwnerId = async (owner_id, token, full = 'false') => {
-
+export const getReportByOwnerId = async (owner_id, full = 'false') => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/reports/search/byOwnerId/${owner_id}/${full}`, {
         method: 'GET',
         headers: {
@@ -46,9 +47,9 @@ export const getReportByOwnerId = async (owner_id, token, full = 'false') => {
 
 };
 
-export const getReports = async (queryParams = {}, token) => {
+export const getReports = async (queryParams = {}) => {
 
-
+    const token = await getToken();
     const params = new URLSearchParams(queryParams);
 
 

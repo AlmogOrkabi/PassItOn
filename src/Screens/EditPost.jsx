@@ -258,7 +258,7 @@ export default function EditPost({ route, navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={70} />
+            {/* <Logo width={200} height={70} /> */}
 
             <Text style={[styles.mediumTitle]}>דף עריכת פוסט:</Text>
             {loading ? <View style={[styles.main_container]}>

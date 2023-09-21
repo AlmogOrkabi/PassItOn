@@ -22,7 +22,7 @@ export default function Profile({ navigation }) {
   return (
     <SafeAreaView style={[styles.main_container2,]}>
 
-      <Logo width={200} height={70} />
+      {/* <Logo width={200} height={70} /> */}
 
       <View style={[styles.container, { flex: 1 }]}>
         <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer]}>

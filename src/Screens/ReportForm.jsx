@@ -60,7 +60,7 @@ export default function ReportForm({ route }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={80} />
+            {/* <Logo width={200} height={80} /> */}
             {loading ? <View>
                 <ActivityIndicator />
             </View>

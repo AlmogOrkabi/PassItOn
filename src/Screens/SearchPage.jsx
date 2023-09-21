@@ -206,7 +206,7 @@ export default function SearchPage({ navigation }) {
   return (
     <SafeAreaView style={[styles.main_container2]}>
 
-      <Logo width={200} height={80} />
+      {/* <Logo width={200} height={80} /> */}
 
       <View style={[styles.sub_container2]}>
         <Searchbar

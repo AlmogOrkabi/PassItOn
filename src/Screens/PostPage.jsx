@@ -87,7 +87,7 @@ export default function PostPage({ route, navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2,]}>
-            <Logo width={300} height={70} />
+            {/* <Logo width={300} height={70} /> */}
             {/* <Text>דף פוסט</Text> */}
             {isPostOwner ?
 

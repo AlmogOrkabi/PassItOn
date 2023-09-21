@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
-
 
 import Start from './src/Screens/Start';
 import Login from './src/Screens/Login';
@@ -23,14 +22,16 @@ import RequestPage from './src/Screens/RequestPage';
 import MyReports from './src/Screens/MyReports';
 
 import AppContextProvider, { AppContext } from './src/Contexts/AppContext';
-import { styles } from './src/Styles';
+import { styles, logo, headerTitleStyle } from './src/Styles';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native';
+
+
+import Logo from './src/Components/Logo';
 
 
 //Right To Left (Hebrew)
@@ -119,7 +120,7 @@ import ErrorsUI from './src/ErrorHandling/ErrorsUI';
 export default function App() {
 
   return (
-    <SafeAreaView style={[{ width: '100%', height: '100%' }]}>
+    <SafeAreaView style={[styles.app_container]}>
       {/* <SafeAreaView style={[{ flex: 1 }]}> */}
 
       {/* <StatusBar hidden={true} /> */}
@@ -128,11 +129,18 @@ export default function App() {
           <NavigationContainer>
 
             <Stack.Navigator>
-              <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
+              {/* <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} /> */}
+              <Stack.Screen name='Start' component={Start} options={{ headerShown: false }}
+              />
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
               <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
               <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
-              <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{ headerShown: false }} />
+              <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{
+                headerTitle: (props) => <Logo width={logo.headerLogo.width} height={logo.headerLogo.height} {...props} />,
+                headerStyle: { ...headerTitleStyle },
+                headerTitleAlign: 'center',
+                headerLeft: null,
+              }} />
               {/* ********/}
               {/* <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
             <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />

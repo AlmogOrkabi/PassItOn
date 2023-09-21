@@ -8,7 +8,7 @@ export default function ReportPage({ route }) {
     const { report } = route.params;
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={80} />
+            {/* <Logo width={200} height={80} /> */}
 
             <View style={[styles.sub_container]}>
                 <Text style={[styles.mediumTitle, styles.text_underline]}>דיווח על {report.postReported_id ? `הפוסט: ${report.post.itemName}` : `המשתמש: ${report.userReported.userName}`}</Text>

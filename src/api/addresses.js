@@ -1,4 +1,6 @@
 import { BASE_URL } from '@env';
+import { getToken } from '../utils/index';
+
 
 export const addNewAddress = async (address) => {
     const response = await fetch(`${BASE_URL}/api/addresses/create`, {
@@ -24,7 +26,8 @@ export const addNewAddress = async (address) => {
 
 
 
-export const getAddress = async (address_id, token) => {
+export const getAddress = async (address_id) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/addresses/search/byId/${address_id}`, {
         method: 'GET',
         headers: {

@@ -127,25 +127,40 @@ export default function AddPictures({ photos, setPhotos, title }) {
                 ))}
 
                 {photos.length < 6 && (
-                    <IconButton
-                        icon="plus"
-                        color="gray"
-                        size={30}
-                        // onPress={() => handleAddPhoto('photo_uri_placeholder')}
-                        //onPress={pickImage}
-                        onPress={() => handlePress()}
-                        style={styles.npaddPhotoButton}
-                    />
+
+                    <Menu
+                        visible={visible}
+                        onDismiss={() => setVisible(false)}
+                        anchor={<IconButton
+                            icon="plus"
+                            color="gray"
+                            size={30}
+                            // onPress={() => handleAddPhoto('photo_uri_placeholder')}
+                            //onPress={pickImage}
+                            onPress={() => handlePress()}
+                            style={styles.npaddPhotoButton}
+                        />
+                        }
+                        anchorPosition='top'
+                    >
+                        <Menu.Item onPress={() => { handlePress(1) }} title="מצלמה" />
+                        <Divider />
+                        <Menu.Item onPress={() => { handlePress(2) }} title="גלריה" />
+
+
+                    </Menu>
                 )}
             </View>
 
-            <Modal
+            {/* <Modal
                 animationType="fade"
                 transparent={true}
                 visible={visible}
                 onRequestClose={() => {
                     setVisible(!visible);
                 }}>
+
+
 
                 <View style={[styles.smallModal]}>
                     <View style={[{ gap: 10 }]}>
@@ -155,7 +170,11 @@ export default function AddPictures({ photos, setPhotos, title }) {
                     </View>
                 </View>
                 {visible && <Overlay onClose={hide} />}
-            </Modal>
+            </Modal> */}
+
+
+
+
 
         </View>
     )

@@ -1,8 +1,10 @@
 import { BASE_URL } from '@env';
+import { getToken } from '../utils/index';
 
 
-export const sendNewRequest = async (newRequest, token) => {
 
+export const sendNewRequest = async (newRequest) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/requests/create`, {
         method: 'POST',
         headers: {
@@ -27,7 +29,8 @@ export const sendNewRequest = async (newRequest, token) => {
 }
 
 
-export const getRequestsBySenderId = async (sender_id, token, full = 'false') => {
+export const getRequestsBySenderId = async (sender_id, full = 'false') => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/requests/find/bySenderId/${sender_id}/${full}`, {
         method: 'GET',
         headers: {
@@ -50,7 +53,8 @@ export const getRequestsBySenderId = async (sender_id, token, full = 'false') =>
     return res;
 }
 
-export const getRequestsByRecipientId = async (recipient_id, token, full = 'false') => {
+export const getRequestsByRecipientId = async (recipient_id, full = 'false') => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/requests/find/byRecipientId/${recipient_id}/${full}`, {
         method: 'GET',
         headers: {
@@ -74,7 +78,8 @@ export const getRequestsByRecipientId = async (recipient_id, token, full = 'fals
 }
 
 
-export const getRequestBySenderAndPost = async (sender_id, post_id, token, full = 'false') => {
+export const getRequestBySenderAndPost = async (sender_id, post_id, full = 'false') => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/requests/find/byPostAndSender/${post_id}/${sender_id}/${full}`, {
         method: 'GET',
         headers: {
@@ -98,7 +103,8 @@ export const getRequestBySenderAndPost = async (sender_id, post_id, token, full 
 }
 
 
-export const editRequest = async (requestId, token, fields) => {
+export const editRequest = async (requestId, fields) => {
+    const token = await getToken();
 
     const response = await fetch(`${BASE_URL}/api/requests/edit/${requestId}`, {
         method: 'PUT',
@@ -125,10 +131,10 @@ export const editRequest = async (requestId, token, fields) => {
 
 };
 
-export const getRequests = async (queryParams = {}, token) => {
+export const getRequests = async (queryParams = {}) => {
 
     const params = new URLSearchParams(queryParams);
-
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/requests/search?${params.toString()}`, {
         method: 'GET',
         headers: {

@@ -50,7 +50,7 @@ export default function MyReports({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={80} />
+            {/* <Logo width={200} height={80} /> */}
             {
                 loading ? <View style={[styles.containerCenter]}>
                     <ActivityIndicator />

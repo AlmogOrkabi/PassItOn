@@ -215,7 +215,7 @@ export default function EditProfile({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={70} />
+            {/* <Logo width={200} height={70} /> */}
             <Text style={[styles.mediumTitle]}>עריכת פרטי משתמש:</Text>
             {loading ? <View style={[styles.main_container]}>
                 <ActivityIndicator />

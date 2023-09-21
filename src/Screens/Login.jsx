@@ -5,12 +5,13 @@ import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import { login, getAddress } from '../api/index'
 import Logo from '../Components/Logo';
+//import * as SecureStore from 'expo-secure-store';
 
 export default function Login({ navigation }) {
 
     const [loading, setLoading] = useState(false);
 
-    const { setLoggedUser, loggedUser, setUserToken, userToken, serverError, setServerError } = useContext(AppContext)
+    const { setLoggedUser, loggedUser, serverError, setServerError } = useContext(AppContext)
 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [email, setEmail] = useState('')
@@ -22,10 +23,11 @@ export default function Login({ navigation }) {
 
             setLoading(true);
             const user = await login(email, password);
-
-            user.user.address = await getAddress(user.user.address_id, user.token);
+            user.user.address = await getAddress(user.user.address_id);
             setLoggedUser(user.user);
-            setUserToken(user.token);
+            // setUserToken(user.token);
+            // await SecureStore.setItemAsync('userToken', user.token);
+
             setErr((prev) => null);
             navigation.navigate('LoggedIn');
 

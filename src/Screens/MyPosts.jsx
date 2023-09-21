@@ -76,7 +76,7 @@ export default function MyPosts({ navigation }) {
 
             {loading ? <View style={[styles.main_container,]}><ActivityIndicator /></View> :
                 <View>
-                    <Logo width={200} height={60} />
+                    {/* <Logo width={200} height={60} /> */}
 
                     <Text style={[styles.mediumTitle]}>הפוסטים שלי:</Text>
                     <View style={[styles.container, styles.sub_container2, { maxHeight: '75%' }]}>

@@ -151,7 +151,7 @@ export default function NewPost() {
       {/* <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
       </View> */}
-      <Logo width={200} height={70} />
+      {/* <Logo width={200} height={70} /> */}
 
       {loading ? <ActivityIndicator /> :
         <ScrollView nestedScrollEnabled >

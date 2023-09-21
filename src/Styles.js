@@ -44,6 +44,11 @@ export const theme = {
 // }
 
 export const styles = StyleSheet.create({
+    app_container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: theme.background,
+    },
     main_container: {
         //**
         flexDirection: "column",
@@ -274,6 +279,8 @@ export const styles = StyleSheet.create({
         //marginBottom: '5%',
         // marginTop: '5%',
         marginTop: Platform.OS === 'android' ? '8%' : '5%',
+        alignSelf: 'center',
+        backgroundColor: theme.background,
 
     },
     logo: {
@@ -678,5 +685,18 @@ export const overlayStyle = {
     elevation: 1,
 };
 export const FAB_style_1 = {
+
+}
+
+export const logo = {
+    headerLogo: {
+        height: 70,
+        width: 200,
+    }
+}
+
+export const headerTitleStyle = {
+    //background: 'blue'
+    backgroundColor: theme.background,
 
 }

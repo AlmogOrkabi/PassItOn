@@ -1,9 +1,11 @@
 import { BASE_URL } from '@env';
 import { uriToBase64 } from '../utils/index';
+import { getToken } from '../utils/index';
 
 
 
-export const addNewPost = async (post, token) => {
+export const addNewPost = async (post) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/posts/create`, {
         method: 'POST',
         headers: {
@@ -28,7 +30,8 @@ export const addNewPost = async (post, token) => {
 
 //searches:
 
-export const postSearch = async (query, token) => {
+export const postSearch = async (query) => {
+    const token = await getToken();
     console.log("Query:", query);
     let response;
     if (query.trim() == '') {
@@ -64,7 +67,8 @@ export const postSearch = async (query, token) => {
     return data;
 }
 
-export const postSearchByCity = async (query, city, token) => {
+export const postSearchByCity = async (query, city) => {
+    const token = await getToken();
     let response;
     if (query.trim() == '') {
         response = await fetch(`${BASE_URL}/api/posts/search/byLocation/${city}`, {
@@ -99,7 +103,8 @@ export const postSearchByCity = async (query, city, token) => {
 }
 
 
-export const postSearchByCategory = async (query, category, token) => {
+export const postSearchByCategory = async (query, category) => {
+    const token = await getToken();
     console.log("posts ===>>> query:", query, "category", category);
     let response;
     if (query.trim() == '') {
@@ -134,7 +139,8 @@ export const postSearchByCategory = async (query, category, token) => {
     return data;
 }
 
-export const postSearchByDistance = async (query, distance, userCoordinates, token) => {
+export const postSearchByDistance = async (query, distance, userCoordinates) => {
+    const token = await getToken();
     let response;
     console.log("user coordinates ===>>>", userCoordinates)
     if (query.trim() == '') {
@@ -184,8 +190,8 @@ export const postSearchByDistance = async (query, distance, userCoordinates, tok
 
 }
 
-export const postSearchByUser = async (userId, token) => {
-
+export const postSearchByUser = async (userId) => {
+    const token = await getToken();
 
     const response = await fetch(`${BASE_URL}/api/posts/search/byUserId/${userId}`, {
         method: 'GET',
@@ -210,7 +216,8 @@ export const postSearchByUser = async (userId, token) => {
 
 }
 
-export const postSearchById = async (postId, token) => {
+export const postSearchById = async (postId) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/posts/search/byId/${postId}`, {
         method: 'GET',
         headers: {
@@ -231,7 +238,8 @@ export const postSearchById = async (postId, token) => {
 };
 
 
-export const updatePost = async (postId, updatedData, token, toAdd = [], toRemove = []) => {
+export const updatePost = async (postId, updatedData, toAdd = [], toRemove = []) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/posts/edit/${postId}`, {
         method: 'PUT',
         headers: {
@@ -256,8 +264,8 @@ export const updatePost = async (postId, updatedData, token, toAdd = [], toRemov
     return res;
 };
 
-export const searchPosts = async (searchQuery = {}, token) => {
-
+export const searchPosts = async (searchQuery = {}) => {
+    const token = await getToken();
     console.log("search query:", searchQuery);
     const params = new URLSearchParams(searchQuery);
 

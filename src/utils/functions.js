@@ -1,5 +1,22 @@
 import * as ImagePicker from 'expo-image-picker'
 import { Alert } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+
+
+
+export const getToken = async () => {
+    return await SecureStore.getItemAsync('userToken');
+};
+const handleLogout = async () => {
+    await SecureStore.deleteItemAsync('userToken');
+    // ... logout logic
+};
+
+export const setToken = async (userToken) => {
+    await SecureStore.setItemAsync('userToken', userToken);
+};
+
+
 
 
 

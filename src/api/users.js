@@ -1,5 +1,8 @@
 import { BASE_URL } from '@env';
 import { uriToBase64 } from '../utils/index';
+//import * as SecureStore from 'expo-secure-store';
+import { setToken, getToken } from '../utils/index';
+
 
 export const checkEmailAvailability = async (email) => {
 
@@ -41,7 +44,7 @@ export const login = async (email, password) => {
         //throw { ...res, status: response.status };
         throw { ...res, status: response.status };
     }
-
+    await setToken(res.token);
     console.log("Raw data from API:", res); // Print out the raw data
     return res;
 };
@@ -71,7 +74,8 @@ export const registerNewUser = async (user) => {
 
 };
 
-export const getUserById = async (_id, token) => {
+export const getUserById = async (_id) => {
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/users/search/byId/${_id}`, {
         method: 'GET',
         headers: {
@@ -91,9 +95,9 @@ export const getUserById = async (_id, token) => {
     return res;
 }
 
-export const getUsers = async (queryParams = {}, token) => {
+export const getUsers = async (queryParams = {}) => {
     const params = new URLSearchParams(queryParams);
-
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/users/search?${params.toString()}`, {
         method: 'GET',
         headers: {
@@ -116,8 +120,9 @@ export const getUsers = async (queryParams = {}, token) => {
 };
 
 
-export const editUserData = async (userId, updatedData, token) => {
+export const editUserData = async (userId, updatedData) => {
     console.log("Edit User Data: " + JSON.stringify(updatedData));
+    const token = await getToken();
     const response = await fetch(`${BASE_URL}/api/users/edit/${userId}`, {
         method: 'PUT',
         headers: {

@@ -141,7 +141,7 @@ export default function RequestPage({ route, navigation }) {
     return (
 
         <SafeAreaView style={[styles.main_container2, styles.paddingVertical]}>
-            <Logo width={200} height={80} />
+            {/* <Logo width={200} height={80} /> */}
             {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
             {/* <AnimatedFAB
                 icon={'alert-circle-outline'}

@@ -100,7 +100,7 @@ export default function ManageRequests({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            <Logo width={200} height={80} />
+            {/* <Logo width={200} height={80} /> */}
             {loading ? <View style={[styles.main_container]}><ActivityIndicator /></View> :
                 <View style={[{ flex: 1 }]}>
                     {/* <Logo width={200} height={80} /> */}
