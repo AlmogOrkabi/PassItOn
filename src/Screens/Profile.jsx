@@ -18,6 +18,10 @@ export default function Profile({ navigation }) {
   const onStateChange = () => setStateFAB(!stateFAB);
 
   // const { open } = state;
+  if (!loggedUser) {
+    return null;
+  }
+
 
   return (
     <SafeAreaView style={[styles.main_container2,]}>

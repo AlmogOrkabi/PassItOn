@@ -141,8 +141,9 @@ export default function RequestPage({ route, navigation }) {
     return (
 
         <SafeAreaView style={[styles.main_container2, styles.paddingVertical]}>
-            {/* <Logo width={200} height={80} /> */}
             {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
+            {/* <Logo width={200} height={80} /> */}
+
             {/* <AnimatedFAB
                 icon={'alert-circle-outline'}
                 label={'דיווח על הפריט/משתמש'}
@@ -265,7 +266,9 @@ export default function RequestPage({ route, navigation }) {
                                                     </TouchableOpacity>
                                                 </View>
                                                 <Text style={[styles.text_underline, styles.smallText]}>*אישור הבקשה יחשוף בפני השולח את פרטי ההתקשרות איתך</Text>
+
                                                 <RequestResponseForm request={request} modalVisible={modalVisible} setModalVisible={setModalVisible} response={response} handleEditRequest={handleEditRequest} loading={loading} setLoading={setLoading} />
+
                                             </View> :
                                             <View style={[styles.flexRow, styles.sub_container]}>
                                                 <MaterialCommunityIcons name="alert-circle-outline" size={30} color="black" />

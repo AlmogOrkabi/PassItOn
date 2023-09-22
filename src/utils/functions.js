@@ -7,9 +7,8 @@ import * as SecureStore from 'expo-secure-store';
 export const getToken = async () => {
     return await SecureStore.getItemAsync('userToken');
 };
-const handleLogout = async () => {
+export const removeToken = async () => {
     await SecureStore.deleteItemAsync('userToken');
-    // ... logout logic
 };
 
 export const setToken = async (userToken) => {

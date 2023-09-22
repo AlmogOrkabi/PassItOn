@@ -223,7 +223,7 @@ export default function SearchPage({ navigation }) {
         </TouchableOpacity>
 
         {searchOptionsExpended &&
-          <View>
+          <View >
             <View style={[styles.searchOptionsContainer,]}>
 
 

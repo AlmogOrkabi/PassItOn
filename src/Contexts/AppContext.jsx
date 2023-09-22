@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { removeToken } from '../utils/index';
 
 export const AppContext = createContext();
 
@@ -13,14 +14,17 @@ export default function AppContextProvider({ children }) {
     //     setUsers(data);
     //     console.log(users)
     // }
+    const [loggedin, setLoggedin] = useState(false);
 
     useEffect(() => {
         //LoadUsers();
     }, []);
+    // useEffect(() => {
+    //     console.log("server error: ", serverError)
+    // }, [serverError]);
     useEffect(() => {
-        console.log("server error: ", serverError)
-    }, [serverError]);
 
+    }, []);
 
 
 
@@ -31,7 +35,7 @@ export default function AppContextProvider({ children }) {
         return user;
     }
 
-    const [loggedUser, setLoggedUser] = useState({});
+    const [loggedUser, setLoggedUser] = useState(null);
 
 
     const [serverError, setServerError] = useState(null);
@@ -46,9 +50,13 @@ export default function AppContextProvider({ children }) {
     //     }
     // }
 
+    const resetLoggedUser = () => {
 
+        setLoggedUser(null);
 
-    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts, serverError, setServerError };
+    }
+
+    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts, serverError, setServerError, resetLoggedUser };
 
 
     return (

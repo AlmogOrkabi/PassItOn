@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
-import { PaperProvider } from 'react-native-paper';
+import { Text, View, SafeAreaView, KeyboardAvoidingView, Linking } from 'react-native';
+import { Menu, PaperProvider } from 'react-native-paper';
 
 import Start from './src/Screens/Start';
 import Login from './src/Screens/Login';
@@ -9,7 +9,7 @@ import Register from './src/Screens/Register';
 import SearchPage from './src/Screens/SearchPage';
 import Profile from './src/Screens/Profile';
 import PasswordRest from './src/Screens/PasswordRest';
-import Menu from './src/Screens/Menu';
+
 import NewPost from './src/Screens/NewPost';
 import PostPage from './src/Screens/PostPage';
 import ManageRequests from './src/Screens/ManageRequests';
@@ -30,8 +30,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
+import ErrorsUI from './src/ErrorHandling/ErrorsUI';
 import Logo from './src/Components/Logo';
+import MenuTop from './src/Components/MenuTop';
 
 
 //Right To Left (Hebrew)
@@ -115,9 +116,42 @@ function CommonScreens() {
 }
 
 
-import ErrorsUI from './src/ErrorHandling/ErrorsUI';
+
 
 export default function App() {
+
+
+  const [isReady, setIsReady] = useState(false);
+  const [initialState, setInitialState] = useState();
+
+  useEffect(() => {
+    const restoreState = async () => {
+      try {
+        const initialUrl = await Linking.getInitialURL();
+
+        // if (Platform.OS !== 'web' && initialUrl == null) {
+        //   // Only restore state if there's no deep link and we're not on web
+        //   const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+        //   const state = savedStateString ? JSON.parse(savedStateString) : undefined;
+
+        //   if (state !== undefined) {
+        //     setInitialState(state);
+        //   }
+        // }
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!isReady) {
+      restoreState();
+    }
+  }, [isReady]);
+
+  if (!isReady) {
+    return null;
+  }
+
 
   return (
     <SafeAreaView style={[styles.app_container]}>
@@ -126,7 +160,7 @@ export default function App() {
       {/* <StatusBar hidden={true} /> */}
       <PaperProvider>
         <AppContextProvider>
-          <NavigationContainer>
+          <NavigationContainer initialState={initialState}>
 
             <Stack.Navigator>
               {/* <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} /> */}
@@ -139,11 +173,12 @@ export default function App() {
                 headerTitle: (props) => <Logo width={logo.headerLogo.width} height={logo.headerLogo.height} {...props} />,
                 headerStyle: { ...headerTitleStyle },
                 headerTitleAlign: 'center',
-                headerLeft: null,
-              }} />
+                // headerLeft: null,
+                headerLeft: () => (<MenuTop />),
+              }}
+              />
               {/* ********/}
               {/* <Stack.Screen name='SearchPage' component={SearchPage} options={{ headerShown: false }} />
-            <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
             <Stack.Screen name='PostPage' component={PostPage} options={{ headerShown: false }} />
             <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
             <Stack.Screen name='ReportForm' component={ReportForm} options={{ headerShown: false }} /> */}
@@ -155,6 +190,7 @@ export default function App() {
             <Stack.Screen name='RequestPage' component={RequestPage} options={{ headerShown: false }} /> */}
             </Stack.Navigator>
             <ErrorsUI />
+
           </NavigationContainer>
         </AppContextProvider>
       </PaperProvider>

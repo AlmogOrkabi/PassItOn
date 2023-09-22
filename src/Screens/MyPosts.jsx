@@ -72,14 +72,14 @@ export default function MyPosts({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={[styles.main_container2]}>
+        <SafeAreaView style={[styles.main_container2,]}>
 
             {loading ? <View style={[styles.main_container,]}><ActivityIndicator /></View> :
-                <View>
+                <View style={{ flex: 1 }}>
                     {/* <Logo width={200} height={60} /> */}
 
                     <Text style={[styles.mediumTitle]}>הפוסטים שלי:</Text>
-                    <View style={[styles.container, styles.sub_container2, { maxHeight: '75%' }]}>
+                    <View style={[styles.container, styles.sub_container2,]}>
                         {
                             myPosts == 404 ?
                                 <Text>לא פירסמת פריטים (עדיין)!</Text>

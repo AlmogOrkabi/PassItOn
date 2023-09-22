@@ -87,6 +87,7 @@ export default function PostPage({ route, navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2,]}>
+            {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
             {/* <Logo width={300} height={70} /> */}
             {/* <Text>דף פוסט</Text> */}
             {isPostOwner ?
@@ -148,7 +149,7 @@ export default function PostPage({ route, navigation }) {
 
                 </View>
             </ScrollView>
-            {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
+
         </SafeAreaView>
     )
 }

@@ -678,7 +678,8 @@ export const overlayStyle = {
     bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.3)', // This gives the dim effect
     // height: '100%',
-    // with: '100%',
+    // width: '100%',
+
     //android is affected by elevation while IOS is affected by zIndex:
     zIndex: 1,
     //(Android uses 'elevation' for shadow depth, while iOS relies on 'zIndex' for stacking order.)
