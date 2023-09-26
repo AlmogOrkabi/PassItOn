@@ -20,6 +20,10 @@ import ReportPage from './src/Screens/ReportPage';
 import MyPosts from './src/Screens/MyPosts';
 import RequestPage from './src/Screens/RequestPage';
 import MyReports from './src/Screens/MyReports';
+import { Onboarding1 } from './src/Components/Onbording/Onboarding1';
+import { Onboarding2 } from './src/Components/Onbording/Onboarding2';
+import { Onboarding3 } from './src/Components/Onbording/Onboarding3';
+
 
 import AppContextProvider, { AppContext } from './src/Contexts/AppContext';
 import { styles, logo, headerTitleStyle } from './src/Styles';
@@ -164,6 +168,9 @@ export default function App() {
 
             <Stack.Navigator>
               {/* <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} /> */}
+              <Stack.Screen name="Onboarding1" component={Onboarding1} />
+              <Stack.Screen name="Onboarding2" component={Onboarding2} />
+              <Stack.Screen name="Onboarding3" component={Onboarding3} />
               <Stack.Screen name='Start' component={Start} options={{ headerShown: false }}
               />
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
