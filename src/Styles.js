@@ -101,9 +101,6 @@ export const styles = StyleSheet.create({
     containerCenter: {
         alignItems: 'center',
         justifyContent: 'center',
-
-
-
     },
     diffBG: {  //for debugging purposes only
         backgroundColor: 'white',
@@ -695,9 +692,57 @@ export const logo = {
         width: 200,
     }
 }
-
 export const headerTitleStyle = {
     //background: 'blue'
     backgroundColor: theme.background,
 
 }
+
+export const onboardingStyle = StyleSheet.create({
+    image: {
+        width: 300,
+        height: 300,
+        marginBottom: 20,
+    },
+    main_container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    sub_container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+        marginVertical: '10%'
+    },
+    title: {
+        fontSize: 27,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#333',
+    },
+    text: {
+        fontSize: 18,
+        marginBottom: 60,
+        color: '#555',
+    },
+    text_container: {
+        maxWidth: '80%',
+    },
+    btn_container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '80%',
+    },
+    btn: {
+        width: '45%',
+    },
+    nextButton: {
+        backgroundColor: '#6A41A0',
+    },
+    btn_skip: {
+        fontSize: 18,
+        color: '#6A41A0',
+    },
+});

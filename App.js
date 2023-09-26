@@ -20,9 +20,18 @@ import ReportPage from './src/Screens/ReportPage';
 import MyPosts from './src/Screens/MyPosts';
 import RequestPage from './src/Screens/RequestPage';
 import MyReports from './src/Screens/MyReports';
-import { Onboarding1 } from './src/Components/Onbording/Onboarding1';
-import { Onboarding2 } from './src/Components/Onbording/Onboarding2';
-import { Onboarding3 } from './src/Components/Onbording/Onboarding3';
+// import { Onboarding1 } from './src/Components/Onbording/Onboarding1';
+// import { Onboarding2 } from './src/Components/Onbording/Onboarding2';
+// import { Onboarding3 } from './src/Components/Onbording/Onboarding3';
+
+
+
+import OnBoarding from './src/Screens/OnBoarding';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from './src/Screens/Loading';
+
+
+
 
 
 import AppContextProvider, { AppContext } from './src/Contexts/AppContext';
@@ -49,13 +58,13 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-import { Dimensions } from 'react-native';
+// import { Dimensions } from 'react-native';
 
-const { width, height } = Dimensions.get('screen');
+// const { width, height } = Dimensions.get('screen');
 
 function LoggedUserTabs() {
 
-  const { serverError, setServerError } = useContext(AppContext);
+  // const { serverError, setServerError } = useContext(AppContext);
 
 
   return (
@@ -152,10 +161,39 @@ export default function App() {
     }
   }, [isReady]);
 
-  if (!isReady) {
-    return null;
+  // if (!isReady) { // cases an error 
+  //   return null;
+  // }
+
+  const [loading, setLoading] = useState(true);
+  const [displayOnboarding, setDisplayOnboarding] = useState(false);
+
+  const chooseScreen = async () => {
+    try {
+      const hasFirstLaunched = await AsyncStorage.getItem("@onboarding");
+      if (hasFirstLaunched === null) {
+        setDisplayOnboarding(true);
+      }
+      else
+        setDisplayOnboarding(false);
+    } catch (error) {
+      console.log("onboarding error" + error);
+    }
+    finally {
+      setLoading(false);
+    }
   }
 
+  useEffect(() => {
+    chooseScreen();
+  }, [])
+
+  // const getInitialRoute = () => {
+  //   if (loading) return 'loading';
+  //   if (displayOnboarding) return 'onboarding';
+  //   // ... any other conditions
+  //   return 'Start'; // default initial route
+  // };             <Stack.Navigator initialRouteName={getInitialRoute()}>
 
   return (
     <SafeAreaView style={[styles.app_container]}>
@@ -166,11 +204,12 @@ export default function App() {
         <AppContextProvider>
           <NavigationContainer initialState={initialState}>
 
-            <Stack.Navigator>
-              {/* <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} /> */}
-              <Stack.Screen name="Onboarding1" component={Onboarding1} />
-              <Stack.Screen name="Onboarding2" component={Onboarding2} />
-              <Stack.Screen name="Onboarding3" component={Onboarding3} />
+            <Stack.Navigator >
+
+              {loading && <Stack.Screen name='loading' component={Loading} options={{ headerShown: false }} />}
+              {displayOnboarding && <Stack.Screen name='onboarding' component={OnBoarding} options={{ headerShown: false }} />}
+
+
               <Stack.Screen name='Start' component={Start} options={{ headerShown: false }}
               />
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
