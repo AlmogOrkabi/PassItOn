@@ -278,6 +278,8 @@ export default function AddressesForm({ state, dispatch, handleChange, validErr,
                                 value={value}
                                 onBlur={onBlur}
                                 onChangeText={value => { onChange(value); handleChange('addresses', 'notes', value); }}
+                                outlineStyle={styles.outlinedInputBorder}
+                                mode='outlined'
                             />
                         )}
 
@@ -306,6 +308,8 @@ export default function AddressesForm({ state, dispatch, handleChange, validErr,
                             value={value}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('addresses', 'apartment', value); }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
                         />)}
 
                 />

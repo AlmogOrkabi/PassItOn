@@ -50,7 +50,8 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                             value={value}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('securityDetails', 'phoneNumber', value); }}
-
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
 
                     )}
@@ -81,7 +82,10 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                             value={value}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('securityDetails', 'email', value); isEmailTaken ? setIsEmailTaken(false) : null }}
-                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />
                     )}
 
 
@@ -113,7 +117,10 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                             secureTextEntry={!passwordVisible}
                             right={<TextInput.Icon icon="eye" size={paperStyles.inputIcon.size} name={passwordVisible ? "eye-off" : "eye"} onPress={() => setPasswordVisible(!passwordVisible)} />}
                             onChangeText={value => { onChange(value); handleChange('securityDetails', 'password', value); }}
-                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />
                     )}
 
                     rules={{
@@ -146,7 +153,10 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                             watch='password'
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('securityDetails', 'confirmPassword', value); }}
-                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />
                     )}
                     rules={{
                         required: {

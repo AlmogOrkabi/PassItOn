@@ -86,7 +86,10 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             value={value}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'username', value); }}
-                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />
                     )}
 
                     rules={{
@@ -117,7 +120,10 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             //onChangeText={onChange}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'firstName', value); }}
-                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />
                     )}
                     rules={{
                         required: {
@@ -146,7 +152,10 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             //onChangeText={onChange}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'lastName', value); }}
-                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
+                            theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />
                     )}
 
                     rules={{
