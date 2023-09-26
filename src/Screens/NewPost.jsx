@@ -147,14 +147,14 @@ export default function NewPost() {
 
 
   return (
-    <SafeAreaView style={[styles.npcontainer,]}>
+    <SafeAreaView style={[styles.main_container2,]}>
       {/* <View style={styles.logocontainer} >
         <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
       </View> */}
       {/* <Logo width={200} height={70} /> */}
 
       {loading ? <ActivityIndicator /> :
-        <ScrollView nestedScrollEnabled >
+        <ScrollView nestedScrollEnabled style={[styles.sub_container2]}>
           <Controller
             control={control}
             name="itemName"
@@ -164,7 +164,9 @@ export default function NewPost() {
                 value={itemName}
                 onBlur={onBlur}
                 onChangeText={(value) => { onChange(value); setItemName(value) }}
-                style={styles.npinput}
+                style={styles.input}
+                outlineStyle={styles.outlinedInputBorder}
+                mode='outlined'
               />
             )}
             rules={{
@@ -188,8 +190,10 @@ export default function NewPost() {
                 value={description}
                 onBlur={onBlur}
                 onChangeText={(value) => { onChange(value); setDescription(value) }}
-                multiline
-                style={styles.npinput}
+                multiline={true}
+                style={[styles.multilineInput]}
+                outlineStyle={styles.outlinedInputBorder}
+                mode='outlined'
               />
             )}
 

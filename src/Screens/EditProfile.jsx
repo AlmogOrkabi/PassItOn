@@ -98,7 +98,7 @@ export default function EditProfile({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState(null);
 
-    const [pfp, setPfp] = useState(loggedUser.photo && loggedUser.photo.url ? loggedUser.photo.url : require('../Pictures/DefaultPfp.jpg'));
+    const [pfp, setPfp] = useState(loggedUser.photo && loggedUser.photo.url ? loggedUser.photo.url : null);
 
     const [address, setAddress] = useState({
         location: null,
@@ -222,7 +222,10 @@ export default function EditProfile({ navigation }) {
             </View> :
                 <ScrollView nestedScrollEnabled style={[styles.sub_container2,]} >
                     <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer,]}>
-                        <Image source={{ uri: pfp }} style={[styles.profilePicture,]}
+                        <Image source={
+                            pfp ? { uri: pfp }
+                                : require('../Pictures/DefaultPfp.jpg')
+                        } style={[styles.profilePicture,]}
                         />
                         <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: 'white', onPrimaryContainer: theme.mediumOrange } }} customSize={40} onPress={() => handleChangePicture()} />
                     </View >

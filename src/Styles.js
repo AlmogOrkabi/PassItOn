@@ -652,6 +652,13 @@ export const styles = StyleSheet.create({
         width: '80%',
         marginBottom: '1%',
     },
+    multilineInput: {
+        //minHeight: 60,
+        //lineHeight: 50,
+        textAlignVertical: 'top',
+        minWidth: "50%",
+        margin: 7,
+    },
 
 
 

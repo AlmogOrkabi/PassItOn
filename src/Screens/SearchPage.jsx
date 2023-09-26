@@ -214,6 +214,7 @@ export default function SearchPage({ navigation }) {
           onChangeText={onChangeSearch}
           value={searchQuery}
           onIconPress={searchItems}
+          style={[{ backgroundColor: 'white' }]}
         />
 
         <TouchableOpacity activeOpacity={touchableOpacity} style={[{ marginTop: 20 }, styles.flexRow]} onPress={() => setSearchOptionsExpended(!searchOptionsExpended)}>
@@ -227,9 +228,10 @@ export default function SearchPage({ navigation }) {
             <View style={[styles.searchOptionsContainer,]}>
 
 
-              <SegmentedButtons style={[{ margin: '5%' }]}
+              <SegmentedButtons style={[{ margin: '3%' }]}
                 value={searchOptions}
                 onValueChange={setSearchOptions}
+                theme={{ colors: { secondaryContainer: 'white', onSecondaryContainer: 'purple' } }}
                 buttons={[
                   {
                     value: 'none',
@@ -253,7 +255,11 @@ export default function SearchPage({ navigation }) {
                 <View>
                   <TextInput label='עיר'
                     value={city}
-                    onChangeText={value => setCity(value)} />
+                    onChangeText={value => setCity(value)}
+                    style={styles.input}
+                    outlineStyle={styles.outlinedInputBorder}
+                    mode='outlined'
+                  />
                 </View> :
                 searchOptions == 'maxDistance' ?
                   <View>

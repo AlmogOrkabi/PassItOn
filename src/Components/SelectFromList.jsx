@@ -40,6 +40,12 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
         console.log("expended " + expanded)
     }, [expanded])
 
+
+    useEffect(() => {
+        //setExpanded(!expanded)
+        console.log("rendered ")
+    }, [])
+
     // const renderItems = ({ item }) => {
     //     if (!item)
     //         return;
@@ -50,6 +56,8 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
     //         </TouchableOpacity>
     //     );
     // };
+
+
 
 
     return (

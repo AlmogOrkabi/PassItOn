@@ -36,7 +36,7 @@ export default function Profile({ navigation }) {
               : require('../Pictures/DefaultPfp.jpg')
           } style={[styles.profilePicture,]}
           />
-          <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'white' } }} customSize={25} />
+          {/* <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'white' } }} customSize={25} /> */}
         </View>
         <Text style={styles.username}>{loggedUser.username}</Text>
         <View style={[styles.sub_container2, { gap: 10 }, { backgroundColor: 'white' }, { padding: 10 }, { borderRadius: 10 }, { alignSelf: 'flex-start' }]}>
@@ -49,7 +49,7 @@ export default function Profile({ navigation }) {
             {/* <Text style={styles.address}>{`${loggedUser.address.street}, ${loggedUser.address.city}, ${loggedUser.address.country}`}</Text> */}
             {loggedUser.address.simplifiedAddress ? <Text>כתובת: <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text></Text> : <Button><Text>הוספת כתובת </Text></Button>}
           </View>
-          <FAB icon="pencil" style={[styles.style_FAB]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'black' } }} />
+          {/* <FAB icon="pencil" style={[styles.style_FAB]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'black' } }} /> */}
         </View>
 
       </View>
