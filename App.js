@@ -184,8 +184,15 @@ export default function App() {
     }
   }
 
+  const clearAsyncStorage = async () => {
+    AsyncStorage.clear();
+  }
+
+
+
   useEffect(() => {
     chooseScreen();
+    // clearAsyncStorage();
   }, [])
 
   // const getInitialRoute = () => {
