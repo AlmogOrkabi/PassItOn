@@ -62,7 +62,7 @@ export default function Login({ navigation }) {
 
             {loading ? <ActivityIndicator /> :
                 <View style={[]}>
-                    <Text style={[styles.title, { marginBottom: 40 }]}>דף התחברות</Text>
+                    <Text style={[styles.title, { marginBottom: 40 }]}>התחברות</Text>
                     <TextInput
                         inputMode='email' style={[styles.input]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)}
                         mode='outlined'

@@ -192,7 +192,7 @@ export default function App() {
 
   useEffect(() => {
     chooseScreen();
-    // clearAsyncStorage();
+    //clearAsyncStorage();
   }, [])
 
   // const getInitialRoute = () => {
@@ -216,12 +216,25 @@ export default function App() {
               {loading && <Stack.Screen name='loading' component={Loading} options={{ headerShown: false }} />}
               {displayOnboarding && <Stack.Screen name='onboarding' component={OnBoarding} options={{ headerShown: false }} />}
 
+              {/* start with logo on top */}
+              {/* 
+              <Stack.Screen name='Start' component={Start} options={{
+                headerTitle: (props) => <Logo width={logo.headerLogo.width} height={logo.headerLogo.height} {...props} />,
+                headerStyle: { ...headerTitleStyle },
+                headerTitleAlign: 'center',
+              }}
+              /> */}
 
               <Stack.Screen name='Start' component={Start} options={{ headerShown: false }}
               />
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
               <Stack.Screen name='reset password' component={PasswordRest} options={{ headerShown: false }} />
-              <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+              <Stack.Screen name='Register' component={Register} options={{
+                headerTitle: (props) => <Logo width={logo.headerLogo.width} height={logo.headerLogo.height} {...props} />,
+                headerStyle: { ...headerTitleStyle },
+                headerTitleAlign: 'center',
+                headerLeft: null,
+              }} />
               <Stack.Screen name='LoggedIn' component={LoggedUserTabs} options={{
                 headerTitle: (props) => <Logo width={logo.headerLogo.width} height={logo.headerLogo.height} {...props} />,
                 headerStyle: { ...headerTitleStyle },

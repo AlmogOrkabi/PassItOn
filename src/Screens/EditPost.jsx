@@ -350,13 +350,13 @@ export default function EditPost({ route, navigation }) {
                         }
                         {err && err.reason == 'category' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
                         {
-                            formState.status.edited ? <View style={[styles.flexRow]}>
+                            formState.status.edited ? <View style={[styles.flexRow,]}>
                                 <SelectFromList list={userAllowedPostStatuses} title='' picked={formState.status.value === '' ? post.status : formState.status.value} setPicked={null} dispatch={dispatch} field='status' />
                                 <IconButton
                                     icon="close-thick"
                                     size={20}
                                     onPress={() => dispatch({ type: 'cancel', field: 'status' })}
-                                    style={[styles.canceEditlBtn]}
+                                    style={[styles.canceEditlBtn,]}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>

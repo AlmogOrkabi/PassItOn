@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, Alert, ActivityIndicator } from 'react-native'
 import React, { useEffect, useReducer, useState, useContext } from 'react'
-import { styles } from '../Styles';
+import { styles, theme } from '../Styles';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 import { uriToBase64, validateNewUserData } from '../utils/index';
 import { createNewUser, checkEmailAvailability } from '../api/index';
@@ -143,14 +143,14 @@ export default function Register({ navigation }) {
 
 
     return (
-        <SafeAreaView style={[styles.main_container, styles.container, { justifyContent: 'space-evenly' }]}>
-            <View >
+        <SafeAreaView style={[styles.main_container2, { justifyContent: 'space-between' }]}>
+            {/* <View >
                 <Logo width={300} height={60} />
-            </View>
+            </View> */}
+            <Text style={[styles.mediumTitle, styles.marginHorizontal, { marginBottom: 30 }]}>הרשמה</Text>
+            <View style={[styles.containerCenter, { backgroundColor: '#f5f4f4c4', width: '100%', alignSelf: 'center', borderRadius: 15, flex: 0.5 }]}>
 
-            <View style={[styles.container]}>
 
-                <Text style={[styles.title, { marginBottom: 30 }]}>דף הרשמה</Text>
 
 
                 {loading ? <ActivityIndicator size="large" /> :
@@ -161,29 +161,31 @@ export default function Register({ navigation }) {
                             <SecurityDetailsForm state={formState.securityDetails} dispatch={dispatch} handleChange={handleChange} isEmailTaken={isEmailTaken} setIsEmailTaken={setIsEmailTaken} validErr={validErr} /> : formPage == 3 ? <AddressesForm state={formState.addresses} dispatch={dispatch} handleChange={handleChange} validErr={validErr} addressData={addressData} setAddressData={setAddressData} /> : null
 
                 }
-                < View >
-                    <View style={[styles.flexRow, { marginTop: 20 }]}>
-                        <IconButton
-                            icon="arrow-right"
-                            size={30}
-                            onPress={() => formPage > 1 ? setFormPage(formPage - 1) : null}
-                            disabled={formPage <= 1 ? true : false}
-                        />
-                        <IconButton
-                            icon="arrow-left"
-                            size={30}
-                            onPress={() => formPage < 3 ? setFormPage(formPage + 1) : null}
-                            disabled={formPage >= 3 ? true : false}
-                        />
-                    </View>
-                    {formPage == 3 ? <Button style={[styles.btn,]} mode="contained" onPress={onSubmit}  >הרשמה</Button> : null}
-                </View>
+
 
 
 
             </View>
+            < View style={[styles.containerCenter, { flex: 0.1 }]}>
+                <View style={[styles.flexRow, { marginTop: 20 }]}>
+                    <IconButton
+                        icon="arrow-right"
+                        size={30}
+                        onPress={() => formPage > 1 ? setFormPage(formPage - 1) : null}
+                        disabled={formPage <= 1 ? true : false}
+                    />
+                    <IconButton
+                        icon="arrow-left"
+                        size={30}
+                        onPress={() => formPage < 3 ? setFormPage(formPage + 1) : null}
+                        disabled={formPage >= 3 ? true : false}
+                    />
+                </View>
 
-
+            </View>
+            <View style={[styles.smallBtn, { flex: 0.2, alignSelf: 'center' }]}>
+                {formPage == 3 ? <Button style={[styles.btn,]} mode="contained" onPress={onSubmit}  >הרשמה</Button> : null}
+            </View>
         </SafeAreaView >
     )
 }

@@ -15,20 +15,42 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 //#b6cdc4
 //light orange-gray : #efd8bd
 //light purple-gray : #c1afc4 #bdb0bf #dfc1e5 #e1bdf3 #e6d3ef
-// - #e3d3ef  #e8d3f6 
+// light blue-green: #f0fff5 -darker: #d6e6db -grayer:#d8e2db
+// - #e3d3ef  #e8d3f6
+//59BDAB
+//4EA9A9
+
 
 export const theme = {
     mainColor: "#B94ECB",
     mainColorFaded: "#DEACE7",
     //background: "#DEACE7", -original BG color
     //background: "#e3d3ef",
-    background: "#e8d3f6",
+    //background: "#e8d3f6",
+    background: "#cadef0",
+    background: "#d5e5f3",
+    background: "#d9e3eb",
+    //background: 'white',
+    //background: '#F5F4F4', //- very light gray
+    //background: '#f0fff5',
+    //background: '#d6e6db',
+    //background: '#d8e2db',
+    //background: '#d8e2df',
+    //background: '#d2e0dc',
+    //background: '#d7e6e0',
+    //background: '#cadcd9',
+    //background: '#d8ebe8',
+    //background: '#d6e3e0',
+
+
     strongOrange: "#f58a0a",
     mediumOrange: '#ffa63e',
     lightOrange: '#ffd6a8',
     strongBlue: '#1b71be',
     mediumBlue: '#2596fe',
     lightBlue: '#add9ff',
+    mediumGreen: '#60cca8',
+    strongGreen: '#4ea98b'
 }
 
 
@@ -753,3 +775,30 @@ export const onboardingStyle = StyleSheet.create({
         color: '#6A41A0',
     },
 });
+
+export const listStyle = StyleSheet.create({
+    listContainer: {
+        backgroundColor: 'white',
+        borderRadius: 15,
+    },
+    itemsContainer: {
+        maxHeight: 250,
+        backgroundColor: 'white',
+        borderRadius: 15,
+    },
+    listItem: {
+        marginHorizontal: 10,
+        padding: '1%',
+    },
+    listTitle: {
+
+    },
+    listSelected: {
+        // borderTopLeftRadius: 15,
+        // borderTopRightRadius: 15,
+        borderRadius: 15,
+        backgroundColor: 'azure',
+        //borderBottomWidth: 0.5,
+        padding: '5%',
+    }
+})

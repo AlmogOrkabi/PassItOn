@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 import { styles, touchableOpacity } from '../Styles';
-import { TextInput, Button, Searchbar, SegmentedButtons, Portal } from 'react-native-paper';
+import { TextInput, Button, Searchbar, SegmentedButtons, Portal, IconButton } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import CardPost from '../Components/CardPost';
 
@@ -9,9 +9,9 @@ import SearchDistance from '../Components/SearchDistance';
 import SelectFromList from '../Components/SelectFromList';
 import ChooseLocation from '../Components/ChooseLocation';
 import { postCategories } from '../Data/constants';
-import { postSearch, postSearchByCity, postSearchByCategory, postSearchByDistance, getAddresses, searchPosts } from '../api/index';
+import { searchPosts } from '../api/index';
 
-import Logo from '../Components/Logo';
+
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -49,6 +49,8 @@ export default function SearchPage({ navigation }) {
 
   const [loading, setLoading] = useState(false);
 
+
+
   useEffect(() => {
     if (address.location.coordinates) {
       setCoordinates((prev) => address.location.coordinates)
@@ -67,56 +69,6 @@ export default function SearchPage({ navigation }) {
     console.log("coordinates updated =>>", coordinates)
   }, [address.location]);
 
-  // const searchItems = async () => {
-  //   try {
-  //     setLoading(true);
-  //     console.log("search query:", searchQuery);
-  //     console.log("search type:", searchOptions);
-  //     console.log("city:", city);
-  //     console.log("category:", category);
-  //     console.log("distance:", searchDistance);
-
-  //     let results;
-  //     // -depending on the searching option the user chose:
-  //     switch (searchOptions) {
-  //       case 'none':
-  //         results = await postSearch(searchQuery, userToken);
-  //         break;
-  //       case 'city':
-  //         if (city.trim() == '')
-  //           Alert.alert('נא הכנס עיר')
-  //         else
-  //           results = await postSearchByCity(searchQuery, city, userToken);
-  //         break;
-  //       case 'distance':
-  //         const currentCoordinates = coordinates; // -the user get to choose between the address in his profile and his current location according to his mobile device
-  //         results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
-  //         break;
-  //       case 'category':
-  //         if (category.trim() == '')
-  //           Alert.alert('נא בחר קטגוריה');
-  //         else
-  //           results = await postSearchByCategory(searchQuery, category, userToken)
-  //         break;
-  //       default:
-  //         console.log("no search option");
-  //         break;
-  //     }
-  //     if (results == 404) {
-  //       Alert.alert('לא נמצאו פריטים')
-  //       setSearchResults(searchResults => 404)
-  //     }
-  //     else {
-  //       //results = await getAddresses(results, userToken)
-  //       setSearchResults(searchResults => results)
-  //     }
-  //   } catch (error) {
-  //     console.log("failed search: " + error)
-  //   }
-  //   finally {
-  //     setLoading(false);
-  //   }
-  // }
 
 
   const searchItems = async () => {
@@ -152,17 +104,25 @@ export default function SearchPage({ navigation }) {
           query.maxDistance = searchDistance;
           query.userCoordinates = currentCoordinates;
           break;
-        case 'category':
-          if (category.trim() == '')
-            Alert.alert('נא בחר קטגוריה');
-          else
-            //results = await postSearchByCategory(searchQuery, category, userToken)
-            query.category = category.trim();
-          break;
+        // case 'category':
+        //   if (category.trim() == '')
+        //     Alert.alert('נא בחר קטגוריה');
+        //   else
+        //     //results = await postSearchByCategory(searchQuery, category, userToken)
+        //     query.category = category.trim();
+        //   break;
         default:
           console.log("no search option");
           break;
       }
+      if (category != 'בחר קטגוריה') {
+
+        //results = await postSearchByCategory(searchQuery, category, userToken)
+        query.category = category.trim();
+
+      }
+
+
       console.log("query: " + JSON.stringify(query));
       const results = await searchPosts(query, userToken);
 
@@ -216,6 +176,15 @@ export default function SearchPage({ navigation }) {
           onIconPress={searchItems}
           style={[{ backgroundColor: 'white' }]}
         />
+        <View style={[styles.flexRow, { alignItems: 'flex-start' }]}>
+          <SelectFromList list={postCategories} picked={category} setPicked={setCategory} />
+          <IconButton
+            icon="close-thick"
+            size={20}
+            onPress={() => setCategory(prev => 'בחר קטגוריה')}
+            style={[styles.canceEditlBtn, { marginTop: 10, }]}
+          />
+        </View>
 
         <TouchableOpacity activeOpacity={touchableOpacity} style={[{ marginTop: 20 }, styles.flexRow]} onPress={() => setSearchOptionsExpended(!searchOptionsExpended)}>
           {searchOptionsExpended ? <MaterialCommunityIcons name="arrow-up-drop-circle-outline" size={24} color="black" /> : <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={24} color="black" />}
@@ -245,7 +214,7 @@ export default function SearchPage({ navigation }) {
                     value: 'maxDistance',
                     label: 'מרחק',
                   },
-                  { value: 'category', label: 'קטגוריה' },
+                  // { value: 'category', label: 'קטגוריה' },
                 ]}
               />
             </View>
@@ -266,9 +235,9 @@ export default function SearchPage({ navigation }) {
                     <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
                     <ChooseLocation address={address} setAddress={setAddress} />
                   </View>
-                  : searchOptions == 'category' ?
-                    <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
-                    : null}
+                  // : searchOptions == 'category' ?
+                  //   <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
+                  : null}
             </View>
           </View>}
 

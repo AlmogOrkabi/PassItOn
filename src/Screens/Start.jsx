@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { Button } from 'react-native-paper';
-import { styles } from '../Styles'
+import { styles, theme } from '../Styles'
 import Logo from '../Components/Logo';
 import { AppContext } from '../Contexts/AppContext';
 
@@ -12,13 +12,15 @@ export default function Start({ navigation }) {
     }, []);
 
     return (
-        <SafeAreaView style={[styles.main_container, styles.container]} >
-            <View >
+        <SafeAreaView style={[styles.main_container2, { justifyContent: 'space-evenly' }]} >
+            <View style={[]}>
                 <Logo width={300} height={100} />
-
-                <Button style={styles.btn} mode="contained" onPress={() => { navigation.navigate('Login') }}>התחברות</Button>
-                <Button style={styles.btn} mode="contained" onPress={() => { navigation.navigate('Register') }}  >הרשמה</Button>
             </View>
+            <View style={[styles.sub_container3]}>
+                <Button style={[styles.btn, { backgroundColor: theme.mainColor }]} mode="contained" onPress={() => { navigation.navigate('Login') }}>התחברות</Button>
+                <Button style={[styles.btn, { backgroundColor: theme.mediumGreen }]} mode="contained" onPress={() => { navigation.navigate('Register') }}  >הרשמה</Button>
+            </View>
+
         </SafeAreaView >
     )
 }
