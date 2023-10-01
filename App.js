@@ -50,6 +50,7 @@ import MenuTop from './src/Components/MenuTop';
 
 //Right To Left (Hebrew)
 import { I18nManager } from 'react-native';
+import Overlay from './src/Components/Overlay';
 
 I18nManager.forceRTL(true);
 I18nManager.allowRTL(true);
@@ -214,6 +215,7 @@ export default function App() {
       {/* <StatusBar hidden={true} /> */}
       <PaperProvider>
         <AppContextProvider>
+          <Overlay />
           <NavigationContainer initialState={initialState}>
 
             <Stack.Navigator >
@@ -244,8 +246,8 @@ export default function App() {
                 headerTitle: (props) => <Logo width={logo.headerLogo.width} height={logo.headerLogo.height} {...props} />,
                 headerStyle: { ...headerTitleStyle },
                 headerTitleAlign: 'center',
-                // headerLeft: null,
-                headerLeft: () => (<MenuTop />),
+                headerLeft: null,
+                headerRight: () => (<MenuTop />),
               }}
               />
               {/* ********/}

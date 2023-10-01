@@ -9,6 +9,7 @@ export default function AppContextProvider({ children }) {
     const [users, setUsers] = useState([]);
     const [userToken, setUserToken] = useState('');
     const [myPosts, setMyPosts] = useState([])
+    const [overlayVisible, setOverlayVisible] = useState(false);
     // async function LoadUsers() {
     //     let data = require('../Data/users.json');
     //     setUsers(data);
@@ -56,7 +57,7 @@ export default function AppContextProvider({ children }) {
 
     }
 
-    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts, serverError, setServerError, resetLoggedUser };
+    const value = { users, setUsers, Login, loggedUser, setLoggedUser, userToken, setUserToken, myPosts, setMyPosts, serverError, setServerError, resetLoggedUser, overlayVisible, setOverlayVisible };
 
 
     return (

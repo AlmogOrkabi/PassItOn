@@ -40,7 +40,7 @@ export default function Profile({ navigation }) {
         </View>
         <Text style={styles.username}>{loggedUser.username}</Text>
         <View style={[styles.sub_container2, { gap: 35 }, { backgroundColor: 'white' }, { padding: 10 }, { borderRadius: 10 }, { alignSelf: 'flex-start' }]}>
-          <Text style={[{ fontWeight: 600 }]}>פרטים אישיים:</Text>
+          {/* <Text style={[{ fontWeight: 600 }]}>פרטים אישיים:</Text> */}
           <Text style={styles.name}>שם:<Text style={styles.name}>{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text></Text>
 
           <Text>כתובת מייל: <Text style={styles.email}>{loggedUser.email}</Text></Text>

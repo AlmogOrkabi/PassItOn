@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, Dimensions } from 'react-native';
 
 //style={[styles.xxxx,]}
 
@@ -299,8 +299,8 @@ export const styles = StyleSheet.create({
         // marginTop: '5%',
         marginTop: Platform.OS === 'android' ? '8%' : '5%',
         alignSelf: 'center',
-        backgroundColor: theme.background,
-
+        //  backgroundColor: theme.background,
+        zIndex: -1
     },
     logo: {
         width: 300,
@@ -640,7 +640,7 @@ export const styles = StyleSheet.create({
         borderRightWidth: 2,
     },
     canceEditlBtn: {
-        backgroundColor: theme.mediumOrange,
+        backgroundColor: theme.mainColor,
         borderRadius: 10,
         borderColor: 'lightgray',
         borderBottomWidth: 3,
@@ -708,7 +708,7 @@ export const overlayStyle = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.3)', // This gives the dim effect
-    // height: '100%',
+    height: Dimensions.get('window').height,
     // width: '100%',
 
     //android is affected by elevation while IOS is affected by zIndex:

@@ -1,9 +1,11 @@
-import { View, Text, useWindowDimensions } from 'react-native'
-import { Button, Menu, Divider, IconButton } from 'react-native-paper';
+import { View, Text, useWindowDimensions, Pressable } from 'react-native'
+import { Button, Menu, Divider, IconButton, } from 'react-native-paper';
 import React, { useState, useContext } from 'react'
 import { AppContext } from '../Contexts/AppContext';
 import { removeToken } from '../utils';
 import { useNavigation, CommonActions, StackActions } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons';
+
 
 
 export default function MenuTop() {
@@ -75,8 +77,8 @@ export default function MenuTop() {
 
     return (
 
-        <View style={[{ flex: 1, marginTop: marginTop }]}>
-            <Menu
+        <View style={[{ flex: 1, marginTop: marginTop, }]}>
+            {/* <Menu
                 visible={visible} W
                 onDismiss={closeMenu}
                 // anchor={<Button onPress={openMenu}>Show menu</Button>}
@@ -92,7 +94,20 @@ export default function MenuTop() {
                 <Menu.Item onPress={() => { }} title="Item 2" />
                 <Divider />
                 <Menu.Item onPress={() => { }} title="Item 3" />
-            </Menu>
+            </Menu> */}
+
+            <Button style={[{ flex: 1, }]} onPress={() => userLogOut()}>
+                <Feather name="log-out" size={20} color="black" style={[{ flex: 1, lineHeight: 18 }]} />
+            </Button>
+
+            {/* 
+            <IconButton
+                icon="logout"
+
+                size={20}
+                onPress={() => console.log('Pressed')}
+            /> */}
+
         </View>
 
     )

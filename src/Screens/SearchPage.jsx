@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
-import { styles, touchableOpacity } from '../Styles';
+import { styles, theme, touchableOpacity } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons, Portal, IconButton } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import CardPost from '../Components/CardPost';
@@ -181,13 +181,14 @@ export default function SearchPage({ navigation }) {
           <IconButton
             icon="close-thick"
             size={20}
+            iconColor={theme.background}
             onPress={() => setCategory(prev => 'בחר קטגוריה')}
             style={[styles.canceEditlBtn, { marginTop: 10, }]}
           />
         </View>
 
         <TouchableOpacity activeOpacity={touchableOpacity} style={[{ marginTop: 20 }, styles.flexRow]} onPress={() => setSearchOptionsExpended(!searchOptionsExpended)}>
-          <Text style={[styles.mediumTextBold]}> חיפוש לפי </Text>
+          <Text style={[styles.mediumTextBold]}> סינון לפי </Text>
           {searchOptionsExpended ? <MaterialCommunityIcons name="arrow-up-drop-circle-outline" size={24} color="black" /> : <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={24} color="black" />}
 
 

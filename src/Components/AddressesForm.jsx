@@ -265,6 +265,28 @@ export default function AddressesForm({ state, dispatch, handleChange, validErr,
                 {/* <TextInput
                     style={[styles.input]} label="הערות לכתובת" value={state.notes} /> */}
                 {/* <TextInput inputMode='numeric' style={[styles.input, styles.input_small]} label="מספר דירה" value={state.apartment} /> */}
+
+
+
+
+                <Controller
+                    control={control}
+                    name='apartmentNumber'
+                    defaultValue={state.apartment}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            inputMode='numeric'
+                            style={[styles.input, styles.input_small]}
+                            label="דירה"
+                            value={value}
+                            onBlur={onBlur}
+                            onChangeText={value => { onChange(value); handleChange('addresses', 'apartment', value); }}
+                            outlineStyle={styles.outlinedInputBorder}
+                            mode='outlined'
+                        />)}
+
+                />
+
                 <View >
 
                     <Controller
@@ -296,23 +318,7 @@ export default function AddressesForm({ state, dispatch, handleChange, validErr,
 
                 </View>
 
-                <Controller
-                    control={control}
-                    name='apartmentNumber'
-                    defaultValue={state.apartment}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            inputMode='numeric'
-                            style={[styles.input, styles.input_small]}
-                            label="מספר דירה"
-                            value={value}
-                            onBlur={onBlur}
-                            onChangeText={value => { onChange(value); handleChange('addresses', 'apartment', value); }}
-                            outlineStyle={styles.outlinedInputBorder}
-                            mode='outlined'
-                        />)}
 
-                />
             </View>
         </SafeAreaView >
     )

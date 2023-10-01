@@ -8,10 +8,11 @@ import RequestForm from '../Components/RequestForm';
 import Overlay from '../Components/Overlay';
 import { getRequests, getReports } from '../api/index';
 import Loading from './Loading';
+import { addressWithoutNumbers } from '../utils';
 
 export default function PostPage({ route, navigation }) {
     const { post, index } = route.params;
-    const { loggedUser, userToken, myPosts, serverError, setServerError } = useContext(AppContext);
+    const { loggedUser, userToken, myPosts, serverError, setServerError, overlayVisible, setOverlayVisible } = useContext(AppContext);
     const [mainPicure, setMainPicure] = useState(post.photos[0]);
     const [isPostOwner, setIsPostOwner] = useState(post.owner_id === loggedUser._id);
     const [requestSent, setRequestsSent] = useState(false);
@@ -96,7 +97,7 @@ export default function PostPage({ route, navigation }) {
     return (
         loading ? <Loading /> :
             <SafeAreaView style={[styles.main_container2,]}>
-                {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
+                {/* {modalVisible && <Overlay onClose={() => setModalVisible(false)} />} */}
                 {/* <Logo width={300} height={70} /> */}
                 {/* <Text>דף פוסט</Text> */}
                 {isPostOwner ?
@@ -138,7 +139,8 @@ export default function PostPage({ route, navigation }) {
                         <Text>קטגוריה: {post.category}</Text>
                         <Text>סטטוס:{post.status === 'זמין' ? 'זמין' : post.status === 'סגור' ? 'סגור' : post.status === 'בתהליך מסירה' ? 'בתהליך מסירה' : post.status === 'נמסר' ? 'נמסר' : 'לא זמין'}</Text>
                         <Text>מיקום הפריט:</Text>
-                        <Text>{post.address.simplifiedAddress || post.address.notes}</Text>
+                        {/* <Text>{post.address.simplifiedAddress || post.address.notes}</Text> */}
+                        <Text>{addressWithoutNumbers(post.address.simplifiedAddress || post.address.notes)}</Text>
 
                         {isPostOwner ? null : post.status === 'זמין' ?
 

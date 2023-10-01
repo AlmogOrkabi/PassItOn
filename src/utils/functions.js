@@ -113,3 +113,8 @@ export const openCamera = async () => {
     }
     else return null;
 }
+
+
+export const addressWithoutNumbers = (address) => {
+    return address.replace(/\d+/g, '')
+}

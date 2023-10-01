@@ -1,15 +1,26 @@
 import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native';
-import React from 'react'
+import React, { useContext } from 'react'
 import { Portal } from 'react-native-paper'
 import { overlayStyle } from '../Styles'
+import { AppContext } from '../Contexts/AppContext';
 
+export default function Overlay() {
+    const { overlayVisible, setOverlayVisible } = useContext(AppContext);
 
-export default function Overlay({ onClose }) {
+    function handleClose() {
+        onClose();
+
+    }
+
     return (
 
-        <TouchableWithoutFeedback onPress={onClose}>
-            <View style={overlayStyle}></View>
-        </TouchableWithoutFeedback>
+        overlayVisible ?
+            <TouchableWithoutFeedback onPress={() => { setOverlayVisible(false) }}>
+                <View style={overlayStyle}></View>
+            </TouchableWithoutFeedback>
+            : null
+
+
 
     )
 }

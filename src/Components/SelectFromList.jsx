@@ -112,9 +112,9 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
                         {list.map((item, index) => (
                             <React.Fragment key={item}>
                                 <TouchableOpacity style={[{ marginHorizontal: '5%' }]} activeOpacity={touchableOpacity} onPress={() => handlePicked(item)}>
-                                    <Text>{item}</Text>
+                                    <Text style={[{ paddingVertical: '1%' }]}>{item}</Text>
                                 </TouchableOpacity>
-                                {index < list.length - 1 && <Divider theme={{ colors: { outlineVariant: 'purple' } }} style={[{ marginRight: 15, marginLeft: 5 }]} />}
+                                {index < list.length - 1 && <Divider theme={{ colors: { outlineVariant: 'gray' } }} style={[{ marginRight: 15, marginLeft: 5, }]} />}
                             </React.Fragment>
                         ))}
                     </ScrollView>

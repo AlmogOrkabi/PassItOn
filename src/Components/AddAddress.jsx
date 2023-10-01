@@ -6,6 +6,8 @@ import { TextInput, Button, } from 'react-native-paper';
 import { GEOAPI_KEY } from '@env';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 
 export default function AddAddress({ address, handleChange }) {
@@ -203,11 +205,12 @@ export default function AddAddress({ address, handleChange }) {
             </View>
 
             {
+                // location - outline - former icon
                 loading ? <View style={[styles.locationBtn]}>
                     <ActivityIndicator />
                 </View> :
                     <TouchableOpacity onPress={() => getLocationPermission()} style={[styles.locationBtn,]} activeOpacity={0.5} >
-                        <Ionicons name="location-outline" size={24} color="black" />
+                        <MaterialIcons name="my-location" size={24} color="black" />
                         {/* <Text> מיקום נוכחי</Text> */}
 
                     </TouchableOpacity>

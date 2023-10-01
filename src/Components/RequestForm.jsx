@@ -8,7 +8,7 @@ import { createNewRequest } from '../api/index';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AppContext } from '../Contexts/AppContext';
 import Overlay from './Overlay'
-
+import { addressWithoutNumbers } from '../utils';
 
 export default function RequestForm({ post, modalVisible, setModalVisible, requestSent, setRequestsSent }) {
 
@@ -24,7 +24,8 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
 
     const [success, setSuccess] = useState(false);
 
-    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError, overlayVisible, setOverlayVisible } = useContext(AppContext)
+
 
 
     useEffect(() => {
@@ -78,7 +79,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
 
         <View>
             <Portal>
-                <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
+                <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false); setOverlayVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
                     {loading ?
                         <View style={[styles.modalView,]}>
                             <ActivityIndicator />
@@ -135,7 +136,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
                 </Modal>
 
             </Portal>
-            <Button mode='contained' style={[styles.nppostButton, styles.btn_sendRequest,]} onPress={() => { setModalVisible(true) }}>
+            <Button mode='contained' style={[styles.nppostButton, styles.btn_sendRequest,]} onPress={() => { setModalVisible(true); setOverlayVisible(true) }}>
                 שליחת בקשה
             </Button>
         </View>
