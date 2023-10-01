@@ -681,7 +681,12 @@ export const styles = StyleSheet.create({
         minWidth: "50%",
         margin: 7,
     },
-
+    btn_sendRequest: {
+        backgroundColor: theme.mediumGreen
+    },
+    btn_report: {
+        backgroundColor: theme.mediumOrange
+    }
 
 
 });
@@ -802,3 +807,6 @@ export const listStyle = StyleSheet.create({
         padding: '5%',
     }
 })
+
+export const tabsColor = theme.mainColor;
+export const tabsBackgroundColor = '#F5F4F4';

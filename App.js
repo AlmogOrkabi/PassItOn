@@ -35,7 +35,7 @@ import Loading from './src/Screens/Loading';
 
 
 import AppContextProvider, { AppContext } from './src/Contexts/AppContext';
-import { styles, logo, headerTitleStyle } from './src/Styles';
+import { styles, logo, headerTitleStyle, theme, tabsColor, tabsBackgroundColor } from './src/Styles';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -67,21 +67,26 @@ function LoggedUserTabs() {
   // const { serverError, setServerError } = useContext(AppContext);
 
 
+
   return (
     // <KeyboardAvoidingView
     //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     //   style={[{ flex: 1 },]}
     // >
-    <Tab.Navigator screenOptions={{ tabBarStyle: { position: 'static' } }}>
+    <Tab.Navigator screenOptions={{ tabBarStyle: { position: 'static', } }}  >
       <Tab.Screen name='פרופיל' component={ProfileStack} options={{
-        tabBarIcon: () => <MaterialCommunityIcons name="account" size={24} />,
-        headerShown: false
+        tabBarIcon: (props) => <MaterialCommunityIcons name="account" size={24} color={props.focused ? tabsColor : 'black'} />,
+        headerShown: false,
+        tabBarActiveTintColor: tabsColor,
+        tabBarActiveBackgroundColor: tabsBackgroundColor,
       }} />
 
-      <Tab.Screen name='פרסם פריט' component={NewPost} options={{ tabBarIcon: () => <MaterialCommunityIcons name="plus" size={24} />, headerShown: false }} />
+      <Tab.Screen name='פרסם פריט' component={NewPost} options={{ tabBarIcon: (props) => <MaterialCommunityIcons name="plus" size={24} color={props.focused ? tabsColor : 'black'} />, headerShown: false, tabBarActiveTintColor: tabsColor, tabBarActiveBackgroundColor: tabsBackgroundColor, }} />
       <Tab.Screen name='חיפוש' component={SearchStack} options={{
-        tabBarIcon: () => <MaterialCommunityIcons name="archive-search" size={24} />,
-        headerShown: false
+        tabBarIcon: (props) => <MaterialCommunityIcons name="archive-search" size={24} color={props.focused ? tabsColor : 'black'} />,
+        headerShown: false,
+        tabBarActiveTintColor: tabsColor,
+        tabBarActiveBackgroundColor: tabsBackgroundColor,
       }} />
     </Tab.Navigator>
     // </KeyboardAvoidingView>

@@ -39,15 +39,15 @@ export default function Profile({ navigation }) {
           {/* <FAB icon="pencil" style={[styles.style_FAB_picture]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'white' } }} customSize={25} /> */}
         </View>
         <Text style={styles.username}>{loggedUser.username}</Text>
-        <View style={[styles.sub_container2, { gap: 10 }, { backgroundColor: 'white' }, { padding: 10 }, { borderRadius: 10 }, { alignSelf: 'flex-start' }]}>
+        <View style={[styles.sub_container2, { gap: 35 }, { backgroundColor: 'white' }, { padding: 10 }, { borderRadius: 10 }, { alignSelf: 'flex-start' }]}>
           <Text style={[{ fontWeight: 600 }]}>פרטים אישיים:</Text>
           <Text style={styles.name}>שם:<Text style={styles.name}>{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text></Text>
 
           <Text>כתובת מייל: <Text style={styles.email}>{loggedUser.email}</Text></Text>
           <Text>מספר טלפון נייד: <Text style={styles.phone}>{loggedUser.phoneNumber}</Text></Text>
-          <View style={styles.addressContainer}>
+          <View >
             {/* <Text style={styles.address}>{`${loggedUser.address.street}, ${loggedUser.address.city}, ${loggedUser.address.country}`}</Text> */}
-            {loggedUser.address.simplifiedAddress ? <Text>כתובת: <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text></Text> : <Button><Text>הוספת כתובת </Text></Button>}
+            {loggedUser.address.simplifiedAddress ? <Text>כתובת: <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text></Text> : null}
           </View>
           {/* <FAB icon="pencil" style={[styles.style_FAB]} theme={{ colors: { primaryContainer: theme.lightBlue, onPrimaryContainer: 'black' } }} /> */}
         </View>

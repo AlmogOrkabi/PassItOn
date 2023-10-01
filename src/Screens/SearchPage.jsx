@@ -187,8 +187,9 @@ export default function SearchPage({ navigation }) {
         </View>
 
         <TouchableOpacity activeOpacity={touchableOpacity} style={[{ marginTop: 20 }, styles.flexRow]} onPress={() => setSearchOptionsExpended(!searchOptionsExpended)}>
+          <Text style={[styles.mediumTextBold]}> חיפוש לפי </Text>
           {searchOptionsExpended ? <MaterialCommunityIcons name="arrow-up-drop-circle-outline" size={24} color="black" /> : <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={24} color="black" />}
-          <Text style={[styles.mediumTextBold]}> חיפוש לפי: </Text>
+
 
         </TouchableOpacity>
 

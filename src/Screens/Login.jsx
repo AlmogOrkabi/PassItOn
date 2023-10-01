@@ -77,8 +77,8 @@ export default function Login({ navigation }) {
                     />
 
                     {err ? <Text style={[styles.errMsg]}>{err}</Text> : null}
-
-                    <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { }} >שחכתי סיסמה</Text></TouchableOpacity>
+                    {/*//! delete this???: */}
+                    {/* <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { }} >שחכתי סיסמה</Text></TouchableOpacity> */}
                     <Button style={styles.btn} mode="contained" onPress={() => { userLogin() }}  >התחברות</Button>
 
                 </View>}

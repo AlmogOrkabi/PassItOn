@@ -148,7 +148,7 @@ export default function Register({ navigation }) {
                 <Logo width={300} height={60} />
             </View> */}
             <Text style={[styles.mediumTitle, styles.marginHorizontal, { marginBottom: 30 }]}>הרשמה</Text>
-            <View style={[styles.containerCenter, { backgroundColor: '#f5f4f4c4', width: '100%', alignSelf: 'center', borderRadius: 15, flex: 0.5 }]}>
+            <View style={[styles.containerCenter, { backgroundColor: '#f5f4f4c4', width: '100%', alignSelf: 'center', borderRadius: 15, flex: 0.6 }]}>
 
 
 

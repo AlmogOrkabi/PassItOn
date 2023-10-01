@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native
 import React, { useState, useEffect } from 'react'
 import { Divider, List } from 'react-native-paper';
 import { styles, touchableOpacity, listStyle } from '../Styles'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function SelectFromList({ list, title, picked, setPicked = null, dispatch = null, field = null }) {
 
@@ -101,8 +102,10 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
 
 
             <View style={[listStyle.listContainer,]}>
-                <TouchableOpacity style={[listStyle.listSelected]} activeOpacity={touchableOpacity} onPress={() => setExpanded((prev) => !prev)}>
+                <TouchableOpacity style={[listStyle.listSelected, styles.flexRow, { justifyContent: 'space-between' }]} activeOpacity={touchableOpacity} onPress={() => setExpanded((prev) => !prev)}>
                     <Text>{picked}</Text>
+                    {/* arrow-down  -- another option for an icon */}
+                    <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={20} color="black" />
                 </TouchableOpacity>
                 {
                     expanded && <ScrollView nestedScrollEnabled style={[listStyle.itemsContainer]}>

@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { View, Text, Alert, TextInput, ActivityIndicator } from 'react-native';
 import { Button, IconButton, Modal, Portal, PaperProvider, Checkbox } from 'react-native-paper';
-import { styles } from '../Styles';
+import { styles, theme } from '../Styles';
 import { validateNewRequestData } from '../utils/validations';
 import { createNewRequest } from '../api/index';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -127,7 +127,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
                                     </View>
                                     {errMsg ? <Text style={[styles.errMsg]}>{errMsg}</Text> : null}
 
-                                    <Button mode='contained' style={[styles.nppostButton]} onPress={() => handlePress()}>
+                                    <Button mode='contained' style={[styles.nppostButton, styles.btn_sendRequest]} onPress={() => handlePress()}>
                                         שליחת בקשה
                                     </Button>
                                 </View>
@@ -135,7 +135,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
                 </Modal>
 
             </Portal>
-            <Button mode='contained' style={[styles.nppostButton]} onPress={() => { setModalVisible(true) }}>
+            <Button mode='contained' style={[styles.nppostButton, styles.btn_sendRequest,]} onPress={() => { setModalVisible(true) }}>
                 שליחת בקשה
             </Button>
         </View>

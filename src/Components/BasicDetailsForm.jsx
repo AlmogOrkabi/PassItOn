@@ -1,7 +1,7 @@
-import { View, Text, SafeAreaView, Image } from 'react-native'
+import { View, Text, SafeAreaView, Image, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { styles } from '../Styles';
+import { styles, theme } from '../Styles';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -13,7 +13,6 @@ import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
 import { openMediaLibrary } from '../utils/index';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { PrivateValueStore } from '@react-navigation/native';
 
 
 export default function BasicDetailsForm({ state, dispatch, handleChange, validErr }) {
@@ -57,7 +56,7 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
         const result = await openMediaLibrary()
 
         if (result) {
-            setImage(result);
+            setImage(() => result);
             handleChange('basicDetails', 'image', result);
         }
     };
@@ -172,7 +171,19 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
 
-                <Button style={styles.smallTextButton} textColor='black' icon={"file-image-plus-outline"} onPress={pickImage}  > תמונת פרופיל</Button>
+                {/* <Button style={styles.smallTextButton} textColor='black' icon={"account-circle-outline"} onPress={pickImage}  > תמונת פרופיל</Button> */}
+
+                <Pressable style={[styles.flexRow, { columnGap: 15, marginTop: '5%' }]} onPress={pickImage}>
+                    {/* <MaterialCommunityIcons name="account-circle-outline" size={50} color="black" /> */}
+                    {
+                        image ?
+                            <Image source={{ uri: state.image }} style={{ width: 60, height: 60, borderRadius: 50 }} />
+                            :
+                            <MaterialCommunityIcons name="account-plus-outline" size={25} color='gray' style={[{ borderWidth: 1, borderRadius: 50, padding: '3%', borderColor: 'gray' }]} />
+                    }
+                    <Text>תמונת פרופיל</Text>
+                </Pressable>
+
 
                 {/* <IconButton
                     icon="file-image-plus-outline"
@@ -180,7 +191,7 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                     onPress={pickImage}
                 /> */}
                 {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
-                {state.image && <Image source={{ uri: state.image }} style={{ width: 200, height: 200 }} />}
+                {/* {state.image && <Image source={{ uri: state.image }} style={{ width: 200, height: 200 }} />} */}
 
 
 
