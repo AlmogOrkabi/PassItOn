@@ -21,7 +21,7 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
 
     const [success, setSuccess] = useState(false);
 
-    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
+    const { loggedUser, userToken, serverError, setServerError, setOverlayVisible } = useContext(AppContext)
 
 
     useEffect(() => {
@@ -65,7 +65,7 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
     return (
 
         <Portal>
-            <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
+            <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false); setOverlayVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
 
                 {loading ?
                     <View style={[styles.modalView,]}>
@@ -76,7 +76,7 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
                         <View style={[styles.modalView, styles.containerCenter,]}>
                             <Text style={[styles.titleBold, { color: 'green' }]}>תגובתך נשלחה בהצלחה!</Text>
                             <MaterialCommunityIcons name="check-decagram" size={65} color="green" />
-                            <Button mode='contained' style={[styles.nppostButton, { marginTop: '50%' }]} onPress={() => setModalVisible(!modalVisible)}>
+                            <Button mode='contained' style={[styles.nppostButton, { marginTop: '50%' }]} onPress={() => { setModalVisible(!modalVisible); setOverlayVisible(false) }}>
                                 סגירה
                             </Button>
                         </View>

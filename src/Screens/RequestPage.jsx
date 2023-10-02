@@ -18,7 +18,7 @@ export default function RequestPage({ route, navigation }) {
 
     const { request, index, options, handleRequestUpdate } = route.params;
 
-    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext);
+    const { loggedUser, serverError, setServerError, setOverlayVisible } = useContext(AppContext);
     const [isSender, setIsSender] = useState(loggedUser._id === request.sender_id);
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -45,22 +45,22 @@ export default function RequestPage({ route, navigation }) {
             let res;
             switch (action) {
                 case 'cancel':
-                    res = await editRequest(request._id, userToken, data);
+                    res = await editRequest(request._id, data);
                     request.status = 'בוטל'
                     console.log(res);
                     break;
                 case 'accept':
-                    res = await editRequest(request._id, userToken, data);
+                    res = await editRequest(request._id, data);
                     request.status = 'אושר'
                     console.log(res);
                     break;
                 case 'decline':
-                    res = await editRequest(request._id, userToken, data);
+                    res = await editRequest(request._id, data);
                     request.status = 'נדחה'
                     console.log(res);
                     break;
                 case 'closed':
-                    res = await editRequest(request._id, userToken, data);
+                    res = await editRequest(request._id, data);
                     request.status = 'נסגר'
                     console.log(res);
                     break;
@@ -81,12 +81,13 @@ export default function RequestPage({ route, navigation }) {
     function handleResponsePress(response) {
         setResponse(() => response);
         setModalVisible(() => true);
+        setOverlayVisible(() => true);
     }
 
 
     async function handleUpdatePostStatus(status) {
         try {
-            let res = await updatePostStatus(request.post._id, status, userToken, loggedUser._id);
+            let res = await updatePostStatus(request.post._id, status, loggedUser._id);
             if (res.acknowledged) {
                 //request.post.status = status;
                 setPostStaus(status);
@@ -128,7 +129,7 @@ export default function RequestPage({ route, navigation }) {
 
     async function checkReported() {
         try {
-            let report = await getReports({ owner_id: loggedUser._id, postReported_id: request.post._id, full: 'false' }, userToken)
+            let report = await getReports({ owner_id: loggedUser._id, postReported_id: request.post._id, full: 'false' })
             if (report != 404)
                 setIsReported(true);
             console.log(isReported)
@@ -141,7 +142,7 @@ export default function RequestPage({ route, navigation }) {
     return (
 
         <SafeAreaView style={[styles.main_container2, styles.paddingVertical]}>
-            {modalVisible && <Overlay onClose={() => setModalVisible(false)} />}
+
             {/* <Logo width={200} height={80} /> */}
 
             {/* <AnimatedFAB
@@ -155,16 +156,16 @@ export default function RequestPage({ route, navigation }) {
                 style={[styles.style_FAB_Edit_Post]}
                 disabled={request.post.status === 'בבדיקת מנהל' || request.post.status === 'סגור' || request.post.status === 'מבוטל' || isReported}
             /> */}
-            <ScrollView style={[]} >
-                <View>
+            <ScrollView style={{}} contentContainerStyle={[]} >
+                <View style={[{ flex: 1 }]}>
 
                     <Text style={[styles.mediumTitle, { alignSelf: 'center' }]}>בקשה לאיסוף פריט</Text>
                     <View style={[styles.sub_container2]}>
                         <Text style={[styles.mediumTitle]}>פרטים:</Text>
                         <Text style={[styles.mediumTextBold]}>שם הפריט: {request.post.itemName}</Text>
                         <Text style={[styles.mediumTextBold]}>פורסם על ידי: {request.recipient.username}</Text>
-                        <Text style={[styles.mediumTextBold]}>נשלח בתאריך: {request.creationDate}</Text>
-                        <Text style={[styles.mediumTextBold]}>עודכן לאחרונה בתאריך: {request.updateDate}</Text>
+                        <Text style={[styles.mediumTextBold]}>נשלח בתאריך: {new Date(request.creationDate).toLocaleDateString()}</Text>
+                        <Text style={[styles.mediumTextBold]}>עודכן לאחרונה בתאריך: {new Date(request.updateDate).toLocaleDateString()}</Text>
                         <Text style={[styles.mediumTextBold]}>סטטוס פריט: {postStaus}</Text>
                         <Text style={[styles.mediumTextBold]}>מלל הבקשה (במידה ויש):</Text>
                         <Text style={[styles.mediumText]}> {request.requestMessage}</Text>
@@ -191,6 +192,8 @@ export default function RequestPage({ route, navigation }) {
                                             <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
                                             <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
                                             <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
+                                            <Text>כתובת: {request.post.address.simplifiedAddress}</Text>
+                                            {request.post.address.notes && <Text>*{request.post.address.notes}</Text>}
                                         </View>
 
                                         {postStaus === 'בתהליך מסירה' ?
@@ -239,8 +242,8 @@ export default function RequestPage({ route, navigation }) {
                                 <Text style={[styles.mediumTitle]}>שולח הבקשה:</Text>
                                 <Text style={[styles.mediumTextBold]}>שם המשתמש: {request.sender.username}</Text>
                                 <Text style={[styles.mediumTextBold]}>שם מלא: {request.sender.firstName} {request.sender.lastName}</Text>
-                                <Text style={[styles.mediumTextBold]}>מלל הבקשה (במידה ויש):</Text>
-                                <Text style={[styles.mediumTextBold]}> {request.requestMessage}</Text>
+                                {/* <Text style={[styles.mediumTextBold]}>מלל הבקשה (במידה ויש):</Text>
+                                <Text style={[styles.mediumTextBold]}> {request.requestMessage}</Text> */}
                                 <Text style={[styles.mediumTextBold]}>פרטי התקשרות:</Text>
                                 <Text style={[styles.mediumTextBold]}>טלפון נייד: {request.sender.phoneNumber}</Text>
 
@@ -313,10 +316,14 @@ export default function RequestPage({ route, navigation }) {
                                     </View> : null}
 
                             </View>}
-                        <Button mode='contained' style={[styles.smallBtn, { alignSelf: 'center' }]} onPress={() => navigation.navigate('ReportForm', { post: request.post })} disabled={isReported}>דיווח</Button>
+
                     </View>
+
+
                 </View>
+
             </ScrollView >
+            <Button mode='contained' style={[styles.smallBtn, styles.btn_report, styles.marginVertical, { alignSelf: 'center', }]} onPress={() => navigation.navigate('ReportForm', { post: request.post })} disabled={isReported}>דיווח</Button>
         </SafeAreaView>
     )
 }

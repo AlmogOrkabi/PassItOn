@@ -91,7 +91,7 @@ function formReducer(state, action) {
 
 export default function EditProfile({ navigation }) {
 
-    const { setLoggedUser, loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
+    const { setLoggedUser, loggedUser, serverError, setServerError } = useContext(AppContext)
 
     const [formState, dispatch] = useReducer(formReducer, initialState);
 
@@ -182,16 +182,16 @@ export default function EditProfile({ navigation }) {
 
             let result;
             if (formState.address.edited)
-                result = await editUser(loggedUser._id, newData, userToken, address)
+                result = await editUser(loggedUser._id, newData, address)
             else
-                result = await editUser(loggedUser._id, newData, userToken)
+                result = await editUser(loggedUser._id, newData)
 
             console.log("result =>" + result.acknowledged)
             if (result.acknowledged) {
                 if (formState.password.edited || formState.email.edited) //if verification details are edited relogging required
                     navigation.navigate('Login')
                 else {
-                    const updatedUser = await getUsers({ _id: loggedUser._id, full: 'true' }, userToken);
+                    const updatedUser = await getUsers({ _id: loggedUser._id, full: 'true' });
                     setLoggedUser(updatedUser[0]);
                     navigation.navigate('Profile');
                 }
@@ -263,6 +263,7 @@ export default function EditProfile({ navigation }) {
                                         size={20}
                                         onPress={() => { dispatch({ type: 'cancel', field: 'username' }); setValue('username', '') }}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                                 {errors.username && <Text style={[styles.inputError,]} >{errors.username.message}</Text>}
@@ -310,6 +311,7 @@ export default function EditProfile({ navigation }) {
                                         size={20}
                                         onPress={() => { dispatch({ type: 'cancel', field: 'firstName' }); setValue('firstName', '') }}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                                 {errors.firstName && <Text style={[styles.inputError,]} >{errors.firstName.message}</Text>}
@@ -357,6 +359,7 @@ export default function EditProfile({ navigation }) {
                                         size={20}
                                         onPress={() => { dispatch({ type: 'cancel', field: 'lastName' }); setValue('lastName', '') }}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
@@ -405,6 +408,7 @@ export default function EditProfile({ navigation }) {
                                         size={20}
                                         onPress={() => { dispatch({ type: 'cancel', field: 'phoneNumber' }); setValue('phoneNumber', '') }}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                                 {errors.phoneNumber && <Text style={[styles.inputError,]} >{errors.phoneNumber.message}</Text>}
@@ -453,6 +457,7 @@ export default function EditProfile({ navigation }) {
                                         size={20}
                                         onPress={() => { dispatch({ type: 'cancel', field: 'email' }); setValue('email', '') }}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                                 {errors.email && <Text style={[styles.inputError,]} >{errors.email.message}</Text>
@@ -510,6 +515,7 @@ export default function EditProfile({ navigation }) {
                                             dispatch({ type: 'cancel', field: 'password' }); setValue('password', ''); setValue('confirmPassword', '');
                                         }}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                                 {errors.password && <Text style={[styles.inputError,]} >{errors.password.message}</Text>}
@@ -573,6 +579,7 @@ export default function EditProfile({ navigation }) {
                                         size={20}
                                         onPress={() => dispatch({ type: 'cancel', field: 'address' })}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={theme.background}
                                     />
                                 </View>
                             </View> :

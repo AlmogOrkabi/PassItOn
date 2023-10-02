@@ -685,7 +685,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.mediumGreen
     },
     btn_report: {
-        backgroundColor: theme.mediumOrange
+        backgroundColor: theme.strongOrange
     }
 
 
@@ -708,7 +708,7 @@ export const overlayStyle = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.3)', // This gives the dim effect
-    height: Dimensions.get('window').height,
+    //height: Dimensions.get('window').height,
     // width: '100%',
 
     //android is affected by elevation while IOS is affected by zIndex:
@@ -810,3 +810,4 @@ export const listStyle = StyleSheet.create({
 
 export const tabsColor = theme.mainColor;
 export const tabsBackgroundColor = '#F5F4F4';
+export const btnIconColor = theme.background;

@@ -24,7 +24,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
 
     const [success, setSuccess] = useState(false);
 
-    const { loggedUser, userToken, serverError, setServerError, overlayVisible, setOverlayVisible } = useContext(AppContext)
+    const { loggedUser, serverError, setServerError, overlayVisible, setOverlayVisible } = useContext(AppContext)
 
 
 
@@ -50,7 +50,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
             setErrMsg(() => null);
 
             //console.log(loggedUser._id)
-            const res = await createNewRequest(post.owner_id, post._id, loggedUser._id, requestText, userToken);
+            const res = await createNewRequest(post.owner_id, post._id, loggedUser._id, requestText);
 
             if (res.insertedId) {
                 //Alert.alert('בקשה נשלחה בהצלחה')
@@ -89,7 +89,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
                             <View style={[styles.modalView, styles.containerCenter,]}>
                                 <Text style={[styles.titleBold, { color: 'green' }]}>בקשה נשלחה בהצלחה!</Text>
                                 <MaterialCommunityIcons name="check-decagram" size={65} color="green" />
-                                <Button mode='contained' style={[styles.nppostButton, { marginTop: '50%' }]} onPress={() => { setModalVisible(!modalVisible); setRequestsSent(true); }}>
+                                <Button mode='contained' style={[styles.nppostButton, { marginTop: '50%' }]} onPress={() => { setModalVisible(!modalVisible); setRequestsSent(true); setOverlayVisible(false); }}>
                                     סגירה
                                 </Button>
                             </View>
@@ -104,7 +104,7 @@ export default function RequestForm({ post, modalVisible, setModalVisible, reque
                                 <View style={[styles.modalView, styles.modalElements]}>
                                     <Text style={[styles.smallTitle, styles.text_underline, { marginLeft: '8%', }]}>שליחת בקשה למפרסם הפריט:</Text>
                                     <Text>שם הפריט: <Text style={[styles.smallTitle]}>{post.itemName}</Text></Text>
-                                    <Text>מיקום הפריט: <Text>{post.address.simplifiedAddress || post.address.city}</Text></Text>
+                                    <Text>מיקום הפריט: <Text>{addressWithoutNumbers(post.address.simplifiedAddress || post.address.city)}</Text></Text>
                                     <View >
                                         <Text style={[styles.text_underline, { marginLeft: '8%', }]}>מלל הבקשה (אינו חובה):<Text style={[requestText.length > 300 ? styles.errMsg : null]}>עד 300 תווים</Text></Text>
                                         <TextInput style={[styles.native_input, requestText.length > 300 ? styles.borderRed : null]}

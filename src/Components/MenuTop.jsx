@@ -77,7 +77,7 @@ export default function MenuTop() {
 
     return (
 
-        <View style={[{ flex: 1, marginTop: marginTop, }]}>
+        <View style={[{ flex: 1, marginTop: marginTop, position: 'absolute', top: 5 }]}>
             {/* <Menu
                 visible={visible} W
                 onDismiss={closeMenu}
@@ -97,7 +97,7 @@ export default function MenuTop() {
             </Menu> */}
 
             <Button style={[{ flex: 1, }]} onPress={() => userLogOut()}>
-                <Feather name="log-out" size={20} color="black" style={[{ flex: 1, lineHeight: 18 }]} />
+                <Feather name="log-out" size={20} color="black" style={[{ flex: 1, lineHeight: 20 }]} />
             </Button>
 
             {/* 

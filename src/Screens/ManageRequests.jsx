@@ -15,7 +15,7 @@ export default function ManageRequests({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState('');
 
-    const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
+    const { loggedUser, serverError, setServerError } = useContext(AppContext)
 
     const [requestsSent, setRequestsSent] = useState([]);
     const [requestsReceived, setRequestsReceived] = useState([]);
@@ -28,7 +28,7 @@ export default function ManageRequests({ navigation }) {
     async function loadRequests() {
         try {
             setLoading(true);
-            let sent = await getRequests({ sender_id: loggedUser._id, full: 'true' }, userToken);
+            let sent = await getRequests({ sender_id: loggedUser._id, full: 'true' });
             console.log("SENT HERE", sent)
             if (sent == 404) {
                 console.log("404")
@@ -39,7 +39,7 @@ export default function ManageRequests({ navigation }) {
                 setRequestsSent(sent);
             }
 
-            let received = await getRequests({ recipient_id: loggedUser._id, full: 'true' }, userToken);
+            let received = await getRequests({ recipient_id: loggedUser._id, full: 'true' });
 
             if (received == 404) {
                 console.log("404")
@@ -151,7 +151,7 @@ export default function ManageRequests({ navigation }) {
                 </View>}
 
 
-            <Button mode='contained' style={[styles.smallBtn]} onPress={() => { navigation.navigate('MyReports') }}>דיווחים</Button>
+            <Button mode='contained' style={[styles.btn_report, { alignSelf: 'flex-start', }, styles.marginVertical]} onPress={() => { navigation.navigate('MyReports') }}>דיווחים</Button>
         </SafeAreaView>
 
     )

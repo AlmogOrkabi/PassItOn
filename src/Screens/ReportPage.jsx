@@ -14,7 +14,7 @@ export default function ReportPage({ route }) {
                 <Text style={[styles.mediumTitle, styles.text_underline]}>דיווח על {report.postReported_id ? `הפוסט: ${report.post.itemName}` : `המשתמש: ${report.userReported.userName}`}</Text>
                 <View style={[styles.sub_container3]}>
                     <Text>סיבת הדיווח: {report.reportType}</Text>
-                    <Text>תאריך יצירה: {report.creationDate}</Text>
+                    <Text>תאריך יצירה: {new Date(report.creationDate).toLocaleDateString()}</Text>
                     <Text>סטטוס: {report.status}</Text>
                     {report.status !== 'נסגר' ?
                         <View style={[styles.sideComment, styles.flexRow,]}>
@@ -23,7 +23,7 @@ export default function ReportPage({ route }) {
                         </View>
                         :
                         <View>
-                            <Text>תאריך עדכון: {report.updateDate}</Text>
+                            <Text>תאריך עדכון: {new Date(report.updateDate).toLocaleDateString()}</Text>
                             <Text>החלטת המנהל: {report.verdict}</Text>
                         </View>}
 

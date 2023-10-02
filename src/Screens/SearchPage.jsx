@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
-import { styles, theme, touchableOpacity } from '../Styles';
+import { btnIconColor, styles, theme, touchableOpacity } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons, Portal, IconButton } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import CardPost from '../Components/CardPost';
@@ -24,7 +24,7 @@ const MemoizedCardPost = React.memo(CardPost); //React.memo - used to wrap funct
 
 export default function SearchPage({ navigation }) {
 
-  const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext);
+  const { loggedUser, serverError, setServerError } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -124,7 +124,7 @@ export default function SearchPage({ navigation }) {
 
 
       console.log("query: " + JSON.stringify(query));
-      const results = await searchPosts(query, userToken);
+      const results = await searchPosts(query);
 
       if (results == 404) {
         Alert.alert('לא נמצאו פריטים')
@@ -181,7 +181,7 @@ export default function SearchPage({ navigation }) {
           <IconButton
             icon="close-thick"
             size={20}
-            iconColor={theme.background}
+            iconColor={btnIconColor}
             onPress={() => setCategory(prev => 'בחר קטגוריה')}
             style={[styles.canceEditlBtn, { marginTop: 10, }]}
           />

@@ -85,14 +85,15 @@
 import { View, Text } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 
-import { RadioButton } from 'react-native-paper';
+import { RadioButton, TextInput } from 'react-native-paper';
 import { styles } from '../Styles'
 import { AppContext } from '../Contexts/AppContext';
 import AddAddress from './AddAddress';
 
-export default function ChooseLocation({ address, setAddress }) {
+export default function ChooseLocation({ address, setAddress, addNotes = false }) {
     const { loggedUser } = useContext(AppContext)
     const [fromLocation, setFromLocation] = useState('user')
+    // const [notes, setNotes] = useState('');
 
     // const [address, setAddress] = useState({ addressInput: '', location: null });
 
@@ -101,6 +102,9 @@ export default function ChooseLocation({ address, setAddress }) {
         if (fromLocation == 'user') {
             setAddress((prev) => loggedUser.address)
             console.log(loggedUser.address)
+        }
+        else {
+            setAddress((prev) => ({ ...prev, notes: '' }))
         }
     }, [fromLocation]);
 
@@ -161,7 +165,22 @@ export default function ChooseLocation({ address, setAddress }) {
                 </RadioButton.Group>
             </View>
             <View >
-                {fromLocation == 'user' ? <Text>{loggedUser.address.simplifiedAddress}</Text> : <AddAddress address={address} handleChange={setAddress} />}
+                {fromLocation == 'user' ? <Text>{loggedUser.address.simplifiedAddress}</Text> : <View>
+                    <AddAddress address={address} handleChange={setAddress} />
+                    {
+                        addNotes && <TextInput
+                            label="הערות לכתובת"
+                            // initialValue={''}
+                            placeholder=''
+                            value={address.notes}
+                            onChangeText={text => setAddress((prev) => ({ ...prev, notes: text }))}
+                            mode='outlined'
+                            style={[styles.textInput]}
+                            outlineStyle={styles.outlinedInputBorder}
+                            multiline={true}
+                        />
+                    }
+                </View>}
             </View>
 
         </View>

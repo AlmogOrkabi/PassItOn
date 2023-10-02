@@ -13,7 +13,7 @@ export default function ReportCard({ report }) {
                     <Title style={[styles.mediumTitle, styles.text_underline]}>דיווח על {report.postReported_id ? `הפוסט: ${report.post.itemName}` : `המשתמש: ${report.userReported.userName}`}</Title>
                     <Paragraph>סיבת הדיווח: {report.reportType}</Paragraph>
                     <Paragraph>סטטוס: {report.status}</Paragraph>
-                    <Paragraph>תאריך יצירה: {report.creationDate}</Paragraph>
+                    <Paragraph>תאריך יצירה: {new Date(report.creationDate).toLocaleDateString()}</Paragraph>
                     {/* <Paragraph>כתובת: {post.address ? post.address.simplifiedAddress ? post.address.simplifiedAddress : post.address.notes ? post.address.notes : null : null}</Paragraph> */}
                     <MaterialCommunityIcons name="reply" size={24} color="black" />
                 </Card.Content>

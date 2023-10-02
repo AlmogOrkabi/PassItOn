@@ -39,7 +39,8 @@ export default function NewPost() {
   const [photos, setPhotos] = useState([]);
   const [itemLocation, setItemLocation] = useState({
     addressInput: '',
-    location: null
+    location: null,
+    notes: '',
   });
 
   //const [expanded, setExpanded] = useState(true);
@@ -256,7 +257,7 @@ export default function NewPost() {
 
           {err && err.field == 'photos' ? <Text style={[styles.inputError,]} >{err.msg}</Text> : null}
 
-          <ChooseLocation address={itemLocation} setAddress={setItemLocation} />
+          <ChooseLocation address={itemLocation} setAddress={setItemLocation} addNotes={true} />
 
 
           <Button mode="contained" onPress={() => handlePost(handleSubmit)} style={styles.nppostButton}>

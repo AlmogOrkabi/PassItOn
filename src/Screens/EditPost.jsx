@@ -8,7 +8,7 @@ import { openMediaLibrary } from '../utils/index';
 import { validatePostData } from '../utils/validations'
 import { searchPosts, updatePostData } from '../api/index';
 
-import { styles, touchableOpacity } from '../Styles';
+import { btnIconColor, styles, theme, touchableOpacity } from '../Styles';
 import { AppContext } from '../Contexts/AppContext';
 
 
@@ -213,16 +213,21 @@ export default function EditPost({ route, navigation }) {
                 return;
             }
 
-            if (formState.address.edited && !address.location) {
+            if (formState.address.edited && (!address.location)) {
                 setErr((prev) => ({ reason: 'address', msg: 'נא הכנס כתובת תקינה' }));
+                return;
             }
 
             let result;
-            console.log(formState.address.edited)
-            if (formState.address.edited && address)
-                result = await updatePostData(post._id, updatedData, userToken, formState.photos.toAdd, formState.photos.toRemove, address);
-            else
-                result = await updatePostData(post._id, updatedData, userToken, formState.photos.toAdd, formState.photos.toRemove);
+            console.log("address edited? : ", formState.address.edited)
+            if (formState.address.edited && address) {
+                console.log("if")
+                result = await updatePostData(post._id, updatedData, formState.photos.toAdd, formState.photos.toRemove, address);
+            }
+            else {
+                console.log("else")
+                result = await updatePostData(post._id, updatedData, formState.photos.toAdd, formState.photos.toRemove);
+            }
 
             console.log("result =>" + result.acknowledged)
             // if (result.acknowledged) {
@@ -285,6 +290,7 @@ export default function EditPost({ route, navigation }) {
                                     size={20}
                                     onPress={() => dispatch({ type: 'cancel', field: 'itemName' })}
                                     style={[styles.canceEditlBtn]}
+                                    iconColor={btnIconColor}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
@@ -315,6 +321,7 @@ export default function EditPost({ route, navigation }) {
                                     size={20}
                                     onPress={() => dispatch({ type: 'cancel', field: 'description' })}
                                     style={[styles.canceEditlBtn]}
+                                    iconColor={btnIconColor}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
@@ -336,6 +343,7 @@ export default function EditPost({ route, navigation }) {
                                     size={20}
                                     onPress={() => dispatch({ type: 'cancel', field: 'category' })}
                                     style={[styles.canceEditlBtn]}
+                                    iconColor={btnIconColor}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
@@ -357,6 +365,7 @@ export default function EditPost({ route, navigation }) {
                                     size={20}
                                     onPress={() => dispatch({ type: 'cancel', field: 'status' })}
                                     style={[styles.canceEditlBtn,]}
+                                    iconColor={btnIconColor}
                                 />
                             </View> :
                                 <View style={[styles.flexRow, styles.editformFieldContainer]}>
@@ -420,6 +429,7 @@ export default function EditPost({ route, navigation }) {
                                         size={20}
                                         onPress={() => dispatch({ type: 'cancel', field: 'address' })}
                                         style={[styles.canceEditlBtn]}
+                                        iconColor={btnIconColor}
                                     />
                                 </View>
                             </View> :
