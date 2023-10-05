@@ -63,7 +63,7 @@ export default function OnBoarding({ navigation }) {
                     הבא
                 </Button>
                     :
-                    <Button
+                    <Button style={onboardingStyle.btn} labelStyle={onboardingStyle.nextButton}
                         mode="contained"
                         disabled={page < 3}
                         onPress={() => { markAsSeen() }}

@@ -734,15 +734,16 @@ export const headerTitleStyle = {
 
 export const onboardingStyle = StyleSheet.create({
     image: {
-        width: 300,
-        height: 300,
-        marginBottom: 20,
+        width: '100%',
+        height: 400, 
+        resizeMode: 'contain', 
+        borderRadius: 10,
     },
     main_container: {
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#F7F7F7',
     },
     sub_container: {
         alignItems: 'center',
@@ -773,11 +774,11 @@ export const onboardingStyle = StyleSheet.create({
         width: '45%',
     },
     nextButton: {
-        backgroundColor: '#6A41A0',
+        backgroundColor: '#60CCAA',
     },
     btn_skip: {
         fontSize: 18,
-        color: '#6A41A0',
+        color: '#60CCAA',
     },
 });
 
