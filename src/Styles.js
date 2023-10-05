@@ -353,6 +353,7 @@ export const styles = StyleSheet.create({
     },
     nppostButton: {
         marginTop: 16,
+        backgroundColor: theme.mainColor,
     },
     searchOptionsContainer: {
         // marginTop: '3%'
@@ -735,8 +736,8 @@ export const headerTitleStyle = {
 export const onboardingStyle = StyleSheet.create({
     image: {
         width: '100%',
-        height: 400, 
-        resizeMode: 'contain', 
+        height: 400,
+        resizeMode: 'contain',
         borderRadius: 10,
     },
     main_container: {
@@ -749,7 +750,8 @@ export const onboardingStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '90%',
-        marginVertical: '10%'
+        marginVertical: '10%',
+        flex: 0.8
     },
     title: {
         fontSize: 27,
@@ -759,7 +761,7 @@ export const onboardingStyle = StyleSheet.create({
     },
     text: {
         fontSize: 18,
-        marginBottom: 60,
+        marginBottom: 10,
         color: '#555',
     },
     text_container: {
@@ -769,16 +771,23 @@ export const onboardingStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '80%',
+        flex: 0.1
     },
     btn: {
         width: '45%',
+        // height: '20%',
+        height: '50%',
+    },
+    backButton: {
+        backgroundColor: theme.mediumOrange,
     },
     nextButton: {
         backgroundColor: '#60CCAA',
     },
     btn_skip: {
         fontSize: 18,
-        color: '#60CCAA',
+        // color: '#60CCAA',
+        color: theme.mainColor
     },
 });
 

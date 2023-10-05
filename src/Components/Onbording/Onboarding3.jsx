@@ -11,7 +11,7 @@ export default function Onboarding3() {
       />
       <View>
         <Text style={styles.title}>לא תאמינו מה תמצאו</Text>
-        <Text style={styles.subtitle}>מגוון רחב של פריטים שמחכים לכם בחינם</Text>
+        <Text style={styles.subtitle}>מגוון רחב של פריטים שמחכים לכם ללא עלות</Text>
       </View>
     </View>
   );

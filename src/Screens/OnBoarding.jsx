@@ -48,6 +48,7 @@ export default function OnBoarding({ navigation }) {
                     mode="contained"
                     //onPress={handleNext}
                     // style={{ ...styles.button, ...styles.nextButton }}
+                    style={[onboardingStyle.btn, onboardingStyle.backButton]}
                     onPress={() => setPage(page - 1)}
                     disabled={page <= 1}
                 >
@@ -57,13 +58,14 @@ export default function OnBoarding({ navigation }) {
                     mode="contained"
                     //onPress={handleNext}
                     // style={{ ...styles.button, ...styles.nextButton }}
+                    style={[onboardingStyle.btn, onboardingStyle.nextButton]}
                     onPress={() => setPage(page + 1)}
                     disabled={page >= 3}
                 >
                     הבא
                 </Button>
                     :
-                    <Button style={onboardingStyle.btn} labelStyle={onboardingStyle.nextButton}
+                    <Button style={[onboardingStyle.btn, onboardingStyle.nextButton]}
                         mode="contained"
                         disabled={page < 3}
                         onPress={() => { markAsSeen() }}
@@ -73,9 +75,9 @@ export default function OnBoarding({ navigation }) {
                 }
             </View>
 
-            {page < 3 && <Button mode="text" onPress={() => { markAsSeen() }} style={onboardingStyle.btn} labelStyle={onboardingStyle.btn_skip}>
-                לדלג
-            </Button>}
+            <Button mode="text" disabled={page >= 3} onPress={() => { markAsSeen() }} style={[onboardingStyle.btn, { flex: 0.1 }]} labelStyle={onboardingStyle.btn_skip}>
+                {page >= 3 ? '' : 'דלגו'}
+            </Button>
 
         </SafeAreaView>
     )

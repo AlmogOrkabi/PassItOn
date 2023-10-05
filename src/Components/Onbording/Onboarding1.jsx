@@ -11,8 +11,9 @@ export default function Onboarding1() {
         style={onboardingStyle.image}
       />
       <View>
-        <Text style={onboardingStyle.title}>מעלים פרטים שאינם בשימוש</Text>
-        <Text style={onboardingStyle.text}>צלמו פריטים שאינם בשימוש שאותם תרצו למסור</Text>
+        <Text style={onboardingStyle.title}>בואו נעשה ביחד שינוי אמיתי!</Text>
+        <Text style={onboardingStyle.text}> מעלים פרטים שאינם בשימוש כדי שאחרים יוכלו להנות מהם</Text>
+        {/* <Text style={onboardingStyle.text}>צלמו פריטים שאינם בשימוש שאותם תרצו למסור</Text> */}
       </View>
     </View>
   );
