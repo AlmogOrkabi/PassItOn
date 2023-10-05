@@ -245,10 +245,8 @@ export const updatePostStatus = async (post_id, status, requestingUserId = null)
     }
 };
 
-export const updatePostData = async (post_id, updatedData, toAdd = [], toRemove = [], address) => {
+export const updatePostData = async (post_id, updatedData, toAdd = [], toRemove = [], address = null) => {
     try {
-        console.log("edit post - address value: " + address)
-        console.log("edit post- address null? ", typeof address)
         let validationRes = await validatePostData(updatedData)
         if (!validationRes.valid) {
             throw new Error(validationRes.msg);
