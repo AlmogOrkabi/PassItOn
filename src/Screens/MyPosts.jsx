@@ -15,9 +15,9 @@ export default function MyPosts({ navigation }) {
     const { loggedUser, userToken, myPosts, setMyPosts, serverError, setServerError } = useContext(AppContext);
 
 
-    // useEffect(() => {
-    //     getUserPosts()
-    // }, []);
+    useEffect(() => {
+        console.log("my posts: " + myPosts)
+    }, [myPosts]);
 
     useEffect(() => {
         // This function is called every time the screen comes into focus
@@ -35,7 +35,7 @@ export default function MyPosts({ navigation }) {
     async function getUserPosts() {
         try {
             setLoading(true);
-            let results = await searchPosts({ owner_id: loggedUser._id, full: 'true' }, userToken);
+            let results = await searchPosts({ owner_id: loggedUser._id, full: 'true' });
             if (!results)
                 setMyPosts(404);
             else {

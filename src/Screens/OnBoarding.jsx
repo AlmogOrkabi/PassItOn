@@ -76,7 +76,7 @@ export default function OnBoarding({ navigation }) {
             </View>
 
             <Button mode="text" disabled={page >= 3} onPress={() => { markAsSeen() }} style={[onboardingStyle.btn, { flex: 0.1 }]} labelStyle={onboardingStyle.btn_skip}>
-                {page >= 3 ? '' : 'דלגו'}
+                {page >= 3 ? '' : 'דלג'}
             </Button>
 
         </SafeAreaView>

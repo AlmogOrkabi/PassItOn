@@ -278,7 +278,7 @@ export const searchPosts = async (searchQuery = {}) => {
     });
 
     const res = await response.json();
-
+    console.log("res: " + response.status)
     if (!response.ok) {
         if (response.status == 404)
             return 404;

@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, Image, FlatList, TouchableOpacity, Animated, 
 import React, { useState, useContext, useEffect } from 'react'
 import { styles, theme, touchableOpacity } from '../Styles';
 import Logo from '../Components/Logo';
-import { AnimatedFAB, Button } from 'react-native-paper';
+import { AnimatedFAB, Button, Divider } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import RequestForm from '../Components/RequestForm';
 import Overlay from '../Components/Overlay';
@@ -122,7 +122,7 @@ export default function PostPage({ route, navigation }) {
 
                     <View style={[styles.sub_container3, styles.container, { marginTop: 20 }]}>
 
-                        <Text style={[styles.title]}>{post.itemName}</Text>
+                        <Text style={[styles.largeTitle]}>{post.itemName}</Text>
                         <View style={[styles.boxShadow, styles.postImgContainer,]}>
                             <Image style={[styles.postImg, { flex: 1 }]} source={{ uri: mainPicure.url }} />
                         </View>
@@ -135,13 +135,17 @@ export default function PostPage({ route, navigation }) {
                             ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
                             nestedScrollEnabled />
 
-                        <Text>{post.description}</Text>
-                        <Text>קטגוריה: {post.category}</Text>
-                        <Text>סטטוס:{post.status === 'זמין' ? 'זמין' : post.status === 'סגור' ? 'סגור' : post.status === 'בתהליך מסירה' ? 'בתהליך מסירה' : post.status === 'נמסר' ? 'נמסר' : 'לא זמין'}</Text>
-                        <Text>מיקום הפריט:</Text>
-                        {/* <Text>{post.address.simplifiedAddress || post.address.notes}</Text> */}
-                        <Text>{addressWithoutNumbers(post.address.simplifiedAddress || post.address.notes)}</Text>
-
+                        <View style={[{ gap: 10, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 15, padding: '2%', width: '80%' }]}>
+                            <Text>{post.description}</Text>
+                            <Divider theme={{ colors: { outlineVariant: 'gray' } }} />
+                            <Text>קטגוריה: {post.category}</Text>
+                            <Divider theme={{ colors: { outlineVariant: 'gray' } }} />
+                            <Text>סטטוס:{post.status === 'זמין' ? 'זמין' : post.status === 'סגור' ? 'סגור' : post.status === 'בתהליך מסירה' ? 'בתהליך מסירה' : post.status === 'נמסר' ? 'נמסר' : 'לא זמין'}</Text>
+                            <Divider theme={{ colors: { outlineVariant: 'gray' } }} />
+                            <Text>מיקום הפריט:  {addressWithoutNumbers(post.address.simplifiedAddress || post.address.notes)}</Text>
+                            {/* <Text>{addressWithoutNumbers(post.address.simplifiedAddress || post.address.notes)}</Text> */}
+                            {/* <Divider theme={{ colors: { outlineVariant: 'gray' } }} /> */}
+                        </View>
                         {isPostOwner ? null : post.status === 'זמין' ?
 
                             <View style={[styles.flexRow, { gap: 10 }]}>

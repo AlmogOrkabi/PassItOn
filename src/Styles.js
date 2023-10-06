@@ -147,6 +147,10 @@ export const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '800'
     },
+    largeTitle: {
+        fontSize: 23,
+        fontWeight: '800'
+    },
     mediumTitle: {
         fontSize: 18,
         fontWeight: '700'
@@ -259,7 +263,10 @@ export const styles = StyleSheet.create({
     username: {
         fontSize: 25,
         fontWeight: 'bold',
-        marginBottom: '5%',
+        // marginBottom: '5%',
+    },
+    textColor_DarkGray: {
+        color: '#555555',
     },
     name: {
         fontSize: 14,
@@ -367,6 +374,9 @@ export const styles = StyleSheet.create({
         //margin: 20,
         fontWeight: "bold",
     },
+    iconBubble: {
+        borderRadius: 15, backgroundColor: theme.mediumGreen, padding: 7
+    },
     // card: {
     //     //margin: '5%',
     //     width: 280,
@@ -459,7 +469,8 @@ export const styles = StyleSheet.create({
     postImgContainer: {
         width: 250,
         height: 250,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+
 
 
     },
@@ -687,8 +698,8 @@ export const styles = StyleSheet.create({
     },
     btn_report: {
         backgroundColor: theme.strongOrange
-    }
-
+    },
+    text_icon_container: { flexDirection: 'row', alignItems: 'center', gap: 5 }
 
 });
 
@@ -821,3 +832,5 @@ export const listStyle = StyleSheet.create({
 export const tabsColor = theme.mainColor;
 export const tabsBackgroundColor = '#F5F4F4';
 export const btnIconColor = theme.background;
+export const icontSize = 20;
+export const iconColor = '#555555'
