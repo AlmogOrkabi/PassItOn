@@ -20,7 +20,7 @@ import ChooseLocation from '../Components/ChooseLocation';
 import SelectFromList from '../Components/SelectFromList';
 import AddPictures from '../Components/AddPictures';
 
-export default function NewPost() {
+export default function NewPost({ navigation }) {
 
   const [loading, setLoading] = useState(false);
   const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
@@ -128,9 +128,7 @@ export default function NewPost() {
       const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
       if (res.insertedId) {
         Alert.alert('פוסט פורסם בהצלחה!')
-
-        //find the post by ID
-        //open post page
+        navigation.navigate('MyPosts');
       }
     } catch (error) {
       //handleServerErros(error);
@@ -154,7 +152,7 @@ export default function NewPost() {
       </View> */}
       {/* <Logo width={200} height={70} /> */}
 
-      {loading ? <ActivityIndicator /> :
+      {loading ? <View style={[styles.main_container,]}><ActivityIndicator /></View> :
         <ScrollView nestedScrollEnabled style={[styles.sub_container2]}>
           <Controller
             control={control}

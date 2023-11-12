@@ -16,17 +16,22 @@ export default function ReportPage({ route }) {
                     <Text>סיבת הדיווח: {report.reportType}</Text>
                     <Text>תאריך יצירה: {new Date(report.creationDate).toLocaleDateString()}</Text>
                     <Text>סטטוס: {report.status}</Text>
-                    {report.status !== 'נסגר' ?
+                    {report.status !== 'סגור' ?
                         <View style={[styles.sideComment, styles.flexRow,]}>
                             <MaterialCommunityIcons name="progress-question" size={20} color="black" />
                             <Text >מנהל יבדוק את הדיווח בהקדם האפשרי וינקוט בצעדים הנחוצים לפי חומרת המקרה. ברגע שתתקבל החלטה בנושא, היא תעודכן כאן</Text>
                         </View>
                         :
                         <View>
+                            <Text style={[styles.smallTitle, styles.marginVertical]}>הדיווח טופל</Text>
+
                             <Text>תאריך עדכון: {new Date(report.updateDate).toLocaleDateString()}</Text>
                             <Text>החלטת המנהל: {report.verdict}</Text>
-                        </View>}
 
+
+                        </View>}
+                    <Text style={[styles.textGreen, styles.mediumTextBold]}>צוות ההנהלה מודה לכם מקרב לב על עזרתכם בשמירה על קהילה בטוחה והוגנת</Text>
+                    <Text style={[styles.textGreen, styles.mediumTextBold]}>ביחד נעשה שינוי לטובה</Text>
                 </View>
             </View>
         </SafeAreaView>

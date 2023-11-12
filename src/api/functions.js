@@ -78,9 +78,9 @@ export const createNewAddress = async (data) => {
             // city: data.location.address.municipality,
             city: normalizeCityName(data.location.address.municipality),
             street: data.location.address.streetName,
-            house: data.location.address.streetNumber,
-            apartment: data.apartment,
-            notes: data.notes,
+            house: data.location.address.streetNumber || 123, //Tomtom API LOVES to change formats appearently -_-
+            apartment: data.apartment !== '' ? data.apartment : null,
+            notes: data.notes !== '' ? data.notes : null,
 
             simplifiedAddress: data.addressInput,
 
