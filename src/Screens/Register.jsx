@@ -15,6 +15,8 @@ import { useForm, Controller } from 'react-hook-form';
 
 import Logo from '../Components/Logo';
 
+
+//~ for each section of the form:
 const initialState = {
     basicDetails: {
         username: '',
@@ -60,8 +62,6 @@ export default function Register({ navigation }) {
 
     const [formPage, setFormPage] = useState(1);
     const [isEmailTaken, setIsEmailTaken] = useState(false);
-    //const [btnState,setBtnState] = useState(false);
-    //const [formState, setFormState] = useState(initialState);
     const [formState, dispatch] = useReducer(formReducer, initialState);
     const [addressData, setAddressData] = useState({ location: formState.location, addressInput: formState.addressInput })
 
@@ -144,14 +144,8 @@ export default function Register({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2, { justifyContent: 'space-between' }]}>
-            {/* <View >
-                <Logo width={300} height={60} />
-            </View> */}
             <Text style={[styles.mediumTitle, styles.marginHorizontal, { marginBottom: 30 }]}>הרשמה</Text>
             <View style={[styles.containerCenter, { backgroundColor: '#f5f4f4c4', width: '100%', alignSelf: 'center', borderRadius: 15, flex: 0.6 }]}>
-
-
-
 
                 {loading ? <ActivityIndicator size="large" /> :
 
@@ -161,9 +155,6 @@ export default function Register({ navigation }) {
                             <SecurityDetailsForm state={formState.securityDetails} dispatch={dispatch} handleChange={handleChange} isEmailTaken={isEmailTaken} setIsEmailTaken={setIsEmailTaken} validErr={validErr} /> : formPage == 3 ? <AddressesForm state={formState.addresses} dispatch={dispatch} handleChange={handleChange} validErr={validErr} addressData={addressData} setAddressData={setAddressData} /> : null
 
                 }
-
-
-
 
             </View>
             < View style={[styles.containerCenter, { flex: 0.1 }]}>

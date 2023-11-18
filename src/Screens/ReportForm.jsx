@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Button, RadioButton } from 'react-native-paper';
 import { styles, touchableOpacity } from '../Styles';
 import { AppContext } from '../Contexts/AppContext';
-import Logo from '../Components/Logo';
 import SelectFromList from '../Components/SelectFromList';
 import { reportTypes } from '../Data/constants.js'
 import AddPictures from '../Components/AddPictures';
@@ -27,14 +26,12 @@ export default function ReportForm({ route }) {
             setLoading(true);
             setErr(null);
 
-            let postReported = reportTarget === 'post' ? post._id : null;
-            let validationRes = validateNewReportData(loggedUser._id, reportReason, post.owner_id, postReported, userInput);
+            const postReported = reportTarget === 'post' ? post._id : null;
+            const validationRes = validateNewReportData(loggedUser._id, reportReason, post.owner_id, postReported, userInput);
 
             if (!validationRes.valid) {
                 setErr(validationRes.msg);
                 return;
-
-
 
             }
             if (photos.length < 1) {
@@ -60,7 +57,6 @@ export default function ReportForm({ route }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            {/* <Logo width={200} height={80} /> */}
             {loading ? <View>
                 <ActivityIndicator />
             </View>

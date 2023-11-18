@@ -21,7 +21,7 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
 
     const [success, setSuccess] = useState(false);
 
-    const { loggedUser, userToken, serverError, setServerError, setOverlayVisible } = useContext(AppContext)
+    const { serverError, setServerError, setOverlayVisible } = useContext(AppContext)
 
 
     useEffect(() => {
@@ -43,10 +43,6 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
                 status: response == 'accept' ? 'אושר' : response == 'decline' ? 'נדחה' : 'not valid',
                 responseMessage: responseText !== '' ? responseText : null
             }
-
-
-
-
             let res = await handleEditRequest(data, response);
             if (res.acknowledged) {
                 setSuccess(() => true);
@@ -63,10 +59,8 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
     }
 
     return (
-
         <Portal>
             <Modal visible={modalVisible} onDismiss={() => { setModalVisible(false); setOverlayVisible(false) }} contentContainerStyle={[]} theme={{ colors: { backdrop: '#00000000' } }}>
-
                 {loading ?
                     <View style={[styles.modalView,]}>
                         <ActivityIndicator />
@@ -122,11 +116,6 @@ export default function RequestResponseForm({ request, modalVisible, setModalVis
                                 </Button>
                             </View>
                         </View>}
-
-
-
-
-
             </Modal>
         </Portal>
 

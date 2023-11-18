@@ -3,13 +3,7 @@ import React, { useState, useContext, useReducer, useEffect } from 'react'
 import { styles } from '../Styles';
 import { TextInput, Button, IconButton, List } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
-import Logo from '../Components/Logo';
 import { postCategories } from '../Data/constants';
-import { FlatList } from 'react-native';
-import AddAddress from '../Components/AddAddress';
-
-//import { KeyboardAvoidingView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker'
 import { useForm, Controller } from 'react-hook-form';
 
 
@@ -43,7 +37,17 @@ export default function NewPost({ navigation }) {
     notes: '',
   });
 
-  //const [expanded, setExpanded] = useState(true);
+  const resetForm = () => {
+    setItemName('');
+    setDescription('');
+    setCategory('בחר קטגוריה');
+    setPhotos([]);
+    setItemLocation({
+      addressInput: '',
+      location: null,
+      notes: '',
+    });
+  }
 
   useEffect(() => {
     // console.log("itemLocation: ", itemLocation)
@@ -53,69 +57,13 @@ export default function NewPost({ navigation }) {
     // console.log("itemLocation location positon: ", itemLocation.location.position)
   }, [itemLocation]);
 
-  // const handlePress = () => {
-  //   setExpanded(!expanded)
-  // }
-
-  // const categoryPicked = (item) => {
-  //   setCategory(item);
-  //   setExpanded(false); // not working :(
-  // }
-
-
-  // const renderCategory = ({ item }) => {
-  //   if (!item)
-  //     return;
-
-  //   return (
-  //     <TouchableOpacity onPress={() => categoryPicked(item)}  >
-  //       <View>
-  //         <List.Item title={item} />
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // };
-
-  // const pickImage = async () => {
-  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   console.log(status)
-  //   if (status !== 'granted') {
-  //     alert('הרשאה נדחתה');
-  //     return;
-  //   }
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     // aspect: [4, 3],
-  //     // quality: 1,
-  //   });
-
-  //   console.log(result);
-
-  //   if (!result.canceled) {
-  //     addPhoto(result.uri);
-  //   }
-  // };
-
-
-  // const addPhoto = (photoUri) => {
-  //   if (photos.length < 6) {
-  //     setPhotos((prevPhotos) => [...prevPhotos, photoUri]);
-  //   }
-  // };
-
-  // const removePhoto = (index) => {
-  //   setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-  // };
-
   const handlePost = async () => {
     try {
       setLoading(true);
-      trigger(); //triggers the validation on the input before continuing
+      trigger(); //* triggers the validation on the input before continuing
       console.log('Item Name:', itemName);
       console.log('Description:', description);
       console.log('Category:', category);
-      //console.log('Photos:', photos);
       console.log('Item Location:', itemLocation);
 
 
@@ -128,10 +76,11 @@ export default function NewPost({ navigation }) {
       const res = await createNewPost(itemName, description, category, photos, itemLocation, loggedUser, userToken)
       if (res.insertedId) {
         Alert.alert('פוסט פורסם בהצלחה!')
+        resetForm();
         navigation.navigate('MyPosts');
+
       }
     } catch (error) {
-      //handleServerErros(error);
       console.log("new post error: " + error)
       setServerError({ ...error });
     }
@@ -147,11 +96,6 @@ export default function NewPost({ navigation }) {
 
   return (
     <SafeAreaView style={[styles.main_container2,]}>
-      {/* <View style={styles.logocontainer} >
-        <Image style={styles.logo} source={require('../Pictures/bpio.png')} />
-      </View> */}
-      {/* <Logo width={200} height={70} /> */}
-
       {loading ? <View style={[styles.main_container,]}><ActivityIndicator /></View> :
         <ScrollView nestedScrollEnabled style={[styles.sub_container2]}>
           <Controller
@@ -210,45 +154,8 @@ export default function NewPost({ navigation }) {
           {errors.description && <Text style={[styles.inputError,]} >{errors.description.message}</Text>}
 
 
-
-
-
-
-
-
           <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
           {err && err.field == 'category' ? <Text style={[styles.inputError,]} >{err.msg}</Text> : null}
-
-
-
-          {/* Photo Selection */}
-          {/* <Text style={styles.nplabel}>הוספת תמונה (ניתן עד 6)</Text>
-          <View style={styles.npphotoContainer}>
-            {photos.map((photoUri, index) => (
-              <View key={index} style={styles.npphotoItem}>
-                <Image source={{ uri: photoUri }} style={styles.npphoto} />
-                <IconButton
-                  icon="delete"
-                  color="red"
-                  size={20}
-                  onPress={() => removePhoto(index)}
-                  style={styles.npdeleteButton}
-                />
-              </View>
-            ))}
-
-            {photos.length < 6 && (
-              <IconButton
-                icon="plus"
-                color="gray"
-                size={30}
-                // onPress={() => handleAddPhoto('photo_uri_placeholder')}
-                onPress={pickImage}
-                style={styles.npaddPhotoButton}
-              />
-            )}
-          </View> */}
-
 
           <AddPictures photos={photos} setPhotos={setPhotos} title='תמונות של הפריט (עד 6):' />
 

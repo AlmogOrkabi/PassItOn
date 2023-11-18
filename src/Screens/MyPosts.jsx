@@ -1,11 +1,9 @@
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import { styles, touchableOpacity } from '../Styles';
-import Logo from '../Components/Logo';
 import { AppContext } from '../Contexts/AppContext';
 import { searchPosts, getAddresses } from '../api/index';
 import CardPost from '../Components/CardPost';
-import { Button } from 'react-native-paper'
 
 const MemoizedCardPost = React.memo(CardPost); //React.memo - used to wrap functional components (jsx) when wanting to prevent re-renders when the props stay the same
 
@@ -39,7 +37,6 @@ export default function MyPosts({ navigation }) {
             if (!results)
                 setMyPosts(404);
             else {
-                // results = await getAddresses(results, userToken);
                 setMyPosts(results);
             }
         } catch (error) {
@@ -49,24 +46,19 @@ export default function MyPosts({ navigation }) {
         finally {
             setLoading(false);
         }
-
     }
-
-
     const renderResult = (post) => {
         if (!post) return;
 
         console.log("POST ==>>", post)
 
         return (
-            // <TouchableOpacity onPress={() => navigation.navigate('PostPage', { post: post.item, index: post.index })}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('common', {
                     screen: 'PostPage',
                     params: { post: post.item }
                 });
             }}>
-
                 <MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>
         )
     }
@@ -76,8 +68,6 @@ export default function MyPosts({ navigation }) {
 
             {loading ? <View style={[styles.main_container,]}><ActivityIndicator /></View> :
                 <View style={{ flex: 1 }}>
-                    {/* <Logo width={200} height={60} /> */}
-
                     <Text style={[styles.mediumTitle]}>הפוסטים שלי:</Text>
                     <View style={[styles.container, styles.sub_container2,]}>
                         {
@@ -96,7 +86,6 @@ export default function MyPosts({ navigation }) {
                     </View>
                 </View>
             }
-
         </SafeAreaView>
     )
 }

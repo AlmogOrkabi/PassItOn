@@ -2,7 +2,6 @@ import { View, Text, SafeAreaView, FlatList, TouchableOpacity, ActivityIndicator
 import React, { useEffect, useState, useContext } from 'react'
 import { styles, touchableOpacity } from '../Styles'
 import { AppContext } from '../Contexts/AppContext';
-import Logo from '../Components/Logo'
 import { getReports } from '../api/index'
 import ReportCard from '../Components/ReportCard'
 
@@ -50,7 +49,6 @@ export default function MyReports({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            {/* <Logo width={200} height={80} /> */}
             {
                 loading ? <View style={[{ flex: 1, justifyContent: 'center' }]}>
                     <ActivityIndicator />
@@ -58,7 +56,6 @@ export default function MyReports({ navigation }) {
                     :
                     <View>
                         <Text style={[styles.mediumTitle]}>דיווחים שנשלחו:</Text>
-
 
                         {
                             reportsSubmitted === 404 ? <Text>לא קיימים דיווחים במערכת</Text> :

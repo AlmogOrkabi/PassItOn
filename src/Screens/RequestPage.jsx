@@ -1,12 +1,10 @@
 import { View, Text, SafeAreaView, ActivityIndicator, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { styles, touchableOpacity } from '../Styles';
-import Logo from '../Components/Logo';
 import { AppContext } from '../Contexts/AppContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button, AnimatedFAB } from 'react-native-paper';
 import { editRequest, updatePostStatus, getReports } from '../api/index';
-import Overlay from '../Components/Overlay';
 import RequestResponseForm from '../Components/RequestResponseForm';
 import { validateRequestData } from '../utils/validations';
 
@@ -35,7 +33,6 @@ export default function RequestPage({ route, navigation }) {
 
     async function handleEditRequest(data, action) {
         try {
-
             //-checks if the data is valid
             let validationRes = validateRequestData(data);
             if (!validationRes.valid) {
@@ -106,8 +103,6 @@ export default function RequestPage({ route, navigation }) {
         }
     }
 
-    // const [isExtended, setIsExtended] = useState(false);
-
     useEffect(() => {
         if (editResponse == true) {
             handleRequestUpdate(request, index, options);
@@ -142,20 +137,6 @@ export default function RequestPage({ route, navigation }) {
     return (
 
         <SafeAreaView style={[styles.main_container2, styles.paddingVertical]}>
-
-            {/* <Logo width={200} height={80} /> */}
-
-            {/* <AnimatedFAB
-                icon={'alert-circle-outline'}
-                label={'דיווח על הפריט/משתמש'}
-                extended={isExtended}
-                onPress={() => navigation.navigate('ReportForm')}
-                onLongPress={() => setIsExtended(!isExtended)} // Toggle the extended state on long press
-                animateFrom={'left'}
-                iconMode={'absolute'}
-                style={[styles.style_FAB_Edit_Post]}
-                disabled={request.post.status === 'בבדיקת מנהל' || request.post.status === 'סגור' || request.post.status === 'מבוטל' || isReported}
-            /> */}
             <ScrollView style={{}} contentContainerStyle={[]} >
                 <View style={[{ flex: 1 }]}>
 
@@ -316,10 +297,7 @@ export default function RequestPage({ route, navigation }) {
                                     </View> : null}
 
                             </View>}
-
                     </View>
-
-
                 </View>
 
             </ScrollView >

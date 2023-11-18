@@ -4,7 +4,6 @@ import { Button, TextInput, FAB, IconButton } from 'react-native-paper'
 import { useForm, Controller } from 'react-hook-form';
 import { editUser, checkEmailAvailability, getUsers } from '../api/index';
 
-
 import { openMediaLibrary } from '../utils/index'
 
 import { styles, touchableOpacity, theme, paperStyles } from '../Styles'
@@ -12,7 +11,6 @@ import { AppContext } from '../Contexts/AppContext'
 
 import { isValidPassword, isValidEmail, isValidName, isValidUserName, isValidPhoneNumber, validateUserData } from '../utils/index'
 
-import Logo from '../Components/Logo'
 import AddAddress from '../Components/AddAddress'
 
 
@@ -70,7 +68,7 @@ function formReducer(state, action) {
                 [action.field]: {
                     ...state[action.field],
                     edited: false,
-                    value: '' //this is the line i added
+                    value: ''
                 }
             }
         case 'update':
@@ -171,13 +169,13 @@ export default function EditProfile({ navigation }) {
 
             console.log("email edited?: " + formState.email.edited)
             if (formState.email.edited) {
-                checkEmail = await checkEmailAvailability(formState.email.value); //throws an error if the email is already taken
+                checkEmail = await checkEmailAvailability(formState.email.value); //* throws an error if the email is already taken
             }
 
             if (formState.profilePicture.edited) {
                 newData.newPhoto = formState.profilePicture.value;
-                newData.photo = loggedUser.photo; // used to delete the previous picture from the cloud service in the server
-                console.log("pfp: " + newData.newPhoto);
+                newData.photo = loggedUser.photo; //* used to delete the previous picture from the cloud service in the server
+                // console.log("pfp: " + newData.newPhoto);
             }
 
             let result;
@@ -188,7 +186,7 @@ export default function EditProfile({ navigation }) {
 
             console.log("result =>" + result.acknowledged)
             if (result.acknowledged) {
-                if (formState.password.edited || formState.email.edited) //if verification details are edited relogging required
+                if (formState.password.edited || formState.email.edited) //* if verification details are edited relogging required
                     navigation.navigate('Login')
                 else {
                     const updatedUser = await getUsers({ _id: loggedUser._id, full: 'true' });
@@ -203,7 +201,6 @@ export default function EditProfile({ navigation }) {
                 setIsEmailTaken(() => true);
                 return;
             }
-
             console.log("error here: " + error);
             setServerError({ ...error });
         }
@@ -215,7 +212,6 @@ export default function EditProfile({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            {/* <Logo width={200} height={70} /> */}
             <Text style={[styles.mediumTitle]}>עריכת פרטי משתמש:</Text>
             {loading ? <View style={[styles.main_container]}>
                 <ActivityIndicator />

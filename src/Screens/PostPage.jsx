@@ -1,11 +1,9 @@
 import { View, Text, SafeAreaView, Image, FlatList, TouchableOpacity, Animated, ScrollView } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import { styles, theme, touchableOpacity } from '../Styles';
-import Logo from '../Components/Logo';
 import { AnimatedFAB, Button, Divider } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import RequestForm from '../Components/RequestForm';
-import Overlay from '../Components/Overlay';
 import { getRequests, getReports } from '../api/index';
 import Loading from './Loading';
 import { addressWithoutNumbers } from '../utils';
@@ -41,13 +39,15 @@ export default function PostPage({ route, navigation }) {
 
     }, []);
 
+
+    // we dont see a need for a try and catch block here but we might be wrong
     async function getData() {
         await isSent();
         await isReported();
         setLoading(() => false);
     }
 
-
+    //- checks if the user already sent a request for this post
     async function isSent() {
         try {
             let sent = await getRequests({ sender_id: loggedUser._id, post_id: post._id, full: 'false' }, userToken);
@@ -57,12 +57,10 @@ export default function PostPage({ route, navigation }) {
         } catch (error) {
             console.log("error post page1: ", error)
             setServerError({ ...error });
-            // console.log("error post page1: ", error)
-            // console.log("error post page1: ", JSON.stringify(error, null, 2))
-            // console.log("error post page1: ", Object.getPrototypeOf(error))
         }
     }
 
+    //- checks if the user already reported the post
     async function isReported() {
         try {
             let report = await getReports({ owner_id: loggedUser._id, postReported_id: post._id, full: 'false' }, userToken);
@@ -79,27 +77,9 @@ export default function PostPage({ route, navigation }) {
         }
     }
 
-
-    // const handlePostUpdate = (updatedPost) => {
-    //     // Update any local state if necessary
-    //     navigation.goBack();
-    // };
-
-    // useEffect(() => {
-    //     const unsubscribe = navigation.addListener('focus', () => {
-    //         post = myPosts[index];
-    //     });
-
-    //     return unsubscribe;
-    // }, [navigation]);
-
-
     return (
         loading ? <Loading /> :
             <SafeAreaView style={[styles.main_container2,]}>
-                {/* {modalVisible && <Overlay onClose={() => setModalVisible(false)} />} */}
-                {/* <Logo width={300} height={70} /> */}
-                {/* <Text>דף פוסט</Text> */}
                 {isPostOwner ?
 
                     <AnimatedFAB
@@ -116,9 +96,6 @@ export default function PostPage({ route, navigation }) {
                     />
                     : null}
                 <ScrollView>
-
-
-
 
                     <View style={[styles.sub_container3, styles.container, { marginTop: 20 }]}>
 
@@ -143,8 +120,6 @@ export default function PostPage({ route, navigation }) {
                             <Text>סטטוס:{post.status === 'זמין' ? 'זמין' : post.status === 'סגור' ? 'סגור' : post.status === 'בתהליך מסירה' ? 'בתהליך מסירה' : post.status === 'נמסר' ? 'נמסר' : 'לא זמין'}</Text>
                             <Divider theme={{ colors: { outlineVariant: 'gray' } }} />
                             <Text>מיקום הפריט:  {addressWithoutNumbers(post.address.simplifiedAddress || post.address.notes)}</Text>
-                            {/* <Text>{addressWithoutNumbers(post.address.simplifiedAddress || post.address.notes)}</Text> */}
-                            {/* <Divider theme={{ colors: { outlineVariant: 'gray' } }} /> */}
                         </View>
                         {isPostOwner ? null : post.status === 'זמין' ?
 

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { styles } from '../Styles';
-import { AppContext } from '../Contexts/AppContext';
 import { View, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -14,7 +13,6 @@ export default function ReportCard({ report }) {
                     <Paragraph>סיבת הדיווח: {report.reportType}</Paragraph>
                     <Paragraph>סטטוס: {report.status}</Paragraph>
                     <Paragraph>תאריך יצירה: {new Date(report.creationDate).toLocaleDateString()}</Paragraph>
-                    {/* <Paragraph>כתובת: {post.address ? post.address.simplifiedAddress ? post.address.simplifiedAddress : post.address.notes ? post.address.notes : null : null}</Paragraph> */}
                     <MaterialCommunityIcons name="reply" size={24} color="black" />
                 </Card.Content>
             </Card>

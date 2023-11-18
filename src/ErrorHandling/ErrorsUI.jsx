@@ -13,9 +13,6 @@ export default function ErrorsUI() {
 
     const handleDialogClose = () => {
         setServerError(null);
-        // if (serverError?.status === 403 || serverError?.status === 401) {
-        //     navigation.navigate('Login'); // redirect to Login
-        // }
         if (serverError.error === 'ACCESS_DENIED') {
             navigation.navigate('Login'); // redirect to Login
         }

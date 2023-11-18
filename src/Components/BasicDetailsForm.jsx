@@ -4,12 +4,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { styles, theme } from '../Styles';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 
-import * as ImagePicker from 'expo-image-picker';
+//import * as ImagePicker from 'expo-image-picker';
 //***expo-image-picker does not automatically ask for permissions
 
 
-// import { isValidPassword, isValidUserName, isValidName } from '../utils/validations'
-import { isValidPassword, isValidUserName, isValidName } from '../utils/index'
+import { isValidUserName, isValidName } from '../utils/index'
 import { openMediaLibrary } from '../utils/index';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -26,30 +25,6 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
         trigger,
         formState: { errors, isValid, }
     } = useForm({ mode: 'all' })
-
-
-    //for media on the device
-    // const pickImage = async () => {
-    //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //     console.log(status)
-    //     if (status !== 'granted') {
-    //         alert('הרשאה נדחתה');
-    //         return;
-    //     }
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //     });
-
-    //     console.log(result);
-
-    //     if (!result.canceled) {
-    //         setImage(result.assets[0].uri);
-    //         handleChange('basicDetails', 'image', result.uri);
-    //     }
-    // };
 
 
     const pickImage = async () => {
@@ -70,9 +45,7 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
 
     return (
         <SafeAreaView style={[styles.container]}>
-
             <View style={[]}>
-
                 <Text style={[styles.form_small_heading]} >פרטים אישיים:</Text>
                 <Controller
                     control={control}
@@ -90,23 +63,16 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             mode='outlined'
                         />
                     )}
-
                     rules={{
                         required: {
                             value: true,
                             message: 'שדה חובה'
                         },
-
                         validate:
                             value => isValidUserName(value) || 'שם המשתמש אינו תקין'
-                        // ,
-                        // validate: value => value.lengt < 5 || 'TEST'
-
-
                     }}
                 />
                 {errors.username && <Text style={[styles.inputError,]} >{errors.username.message}</Text>}
-
                 <Controller
                     control={control}
                     name="firstName"
@@ -116,7 +82,6 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             style={[styles.input,]}
                             label="שם פרטי"
                             value={value}
-                            //onChangeText={onChange}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'firstName', value); }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
@@ -129,16 +94,11 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             value: true,
                             message: 'שדה חובה'
                         },
-
                         validate:
                             value => isValidName(value) || 'שם אינו תקין'
-
-
                     }}
                 />
                 {errors.firstName && <Text style={[styles.inputError,]} >{errors.firstName.message}</Text>}
-
-
                 <Controller
                     control={control}
                     name="lastName"
@@ -148,7 +108,6 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             style={[styles.input,]}
                             label="שם משפחה"
                             value={value}
-                            //onChangeText={onChange}
                             onBlur={onBlur}
                             onChangeText={value => { onChange(value); handleChange('basicDetails', 'lastName', value); }}
                             theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }}
@@ -156,25 +115,18 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                             mode='outlined'
                         />
                     )}
-
                     rules={{
                         required: {
                             value: true,
                             message: 'שדה חובה'
                         },
-
                         validate:
                             value => isValidName(value) || 'שם אינו תקין'
-
-
                     }}
                 />
                 {errors.lastName && <Text style={[styles.inputError,]} >{errors.lastName.message}</Text>}
 
-                {/* <Button style={styles.smallTextButton} textColor='black' icon={"account-circle-outline"} onPress={pickImage}  > תמונת פרופיל</Button> */}
-
                 <Pressable style={[styles.flexRow, { columnGap: 15, marginTop: '5%' }]} onPress={pickImage}>
-                    {/* <MaterialCommunityIcons name="account-circle-outline" size={50} color="black" /> */}
                     {
                         image ?
                             <Image source={{ uri: state.image }} style={{ width: 60, height: 60, borderRadius: 50 }} />
@@ -183,20 +135,6 @@ export default function BasicDetailsForm({ state, dispatch, handleChange, validE
                     }
                     <Text>תמונת פרופיל</Text>
                 </Pressable>
-
-
-                {/* <IconButton
-                    icon="file-image-plus-outline"
-                    size={20}
-                    onPress={pickImage}
-                /> */}
-                {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
-                {/* {state.image && <Image source={{ uri: state.image }} style={{ width: 200, height: 200 }} />} */}
-
-
-
-
-
             </View>
         </SafeAreaView>
     )

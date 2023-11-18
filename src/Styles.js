@@ -348,6 +348,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         top: 4,
         right: 4,
+        backgroundColor: 'white',
     },
     npaddPhotoButton: {
         width: 100,

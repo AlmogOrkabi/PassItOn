@@ -5,7 +5,6 @@ import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../Contexts/AppContext';
 import { login, getAddress } from '../api/index'
 import Logo from '../Components/Logo';
-//import * as SecureStore from 'expo-secure-store';
 
 export default function Login({ navigation }) {
 
@@ -16,7 +15,13 @@ export default function Login({ navigation }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [err, setErr] = useState(null) // to display an error for the user
+    const [err, setErr] = useState(null) //* to display an error for the user
+
+    const resetForm = () => {
+        setPasswordVisible(false);
+        setEmail('');
+        setPassword('');
+    }
 
     async function userLogin() {
         try {
@@ -25,10 +30,10 @@ export default function Login({ navigation }) {
             const user = await login(email, password);
             user.user.address = await getAddress(user.user.address_id);
             setLoggedUser(user.user);
-            // setUserToken(user.token);
-            // await SecureStore.setItemAsync('userToken', user.token);
+
 
             setErr((prev) => null);
+            resetForm();
             navigation.navigate('LoggedIn');
 
         } catch (error) {
@@ -47,17 +52,12 @@ export default function Login({ navigation }) {
             setLoading(false);
         }
     }
-    // <TextInput
-    //     inputMode='email' style={[styles.input,]} label="כתובת דואר אלקטרוני" value={email} onChangeText={email => setEmail(email)} theme={{ colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' } }} />
-
 
     return (
         <SafeAreaView style={[styles.main_container, styles.container,]}>
             <View style={[{ marginTop: -150 }, { marginBottom: 50 }]}>
                 <Logo width={300} height={60} />
             </View>
-
-
 
 
             {loading ? <ActivityIndicator /> :
@@ -77,8 +77,6 @@ export default function Login({ navigation }) {
                     />
 
                     {err ? <Text style={[styles.errMsg]}>{err}</Text> : null}
-                    {/*//! delete this???: */}
-                    {/* <TouchableOpacity><Text style={[styles.form_small_heading, { marginLeft: 10 }]} onPress={() => { }} >שחכתי סיסמה</Text></TouchableOpacity> */}
                     <Button style={styles.btn} mode="contained" onPress={() => { userLogin() }}  >התחברות</Button>
 
                 </View>}
@@ -86,20 +84,3 @@ export default function Login({ navigation }) {
         </SafeAreaView>
     )
 }
-
-/*
-text input style changes:
-theme={{ colors: {
-    onSurfaceVariant: 'black', --> text color
-    placeholder: 'white', --> ?
-    primary: '#66686c' --> border and text color on focus
-}}}
-
-*/
-
-
-// <TextInput style={[styles.input,]} label="סיסמה" value={password} onChangeText={password => SetPassword(password)} theme={{
-//     colors: { onSurfaceVariant: 'black', placeholder: 'white', primary: '#66686c' }
-// }
-// } onFocus={() => setFocused(true)}
-//     onBlur={() => setFocused(false)} />

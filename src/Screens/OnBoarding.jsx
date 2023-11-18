@@ -12,9 +12,7 @@ import { Button } from 'react-native-paper'
 
 export default function OnBoarding({ navigation }) {
     const [page, setPage] = useState(1);
-
     const markAsSeen = async () => {
-
         try {
             await AsyncStorage.setItem('@onboarding', 'true');
 
@@ -29,11 +27,6 @@ export default function OnBoarding({ navigation }) {
         }
     };
 
-
-
-
-
-
     return (
         <SafeAreaView style={[onboardingStyle.main_container]}>
 
@@ -46,8 +39,6 @@ export default function OnBoarding({ navigation }) {
             <View style={onboardingStyle.btn_container}>
                 <Button
                     mode="contained"
-                    //onPress={handleNext}
-                    // style={{ ...styles.button, ...styles.nextButton }}
                     style={[onboardingStyle.btn, onboardingStyle.backButton]}
                     onPress={() => setPage(page - 1)}
                     disabled={page <= 1}
@@ -56,8 +47,6 @@ export default function OnBoarding({ navigation }) {
                 </Button>
                 {page < 3 ? <Button
                     mode="contained"
-                    //onPress={handleNext}
-                    // style={{ ...styles.button, ...styles.nextButton }}
                     style={[onboardingStyle.btn, onboardingStyle.nextButton]}
                     onPress={() => setPage(page + 1)}
                     disabled={page >= 3}

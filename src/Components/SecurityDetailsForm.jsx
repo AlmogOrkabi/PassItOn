@@ -87,18 +87,13 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                             mode='outlined'
                         />
                     )}
-
-
                     rules={{
                         required: {
                             value: true,
                             message: 'שדה חובה'
                         },
-
                         validate:
                             value => isValidEmail(value) || 'כתובת המייל שהוכנסה אינה תקינה'
-
-
                     }}
                 />
                 {(errors.email && <Text style={[styles.inputError,]} >{errors.email.message}</Text>) || (isEmailTaken && <Text style={[styles.inputError,]}>כתובת המייל אינה פנויה</Text>)}
@@ -139,7 +134,6 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                 />
                 {errors.password && <Text style={[styles.inputError,]} >{errors.password.message}</Text>}
 
-
                 <Controller
                     control={control}
                     name="confirmPassword"
@@ -163,14 +157,6 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                             value: true,
                             message: 'שדה חובה'
                         },
-
-                        // validate:
-                        //     value => isValidPassword(value) || '8 - 16 תווים , אות גדולה אחת ומספר אחד לפחות',
-                        //validate:
-                        //value => value === state.password || 'הסיסמאות אינן זהות'
-                        // value => value === watch('password'.value) || 'הסיסמאות אינן זהות'
-                        //value => CheckPasswordsMatch(value) === password || 'הסיסמאות אינן זהות'
-
                         validate: {
                             validPassword: value => isValidPassword(value) || '8 - 16 תווים , אות גדולה אחת ומספר אחד לפחות',
                             passwordsMatch: value => value === watch('password') || 'הסיסמאות אינן זהות',
@@ -178,9 +164,6 @@ export default function SecurityDetailsForm({ state, dispatch, handleChange, isE
                     }}
                 />
                 {errors.confirmPassword && <Text style={[styles.inputError,]} >{errors.confirmPassword.message}</Text>}
-
-                {/* <Button style={styles.btn} mode="contained" onPress={handleSubmit(onSubmit)}  > המשך</Button> */}
-
             </View>
         </SafeAreaView>
     )

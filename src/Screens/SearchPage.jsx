@@ -64,7 +64,6 @@ export default function SearchPage({ navigation }) {
         let coords = address.location.position.split(',');
         setCoordinates((...coordinates) => [coords[1], coords[0]])
       }
-      //}
     }
     console.log("coordinates updated =>>", coordinates)
   }, [address.location]);
@@ -88,38 +87,23 @@ export default function SearchPage({ navigation }) {
       }
 
       switch (searchOptions) {
-        // case 'none':
-        //   results = await searchPosts(query, userToken);
-        //   break;
         case 'city':
           if (city.trim() == '')
             Alert.alert('נא הכנס עיר')
           else
-            //results = await searchPosts(searchQuery, city, userToken);
             query.city = city.trim();
           break;
         case 'maxDistance':
           const currentCoordinates = coordinates; // -the user get to choose between the address in his profile and his current location according to his mobile device
-          //results = await postSearchByDistance(searchQuery, searchDistance, currentCoordinates, userToken);
           query.maxDistance = searchDistance;
           query.userCoordinates = currentCoordinates;
           break;
-        // case 'category':
-        //   if (category.trim() == '')
-        //     Alert.alert('נא בחר קטגוריה');
-        //   else
-        //     //results = await postSearchByCategory(searchQuery, category, userToken)
-        //     query.category = category.trim();
-        //   break;
         default:
-          console.log("no search option");
+          console.log("no search option"); //* find all of the posts
           break;
       }
       if (category != 'בחר קטגוריה') {
-
-        //results = await postSearchByCategory(searchQuery, category, userToken)
         query.category = category.trim();
-
       }
 
 
@@ -131,7 +115,6 @@ export default function SearchPage({ navigation }) {
         setSearchResults(searchResults => 404)
       }
       else {
-        //results = await getAddresses(results, userToken)
         setSearchResults(searchResults => results)
       }
     } catch (error) {
@@ -150,9 +133,6 @@ export default function SearchPage({ navigation }) {
 
 
 
-
-
-
   const renderResult = (post) => {
     if (!post) return;
 
@@ -165,8 +145,6 @@ export default function SearchPage({ navigation }) {
 
   return (
     <SafeAreaView style={[styles.main_container2]}>
-
-      {/* <Logo width={200} height={80} /> */}
 
       <View style={[styles.sub_container2]}>
         <Searchbar
@@ -216,7 +194,6 @@ export default function SearchPage({ navigation }) {
                     value: 'maxDistance',
                     label: 'מרחק',
                   },
-                  // { value: 'category', label: 'קטגוריה' },
                 ]}
               />
             </View>
@@ -237,8 +214,6 @@ export default function SearchPage({ navigation }) {
                     <SearchDistance min={1} max={100} value={searchDistance} setValue={setSearchDistance} />
                     <ChooseLocation address={address} setAddress={setAddress} />
                   </View>
-                  // : searchOptions == 'category' ?
-                  //   <SelectFromList list={postCategories} title='קטגוריות' picked={category} setPicked={setCategory} />
                   : null}
             </View>
           </View>}

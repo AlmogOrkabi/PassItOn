@@ -15,25 +15,22 @@ import { FontAwesome5 } from '@expo/vector-icons';
 export default function Profile({ navigation }) {
 
   const { users, loggedUser } = useContext(AppContext)
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
 
 
 
   const [stateFAB, setStateFAB] = useState(false);
 
-  const onStateChange = () => setStateFAB(!stateFAB);
 
-  // const { open } = state;
-  if (!loggedUser) {
-    return null;
-  }
+  //- this was removed:
+  // const onStateChange = () => setStateFAB(!stateFAB);
+  // if (!loggedUser) {
+  //   return null;
+  // }
 
 
   return (
     <SafeAreaView style={[styles.main_container2,]}>
-
-      {/* <Logo width={200} height={70} /> */}
-
       <View style={[{ flex: 1 }]}>
         <View style={[{ alignSelf: 'center' }, styles.profilePictureContainer]}>
           <Image source={
@@ -50,7 +47,6 @@ export default function Profile({ navigation }) {
           , textAlign: 'center'
         }]}>{loggedUser.username}</Text>
         <View style={[{ marginBottom: '5%', marginTop: '1%', gap: 20, backgroundColor: 'rgba(255, 255, 255,0.5)', padding: 10, borderRadius: 10, alignSelf: 'center', width: '80%' }]}>
-          {/* <Text style={[{ fontWeight: 600 }]}>פרטים אישיים:</Text> */}
           <View style={[styles.text_icon_container, { paddingTop: '5%' }]}>
             <FontAwesome5 name="user-alt" size={icontSize} color={iconColor} />
             <Text >{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text>
@@ -68,7 +64,6 @@ export default function Profile({ navigation }) {
           <Divider />
 
           {loggedUser.address.simplifiedAddress ? <View style={[styles.text_icon_container]}>
-            {/* <Ionicons name="md-home" size={24} color="black" /> */}
             <MaterialCommunityIcons name="home" size={icontSize} color={iconColor} />
 
             <Text style={styles.address}>{`${loggedUser.address.simplifiedAddress}`}</Text>
@@ -77,15 +72,15 @@ export default function Profile({ navigation }) {
 
           </View>
         </View>
-        {/* //-Buttons Container */}
 
+
+        {/* //-Buttons Container */}
         <View style={[styles.flexRowCenter, styles.marginVertical, { justifyContent: 'space-around', }]}>
           <TouchableOpacity onPress={() => navigation.navigate('EditProfile')} activeOpacity={touchableOpacity} style={[, { alignItems: 'center', }]}>
             <FontAwesome5 style={styles.iconBubble} name="user-edit" size={icontSize} color="white" />
             <Text style={[styles.smallText, { marginTop: 5 }]}>עריכת פרטים</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('MyPosts')} activeOpacity={touchableOpacity} style={[{ alignItems: 'center', }]} >
-            {/* <MaterialCommunityIcons name="file-document-multiple-outline" size={icontSize} color="black" /> */}
             <MaterialCommunityIcons style={styles.iconBubble} name="file-document-multiple" size={icontSize} color="white" />
             <Text style={[styles.smallText, { marginTop: 5 }]}>הפוסטים שלי</Text>
           </TouchableOpacity>
@@ -147,150 +142,3 @@ export default function Profile({ navigation }) {
     </SafeAreaView >
   );
 };
-
-
-// import React, { useContext } from 'react';
-// import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-// import { AppContext } from '../Contexts/AppContext';
-// import Icon from 'react-native-vector-icons/FontAwesome';
-// import Logo from '../Components/Logo';
-
-// export default function Profile({ navigation }) {
-//   const { loggedUser } = useContext(AppContext);
-
-//   if (!loggedUser) {
-//     return null;
-//   }
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.header}>
-//         <Image
-//           source={
-//             loggedUser.photo && loggedUser.photo.url
-//               ? { uri: loggedUser.photo.url }
-//               : require('../Pictures/DefaultPfp.jpg')
-//           }
-//           style={styles.profilePicture}
-//         />
-//       </View>
-//       <Text style={styles.username}>{loggedUser.username}</Text>
-//       <View style={styles.infoContainer}>
-//         <Text style={styles.infoText}>
-//           שם: <Text style={styles.infoValue}>{`${loggedUser.firstName} ${loggedUser.lastName}`}</Text>
-//         </Text>
-//         <Text style={styles.infoText}>
-//           כתובת מייל: <Text style={styles.infoValue}>{loggedUser.email}</Text>
-//         </Text>
-//         <Text style={styles.infoText}>
-//           מספר טלפון נייד: <Text style={styles.infoValue}>{loggedUser.phoneNumber}</Text>
-//         </Text>
-//         {loggedUser.address.simplifiedAddress && (
-//           <Text style={styles.infoText}>
-//             כתובת: <Text style={styles.infoValue}>{loggedUser.address.simplifiedAddress}</Text>
-//           </Text>
-//         )}
-//       </View>
-//       <View style={styles.actionButtonsContainer}>
-//         <TouchableOpacity
-//           style={styles.actionButton}
-//           onPress={() => navigation.navigate('MyPosts')}
-//         >
-//           <View style={styles.iconContainer}>
-//             <View style={styles.iconBackground}>
-//               <Icon name="list" size={30} color="#1b71be" />
-//             </View>
-//           </View>
-//           <Text style={styles.buttonText}>הפוסטים שלי</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity
-//           style={styles.actionButton}
-//           onPress={() => navigation.navigate('ManageRequests')}
-//         >
-//           <View style={styles.iconContainer}>
-//             <View style={styles.iconBackground}>
-//               <Icon name="envelope" size={30} color="#1b71be" />
-//             </View>
-//           </View>
-//           <Text style={styles.buttonText}>ניהול בקשות</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity
-//           style={styles.actionButton}
-//           onPress={() => navigation.navigate('EditProfile')}
-//         >
-//           <View style={styles.iconContainer}>
-//             <View style={styles.iconBackground}>
-//               <Icon name="edit" size={30} color="#1b71be" />
-//             </View>
-//           </View>
-//           <Text style={styles.buttonText}>עריכת פרופיל</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#d9e3eb",
-//     padding: 20,
-//     paddingTop: 10,
-//   },
-//   header: {
-//     alignItems: 'center',
-//     marginBottom: 20,
-//   },
-//   profilePicture: {
-//     width: 150,
-//     height: 150,
-//     borderRadius: 75,
-//     marginTop: 75,
-//   },
-//   username: {
-//     fontSize: 23,
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//     marginVertical: 10,
-//   },
-//   infoContainer: {
-//     backgroundColor: '#F5F4F4',
-//     borderRadius: 10,
-//     padding: 15,
-//   },
-//   infoText: {
-//     fontSize: 16,
-//     marginBottom: 10,
-//   },
-//   infoValue: {
-//     fontWeight: 'ligth',
-//   },
-//   actionButtonsContainer: {
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginTop: 20,
-//   },
-//   actionButton: {
-//     alignItems: 'center',
-//     marginHorizontal: 10,
-//   },
-//   buttonText: {
-//     color: '#000',
-//     fontWeight: 'ligth',
-//   },
-//   iconContainer: {
-//     backgroundColor: 'none',
-//     borderRadius: 40,
-//     padding: 40,
-//     marginBottom: 0,
-//     paddingTop: 40,
-//   },
-//   iconBackground: {
-//     backgroundColor: 'white',
-//     borderRadius: 10,
-//     padding: 10,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

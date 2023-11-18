@@ -2,7 +2,6 @@ import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Image
 import { TextInput, IconButton, FAB, Button } from 'react-native-paper';
 import React, { useState, useEffect, useContext, useReducer } from 'react';
 
-
 import { userAllowedPostStatuses, postCategories } from '../Data/constants';
 import { openMediaLibrary } from '../utils/index';
 import { validatePostData } from '../utils/validations'
@@ -11,10 +10,9 @@ import { searchPosts, updatePostData } from '../api/index';
 import { btnIconColor, styles, theme, touchableOpacity } from '../Styles';
 import { AppContext } from '../Contexts/AppContext';
 
-
-import Logo from '../Components/Logo';
 import SelectFromList from '../Components/SelectFromList';
 import AddAddress from '../Components/AddAddress';
+
 
 const initialState = {
 
@@ -96,13 +94,6 @@ function formReducer(state, action) {
 
 }
 
-// function handleStatusChange(newStatus) {
-//     dispatch({ type: 'update', field: 'status', value: newStatus })
-// }
-
-
-// dispatch({ type: 'addPhoto', photo: 'newPhotoURL' });
-// dispatch({ type: 'removePhoto', photo: 'photoURLToRemove' });
 
 export default function EditPost({ route, navigation }) {
     const { post, index } = route.params;
@@ -230,18 +221,6 @@ export default function EditPost({ route, navigation }) {
             }
 
             console.log("result =>" + result.acknowledged)
-            // if (result.acknowledged) {
-
-            //     //await updatePostsArray()               
-            //     const updatedPost = await searchPosts({ _id: post._id, full: 'true' }, userToken)
-            //     let postsArr = myPosts;
-            //     postsArr[index] = updatedPost;
-            //     setMyPosts([...postsArr])
-            //     //navigation.navigate('PostPage', { post: updatedPost, index: index })
-            // }
-
-            //navigation.navigate('PostPage', { post: myPosts[index], index: index })
-            //navigation.goBack();
             navigation.navigate('MyPosts')
 
         } catch (error) {
@@ -253,18 +232,9 @@ export default function EditPost({ route, navigation }) {
     }
 
 
-    // async function updatePostsArray() {
-    //     const updatedPost = await searchPosts({ _id: post._id, full: 'true' }, userToken)
-    //     let postsArr = myPosts;
-    //     postsArr[index] = updatedPost;
-    //     setMyPosts([...postsArr])
-    // }
-
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            {/* <Logo width={200} height={70} /> */}
-
             <Text style={[styles.mediumTitle]}>דף עריכת פוסט:</Text>
             {loading ? <View style={[styles.main_container]}>
                 <ActivityIndicator />

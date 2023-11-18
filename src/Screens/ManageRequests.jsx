@@ -2,12 +2,9 @@ import { View, Text, SafeAreaView, ActivityIndicator, FlatList, TouchableOpacity
 import React, { useState, useContext, useEffect } from 'react'
 import { SegmentedButtons, Button } from 'react-native-paper'
 import { styles, touchableOpacity } from '../Styles';
-import Logo from '../Components/Logo';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AppContext } from '../Contexts/AppContext';
 import { getRequests } from '../api/index';
 import RequestCard from '../Components/RequestCard';
-import { useNavigation } from '@react-navigation/native';
 
 export default function ManageRequests({ navigation }) {
 
@@ -21,9 +18,6 @@ export default function ManageRequests({ navigation }) {
     const [requestsReceived, setRequestsReceived] = useState([]);
 
 
-    // async function handleChange(index, request) {
-
-    // }
 
     async function loadRequests() {
         try {
@@ -34,8 +28,6 @@ export default function ManageRequests({ navigation }) {
                 console.log("404")
                 setRequestsSent(404);
             } else {
-                // sent = await getRequestRecipientData(sent, userToken);
-                // sent = await getRequestsPostData(sent, userToken);
                 setRequestsSent(sent);
             }
 
@@ -45,8 +37,6 @@ export default function ManageRequests({ navigation }) {
                 console.log("404")
                 setRequestsReceived(404);
             } else {
-                // received = await getRequestSenderData(received, userToken)
-                // received = await getRequestsPostData(received, userToken);
                 setRequestsReceived(received);
             }
 
@@ -63,14 +53,6 @@ export default function ManageRequests({ navigation }) {
     useEffect(() => {
         loadRequests();
     }, []);
-
-    // useEffect(() => {
-    //     console.log("OPTIONS:", options)
-    //     console.log("received" + requestsReceived)
-    //     //console.log("sent" + Array.isArray(requestsSent));
-    //     let s = JSON.stringify(requestsSent[0]);
-    //     console.log("sent" + s);
-    // }, [options]);
 
 
     const renderRequests = (request) => {
@@ -100,10 +82,8 @@ export default function ManageRequests({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2]}>
-            {/* <Logo width={200} height={80} /> */}
             {loading ? <View style={[styles.main_container]}><ActivityIndicator /></View> :
                 <View style={[{ flex: 1 }]}>
-                    {/* <Logo width={200} height={80} /> */}
                     <View>
                         <Text>הבקשות שלי</Text>
                         <SegmentedButtons style={[{ margin: '5%' }]}

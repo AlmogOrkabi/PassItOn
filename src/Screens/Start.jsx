@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native'
+import { View, SafeAreaView } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { Button } from 'react-native-paper';
 import { styles, theme } from '../Styles'

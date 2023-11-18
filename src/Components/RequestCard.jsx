@@ -12,14 +12,11 @@ export default function RequestCard({ request }) {
 
     return (
         <Card style={styles.card}>
-            {/* <Card.Cover source={{ uri: post.photos[0].url }} /> */}
             <Card.Content>
                 <Title>{request.post.itemName}</Title>
                 <Paragraph>נשלח מ: {request.sender.username}</Paragraph>
-                {/* <Paragraph>סטטוס: {request.status}</Paragraph> */}
                 <Paragraph>תאריך פתיחה: {new Date(request.creationDate).toLocaleDateString()}</Paragraph>
                 {!isSender ? <View>
-
                     {request.status === 'אושר' ?
                         <View>
                             <View style={[styles.flexRow, styles.marginVertical]}>

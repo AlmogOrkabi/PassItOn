@@ -1,36 +1,12 @@
 import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image, Alert, Modal } from 'react-native'
 import React, { useState, useContext, useReducer, useEffect } from 'react'
 import { IconButton, Button, PaperProvider, Menu, Divider } from 'react-native-paper';
-// import * as ImagePicker from 'expo-image-picker'
 import { styles } from '../Styles';
-import Overlay from './Overlay';
 import { openCamera, openMediaLibrary } from '../utils/index';
 
 export default function AddPictures({ photos, setPhotos, title }) {
 
-    const pickImage = async () => {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        console.log(status)
-        if (status !== 'granted') {
-            alert('הרשאה נדחתה');
-            return;
-        }
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            // aspect: [4, 3],
-            // quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            addPhoto(result.uri);
-        }
-    };
-
-
-    // const openMediaLibrary = async () => {
+    // const pickImage = async () => {
     //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     //     console.log(status)
     //     if (status !== 'granted') {
@@ -49,34 +25,13 @@ export default function AddPictures({ photos, setPhotos, title }) {
     //     if (!result.canceled) {
     //         addPhoto(result.uri);
     //     }
-    // }
+    // };
 
+    // const show = () => setVisible(true);
 
-    // const openCamera = async () => {
-    //     const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    //     if (status !== 'granted') {
-    //         alert('הרשאה נדחתה');
-    //         return;
-    //     }
-    //     let result = await ImagePicker.launchCameraAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //     });
-
-    //     console.log(result);
-
-    //     if (!result.canceled) {
-    //         addPhoto(result.uri);
-    //     }
-    // }
+    // const hide = () => setVisible(false);
 
     const [visible, setVisible] = useState(false);
-
-    const show = () => setVisible(true);
-
-    const hide = () => setVisible(false);
-
-
 
 
     const addPhoto = (photoUri) => {
@@ -90,10 +45,6 @@ export default function AddPictures({ photos, setPhotos, title }) {
     };
 
     async function handlePress(option) {
-        // Alert.alert(null, null, [
-        //     { text: 'מצלמה', onPress: () => openCamera() },
-        //     { text: 'ספריה', onPress: () => openMediaLibrary() }
-        // ])
         let res
         if (option == 1) {
             res = await openCamera();
@@ -119,9 +70,9 @@ export default function AddPictures({ photos, setPhotos, title }) {
                         <IconButton
                             icon="delete"
                             color="red"
-                            size={20}
+                            size={15}
                             onPress={() => removePhoto(index)}
-                            style={styles.npdeleteButton}
+                            style={[styles.npdeleteButton, { width: 17, height: 17 }]}
                         />
                     </View>
                 ))}
@@ -135,8 +86,6 @@ export default function AddPictures({ photos, setPhotos, title }) {
                             icon="plus"
                             color="gray"
                             size={30}
-                            // onPress={() => handleAddPhoto('photo_uri_placeholder')}
-                            //onPress={pickImage}
                             onPress={() => handlePress()}
                             style={styles.npaddPhotoButton}
                         />
@@ -151,31 +100,6 @@ export default function AddPictures({ photos, setPhotos, title }) {
                     </Menu>
                 )}
             </View>
-
-            {/* <Modal
-                animationType="fade"
-                transparent={true}
-                visible={visible}
-                onRequestClose={() => {
-                    setVisible(!visible);
-                }}>
-
-
-
-                <View style={[styles.smallModal]}>
-                    <View style={[{ gap: 10 }]}>
-                        <Button mode='text' style={[{ margin: '1%' }]} onPress={() => { handlePress(1); setVisible(!visible) }}>מצלמה</Button>
-                        <Divider />
-                        <Button mode='text' style={[{ margin: '1%' }]} onPress={() => { handlePress(2); setVisible(!visible) }}>ספריה</Button>
-                    </View>
-                </View>
-                {visible && <Overlay onClose={hide} />}
-            </Modal> */}
-
-
-
-
-
         </View>
     )
 }
