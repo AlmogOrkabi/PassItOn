@@ -44,25 +44,25 @@ export default function RequestPage({ route, navigation }) {
                 case 'cancel':
                     res = await editRequest(request._id, data);
                     request.status = 'בוטל'
-                    console.log(res);
+                    // console.log(res);
                     break;
                 case 'accept':
                     res = await editRequest(request._id, data);
                     request.status = 'אושר'
-                    console.log(res);
+                    // console.log(res);
                     break;
                 case 'decline':
                     res = await editRequest(request._id, data);
                     request.status = 'נדחה'
-                    console.log(res);
+                    // console.log(res);
                     break;
                 case 'closed':
                     res = await editRequest(request._id, data);
                     request.status = 'נסגר'
-                    console.log(res);
+                    // console.log(res);
                     break;
                 default:
-                    console.log("action:" + action)
+                    // console.log("action:" + action)
                     break;
             }
             //setEditResponse(false);
@@ -95,7 +95,7 @@ export default function RequestPage({ route, navigation }) {
             else {
                 Alert.alert('שגיאה בעת שינוי הסטטוס');
             }
-            console.log(res);
+            // console.log(res);
         } catch (error) {
             console.log("ERR HERE", error);
             setServerError({ ...error });
@@ -127,7 +127,7 @@ export default function RequestPage({ route, navigation }) {
             let report = await getReports({ owner_id: loggedUser._id, postReported_id: request.post._id, full: 'false' })
             if (report != 404)
                 setIsReported(true);
-            console.log(isReported)
+            // console.log(isReported)
         } catch (error) {
             console.log("error request page: ", error.status);
             setServerError({ ...error })
@@ -153,54 +153,61 @@ export default function RequestPage({ route, navigation }) {
 
                         {isSender ?
                             <View>
-                                {request.status === 'נשלח' ?
+                                {request.status === 'נשלח' && request.post.status !== 'זמין' ?
                                     <View style={[styles.flexRow, styles.marginVertical]}>
-                                        <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
-                                        <Text style={[styles.mediumTextBold]}>  הבקשה ממתינה לתגובה</Text>
-                                    </View> :
-                                    request.status === 'אושר' ? <View style={[styles.sub_container2]}>
-                                        <View style={[styles.flexRow, styles.marginVertical]}>
-                                            <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
-                                            <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה!</Text>
-                                        </View>
-                                        <View>
-                                            <View style={[styles.flexRow, styles.marginVertical, styles.sideComment]}>
-                                                <MaterialCommunityIcons name="progress-question" size={20} color="black" />
-                                                <Text>מפרסם הפריט הסכים לחשוף בפניך את פרטי ההתקשרות איתו, להמשך התהליך נא צרו קשר עם מפרסם הפריט</Text>
-                                            </View>
-                                        </View>
-                                        <View style={[styles.sub_container2]}>
-                                            <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
-                                            <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
-                                            <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
-                                            <Text>כתובת: {request.post.address.simplifiedAddress}</Text>
-                                            {request.post.address.notes && <Text>*{request.post.address.notes}</Text>}
-                                        </View>
-
-                                        {postStaus === 'בתהליך מסירה' ?
-                                            <View>
-                                                <TouchableOpacity activeOpacity={touchableOpacity} style={[styles.marginHorizontal, styles.actionView]} onPress={() => {
-                                                    Alert.alert("אישור קבלת פריט", "אישור קבלת הפריט הינו סופי, האם הפריט נמצא ברשותך?", [
-                                                        { text: 'לא', onPress: () => { console.log("ביטול") } },
-                                                        { text: 'כן', onPress: () => { handleUpdatePostStatus('נמסר') } }
-                                                    ])
-                                                }}>
-                                                    <Text style={[styles.textGreen, { color: 'white' }]}>לאישור קבלת הפריט לחצו כאן</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            : <View>
-                                                <Text style={[styles.textGreen, styles.mediumTextBold, styles.text_underline]}>הפריט נמסר בהצלחה</Text>
-                                            </View>}
+                                        <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
+                                        <Text style={[styles.mediumTextBold]}>הפריט כבר אינו זמין למסירה</Text>
                                     </View>
-                                        : request.status === 'נדחה' ? <View style={[styles.flexRow, styles.marginVertical]}>
-                                            <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
-                                            <Text style={[styles.mediumTextBold, styles.textRed]}> בקשתך נדחתה</Text>
+                                    :
+                                    request.status === 'נשלח' ?
+                                        <View style={[styles.flexRow, styles.marginVertical]}>
+                                            <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
+                                            <Text style={[styles.mediumTextBold]}>  הבקשה ממתינה לתגובה</Text>
+                                        </View> :
+                                        request.status === 'אושר' ? <View style={[styles.sub_container2]}>
+                                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                                <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
+                                                <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה!</Text>
+                                            </View>
+                                            <View>
+                                                <View style={[styles.flexRow, styles.marginVertical, styles.sideComment]}>
+                                                    <MaterialCommunityIcons name="progress-question" size={20} color="black" />
+                                                    <Text>מפרסם הפריט הסכים לחשוף בפניך את פרטי ההתקשרות איתו, להמשך התהליך נא צרו קשר עם מפרסם הפריט</Text>
+                                                </View>
+                                            </View>
+                                            <View style={[styles.sub_container2]}>
+                                                <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
+                                                <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
+                                                <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
+                                                <Text>כתובת: {request.post.address.simplifiedAddress}</Text>
+                                                {request.post.address.notes && <Text>*{request.post.address.notes}</Text>}
+                                            </View>
+
+                                            {postStaus === 'בתהליך מסירה' ?
+                                                <View>
+                                                    <TouchableOpacity activeOpacity={touchableOpacity} style={[styles.marginHorizontal, styles.actionView]} onPress={() => {
+                                                        Alert.alert("אישור קבלת פריט", "אישור קבלת הפריט הינו סופי, האם הפריט נמצא ברשותך?", [
+                                                            { text: 'לא', onPress: () => { console.log("ביטול") } },
+                                                            { text: 'כן', onPress: () => { handleUpdatePostStatus('נמסר') } }
+                                                        ])
+                                                    }}>
+                                                        <Text style={[styles.textGreen, { color: 'white' }]}>לאישור קבלת הפריט לחצו כאן</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                : <View>
+                                                    <Text style={[styles.textGreen, styles.mediumTextBold, styles.text_underline]}>הפריט נמסר בהצלחה</Text>
+                                                </View>}
                                         </View>
-                                            :
-                                            request.status === 'בוטל' ? <View style={[styles.flexRow, styles.marginVertical]}>
-                                                <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
-                                                <Text style={[styles.mediumTextBold]}>הבקשה בוטלה</Text>
-                                            </View> : null
+                                            : request.status === 'נדחה' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                                <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
+                                                <Text style={[styles.mediumTextBold, styles.textRed]}> בקשתך נדחתה</Text>
+                                            </View>
+                                                :
+                                                request.status === 'בוטל' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                                    <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
+                                                    <Text style={[styles.mediumTextBold]}>הבקשה בוטלה</Text>
+                                                </View> :
+                                                    null
 
                                 }
                                 {

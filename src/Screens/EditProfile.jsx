@@ -167,9 +167,14 @@ export default function EditProfile({ navigation }) {
                 return;
             }
 
-            console.log("email edited?: " + formState.email.edited)
+            // console.log("email edited?: " + formState.email.edited)
             if (formState.email.edited) {
                 checkEmail = await checkEmailAvailability(formState.email.value); //* throws an error if the email is already taken
+
+                if (checkEmail === 409) {
+                    setIsEmailTaken(true);
+                    return;
+                }
             }
 
             if (formState.profilePicture.edited) {
@@ -184,7 +189,7 @@ export default function EditProfile({ navigation }) {
             else
                 result = await editUser(loggedUser._id, newData)
 
-            console.log("result =>" + result.acknowledged)
+            // console.log("result =>" + result.acknowledged)
             if (result.acknowledged) {
                 if (formState.password.edited || formState.email.edited) //* if verification details are edited relogging required
                     navigation.navigate('Login')

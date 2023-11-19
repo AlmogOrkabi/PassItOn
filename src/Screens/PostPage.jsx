@@ -67,7 +67,7 @@ export default function PostPage({ route, navigation }) {
 
             if (report != 404)
                 setPostReported(true);
-            console.log(postReported)
+            // console.log(postReported)
         } catch (error) {
             console.log("error post page2: ", error.status);
             console.log(error.message)

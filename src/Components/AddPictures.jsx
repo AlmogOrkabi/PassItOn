@@ -6,31 +6,6 @@ import { openCamera, openMediaLibrary } from '../utils/index';
 
 export default function AddPictures({ photos, setPhotos, title }) {
 
-    // const pickImage = async () => {
-    //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //     console.log(status)
-    //     if (status !== 'granted') {
-    //         alert('הרשאה נדחתה');
-    //         return;
-    //     }
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         // aspect: [4, 3],
-    //         // quality: 1,
-    //     });
-
-    //     console.log(result);
-
-    //     if (!result.canceled) {
-    //         addPhoto(result.uri);
-    //     }
-    // };
-
-    // const show = () => setVisible(true);
-
-    // const hide = () => setVisible(false);
-
     const [visible, setVisible] = useState(false);
 
 

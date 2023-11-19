@@ -23,9 +23,9 @@ export default function ManageRequests({ navigation }) {
         try {
             setLoading(true);
             let sent = await getRequests({ sender_id: loggedUser._id, full: 'true' });
-            console.log("SENT HERE", sent)
+            // console.log("SENT HERE", sent)
             if (sent == 404) {
-                console.log("404")
+                // console.log("404")
                 setRequestsSent(404);
             } else {
                 setRequestsSent(sent);
@@ -34,7 +34,7 @@ export default function ManageRequests({ navigation }) {
             let received = await getRequests({ recipient_id: loggedUser._id, full: 'true' });
 
             if (received == 404) {
-                console.log("404")
+                // console.log("404")
                 setRequestsReceived(404);
             } else {
                 setRequestsReceived(received);
@@ -107,7 +107,7 @@ export default function ManageRequests({ navigation }) {
                         />
                     </View>
 
-                    <View style={[styles.container, { flex: 1 },]}>
+                    <View style={[{ flex: 1, },]}>
                         {options == '' ? null : options == 'sent' ? requestsSent == 404 ?
                             <Text>לא נשלחו בקשות עדיין</Text>
                             :

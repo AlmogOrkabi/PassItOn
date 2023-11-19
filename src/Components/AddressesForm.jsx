@@ -66,6 +66,7 @@ export default function AddressesForm({ state, dispatch, handleChange, validErr,
 
 
             </View>
+
         </SafeAreaView >
     )
 }

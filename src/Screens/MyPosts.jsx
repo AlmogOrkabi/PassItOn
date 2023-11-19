@@ -14,7 +14,7 @@ export default function MyPosts({ navigation }) {
 
 
     useEffect(() => {
-        console.log("my posts: " + myPosts)
+        // console.log("my posts: " + myPosts)
     }, [myPosts]);
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function MyPosts({ navigation }) {
     const renderResult = (post) => {
         if (!post) return;
 
-        console.log("POST ==>>", post)
+        // console.log("POST ==>>", post)
 
         return (
             <TouchableOpacity onPress={() => {

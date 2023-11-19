@@ -39,12 +39,12 @@ export default function Login({ navigation }) {
         } catch (error) {
             if (error.status === 500) {
                 await setServerError({ status: 500, msg: 'אופס, התרחשה שגיאה בשרת' })
-                console.log(serverError)
+                // console.log(serverError)
                 return;
             }
             else {
-                console.log("status log error " + error.status)
-                console.log("login error:", error.msg);
+                // console.log("status log error " + error.status)
+                // console.log("login error:", error.msg);
                 setErr((prev) => error.msg);
             }
         }

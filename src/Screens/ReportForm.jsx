@@ -61,13 +61,13 @@ export default function ReportForm({ route }) {
                 <ActivityIndicator />
             </View>
                 :
-                success ? <View style={[styles.containerCenter,]}>
+                success ? <View style={[styles.containerCenter, { marginTop: '20%' }]}>
                     <Text style={[styles.titleBold, styles.textGreen]}>דיווח נשלח בהצלחה</Text>
                     <Text>תודה על הדיווח, נטפל בו בהקדם האפשרי</Text>
                 </View>
                     :
                     <ScrollView style={[styles.sub_container2]} nestedScrollEnabled >
-                        <Text style={[styles.mediumTitle]}>טופס דיווח</Text>
+                        <Text style={[styles.mediumTitle, { alignSelf: 'center', fontSize: 20 }, styles.marginVertical]}>טופס דיווח</Text>
                         <View>
 
                             <SelectFromList list={reportTypes} title='סיבת הדיווח' picked={reportReason} setPicked={setReportReason} />
@@ -108,7 +108,7 @@ export default function ReportForm({ route }) {
 
 
                             <AddPictures photos={photos} setPhotos={setPhotos} title='נא הוסף תמונות רלוונטיות' />
-                            <Text style={[styles.errMsg, styles.marginVertical, { alignSelf: 'center' }]}>{err ? `שגיאה! ${err}` : null}</Text>
+                            <Text style={[styles.errMsg, styles.marginVertical, { alignSelf: 'center' }]}>{err ? `${err}` : null}</Text>
                         </View>
 
 

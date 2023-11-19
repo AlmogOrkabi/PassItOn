@@ -80,7 +80,7 @@ export default function Register({ navigation }) {
         try {
             // -indicates to the user that the registration is in process:
             setLoading(true);
-
+            setValidErr(null); //*resets the errors
             // -updating the final address the user provided:
             handleChange('addresses', 'location', addressData.location);
             handleChange('addresses', 'addressInput', addressData.addressInput);
@@ -92,13 +92,12 @@ export default function Register({ navigation }) {
             if (!validationRes.valid) {
                 Alert.alert(validationRes.msg)
                 setFormPage((prev) => validationRes.page);
-                console.log("fieldName: " + validationRes.fieldName)
+                // console.log("fieldName: " + validationRes.fieldName)
                 setValidErr(validationRes.fieldName)
                 return;
             }
-
             // -handles no address from the user:
-            if (formState.addresses.addressInput === '') {
+            if (!formState.addresses.addressInput) {
                 setValidErr('addressNull');
                 return;
             }
@@ -115,7 +114,7 @@ export default function Register({ navigation }) {
             console.log("registering error:", error) // *for debugging
 
             // -email is not available error: 
-            if (error.message == 409) {
+            if (error.status == 409) {
                 setIsEmailTaken((prev) => true); // *for ui purposes
                 setFormPage((prev) => 2); // * navigates to the correct component of the registration form
             }
@@ -135,7 +134,7 @@ export default function Register({ navigation }) {
 
 
     useEffect(() => {
-        console.log("UPDATED")
+        // console.log("UPDATED")
         handleChange('addresses', 'location', addressData.location);
         handleChange('addresses', 'addressInput', addressData.addressInput);
     }, [addressData]);
@@ -144,8 +143,8 @@ export default function Register({ navigation }) {
 
     return (
         <SafeAreaView style={[styles.main_container2, { justifyContent: 'space-between' }]}>
-            <Text style={[styles.mediumTitle, styles.marginHorizontal, { marginBottom: 30 }]}>הרשמה</Text>
-            <View style={[styles.containerCenter, { backgroundColor: '#f5f4f4c4', width: '100%', alignSelf: 'center', borderRadius: 15, flex: 0.6 }]}>
+            <Text style={[styles.mediumTitle, styles.marginHorizontal, { marginTop: 30, alignSelf: 'center' }]}>הרשמה</Text>
+            <View style={[styles.containerCenter, { backgroundColor: '#f5f4f4c4', width: '100%', height: 350, alignSelf: 'center', borderRadius: 15, }]}>
 
                 {loading ? <ActivityIndicator size="large" /> :
 

@@ -30,7 +30,7 @@ export default function MenuTop() {
             console.log("error log out ==>>", error);
         } finally {
             // setLoggedUser(null);
-            console.log(navigation.getState());
+            // console.log(navigation.getState());
         }
     }
     return (

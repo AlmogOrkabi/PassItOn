@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert, FlatList, ActivityIndicator } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 import { btnIconColor, styles, theme, touchableOpacity } from '../Styles';
 import { TextInput, Button, Searchbar, SegmentedButtons, Portal, IconButton } from 'react-native-paper';
@@ -29,7 +29,6 @@ export default function SearchPage({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [searchOptionsExpended, setSearchOptionsExpended] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
 
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -65,7 +64,7 @@ export default function SearchPage({ navigation }) {
         setCoordinates((...coordinates) => [coords[1], coords[0]])
       }
     }
-    console.log("coordinates updated =>>", coordinates)
+    // console.log("coordinates updated =>>", coordinates)
   }, [address.location]);
 
 
@@ -73,11 +72,11 @@ export default function SearchPage({ navigation }) {
   const searchItems = async () => {
     try {
       setLoading(true);
-      console.log("search query:", searchQuery);
-      console.log("search type:", searchOptions);
-      console.log("city:", city);
-      console.log("category:", category);
-      console.log("distance:", searchDistance);
+      // console.log("search query:", searchQuery);
+      // console.log("search type:", searchOptions);
+      // console.log("city:", city);
+      // console.log("category:", category);
+      // console.log("distance:", searchDistance);
 
 
       const query = {
@@ -99,7 +98,7 @@ export default function SearchPage({ navigation }) {
           query.userCoordinates = currentCoordinates;
           break;
         default:
-          console.log("no search option"); //* find all of the posts
+          // console.log("no search option"); //* find all of the posts
           break;
       }
       if (category != 'בחר קטגוריה') {
@@ -107,7 +106,7 @@ export default function SearchPage({ navigation }) {
       }
 
 
-      console.log("query: " + JSON.stringify(query));
+      // console.log("query: " + JSON.stringify(query));
       const results = await searchPosts(query);
 
       if (results == 404) {
@@ -136,7 +135,7 @@ export default function SearchPage({ navigation }) {
   const renderResult = (post) => {
     if (!post) return;
 
-    console.log("POST ==>>", post)
+    // console.log("POST ==>>", post)
 
     return (
       <TouchableOpacity onPress={() => navigation.navigate('common', { screen: 'PostPage', params: { post: post.item } })}><MemoizedCardPost post={post.item} activeOpacity={touchableOpacity} /></TouchableOpacity>

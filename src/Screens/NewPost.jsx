@@ -61,10 +61,10 @@ export default function NewPost({ navigation }) {
     try {
       setLoading(true);
       trigger(); //* triggers the validation on the input before continuing
-      console.log('Item Name:', itemName);
-      console.log('Description:', description);
-      console.log('Category:', category);
-      console.log('Item Location:', itemLocation);
+      // console.log('Item Name:', itemName);
+      // console.log('Description:', description);
+      // console.log('Category:', category);
+      // console.log('Item Location:', itemLocation);
 
 
       const validationRes = validateNewPostData(itemName, description, category, photos);

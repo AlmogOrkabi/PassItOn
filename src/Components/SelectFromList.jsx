@@ -22,7 +22,7 @@ export default function SelectFromList({ list, title, picked, setPicked = null, 
 
 
     return (
-        <View style={[styles.marginVertical, { flex: 1, maxHeight: 400, width: '85%', }]} >
+        <View style={[styles.marginVertical, { flex: 1, maxHeight: 400, width: '100%', }]} >
             {title && <Text style={[styles.smallTitle, { marginBottom: 15, marginLeft: 5 }]}>{title}</Text>}
 
 

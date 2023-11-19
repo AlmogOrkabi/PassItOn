@@ -13,7 +13,7 @@ export default function ChooseLocation({ address, setAddress, addNotes = false }
     useEffect(() => {
         if (fromLocation == 'user') {
             setAddress((prev) => loggedUser.address)
-            console.log(loggedUser.address)
+            // console.log(loggedUser.address)
         }
         else {
             setAddress((prev) => ({ ...prev, notes: '' }))

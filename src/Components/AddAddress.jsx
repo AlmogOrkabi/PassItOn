@@ -57,7 +57,7 @@ export default function AddAddress({ address, handleChange }) {
 
     //! changed from flatlist to map because of the scrollview
     const renderSuggestion = ({ item }) => {
-        console.log("renderSuggestion")
+        // console.log("renderSuggestion")
         if (!item)
             return;
 
@@ -73,7 +73,7 @@ export default function AddAddress({ address, handleChange }) {
     const handleSuggestionPress = (suggestion) => {
         const simplifiedAddress = simplifyAddress(suggestion)
         handleChange((prev) => ({ ...prev, location: suggestion, addressInput: simplifiedAddress }));
-        console.log("location:", address.location)
+        // console.log("location:", address.location)
         setSuggestions([]); // Clear the suggestions once one is selected
     };
 

@@ -8,10 +8,16 @@
 //
 import { postCategories, postStatuses, requestStatuses, reportTypes } from "../Data/constants";
 
+//! old regex - do not delete
+// export function isValidEmail(email) {
+//     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+//     //return email.match(validRegex);
+//     return isString(email) && validRegex.test(email);
+// }
+
 
 export function isValidEmail(email) {
-    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    //return email.match(validRegex);
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$/;
     return isString(email) && validRegex.test(email);
 }
 
@@ -266,55 +272,6 @@ function isValidPostStatus(postStatus) {
 // //!_____________________REPORTS________________________________//
 
 
-// function isValidReportType(reportType) {
-//     //make an array of valid reports and make sure the parameter matches one of the strings inside the array
-
-//     //ideas:
-//     // Inappropriate Language:
-//     // False Information:
-//     // Harassment / Bullying:
-
-//     // Spam: This would be for cases where a user is posting irrelevant or promotional content excessively.
-
-//     // Impersonation: This is when a user is pretending to be someone else in a deceptive manner.
-
-//     //Off - topic Posts: If a user posts something completely unrelated to the discussion or the scope of the platform, this category can be used.
-
-//     // Privacy Violation: This would cover situations where a user posts personal information about another person without their consent.
-
-//     // Intellectual Property Violation: If a user posts content that infringes on someone else 's copyright, trademark, or other intellectual property rights.
-
-//     // Illegal Content: This would be for any posts that involve illegal activities or promote such activities.
-
-//     // Hate Speech / Discrimination: This category is for posts that promote violence or hatred against individuals or groups based on attributes such as race, religion, disability, age, nationality, sexual orientation, gender, etc.
-
-//     let validReportTypes = ["מידע שגוי/מוטעה", "שימוש לרעה במערכת", "הטרדה/התנהגות לא הולמת", "ספאם", "הונאה", "מעבר על חוקי הפורמט", "פגיעה בפרטיות", "פרסום חוזר של פריטים שנמסרו בעבר", "אחר"];
-
-//     if (!isString(reportType) || !validReportTypes.includes(reportType))
-//         return { valid: false, msg: "סיבת הדיווח אינה תקינה" };
-//     else
-//         return { valid: true };
-
-
-// }
-
-// function isValidReportStatus(reportStatus) {
-//     const validStatuses = ['פתוח', 'בטיפול מנהל', 'בבירור', 'סגור'];
-
-//     if (!isString(reportStatus) || !validStatuses.includes(reportStatus)) {
-//         return { valid: false, msg: 'סטטוס לא תקין' }
-//     }
-//     else
-//         return { valid: true }
-// }
-
-// // function validateNewReportData(owner_id, reportType, userReported, postReported, photoUrls) {
-// //     if (!isValidObjectId(owner_id) || owner_id == null || !isString(reportType) || !isValidReportType(reportType) || !isValidObjectId(userReported) || userReported == null || !isValidObjectId(postReported) || !isValidPhotosArray(photoUrls)) // the postReported can be null because it could be only a user was reported and not a post (if a post was reported the creator will be reported as well)
-// //         throw new Error("פרטים לא תקינים");
-// //     else
-// //         return true;
-// // }
-
 function isValidReportType(type) {
     if (!isString(type) || !reportTypes.includes(type)) {
         return false;
@@ -337,8 +294,8 @@ function validateNewReportData(owner_id, reportType, userReported, postReported,
     if (postReported != null && !isString(postReported)) { // can be null, the report can be only regarding a user and not a specific post
         return { valid: false, msg: 'שגיאה בהעלעת הפוסט' };
     }
-    if (description !== '' && (!isString(description) || description.length > 1000)) {
-        return { valid: false, msg: 'תיאור לא תקין או ארוך מידי' };
+    if (!isString(description) || description.length > 1000 || description.length < 1) {
+        return { valid: false, msg: 'פירוט הדיווח לא תקין או ארוך מידי' };
     }
 
     return { valid: true };

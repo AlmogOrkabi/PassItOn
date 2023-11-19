@@ -11,7 +11,7 @@ export default function RequestCard({ request }) {
     const [isSender, setIsSender] = useState(loggedUser._id === request.sender_id);
 
     return (
-        <Card style={styles.card}>
+        <Card style={[styles.card,]}>
             <Card.Content>
                 <Title>{request.post.itemName}</Title>
                 <Paragraph>נשלח מ: {request.sender.username}</Paragraph>

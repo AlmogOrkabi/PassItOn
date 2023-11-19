@@ -22,12 +22,12 @@ export default function MyReports({ navigation }) {
             setLoading(true);
             let reports = await getReports({ owner_id: loggedUser._id, full: 'true' }, userToken);
             if (reports == 404) {
-                console.log(404);
+                // console.log(404);
                 setReportsSubmitted(404);
             } else {
                 setReportsSubmitted(reports);
             }
-            console.log("reports ===>>>" + reportsSubmitted)
+            // console.log("reports ===>>>" + reportsSubmitted)
         } catch (error) {
             console.log("ERROR REPORTS", error)
             setServerError({ ...error });

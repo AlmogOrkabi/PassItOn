@@ -191,14 +191,14 @@ export default function EditPost({ route, navigation }) {
             if (formState.status.edited) {
                 updatedData.status = formState.status.value;
             }
-            console.log("updatedData: " + JSON.stringify(updatedData))
+            // console.log("updatedData: " + JSON.stringify(updatedData))
             const validationsRes = await validatePostData(updatedData);
-            console.log(validationsRes)
+            // console.log(validationsRes)
             if (!validationsRes.valid) {
                 setErr({ ...validationsRes });
                 return;
             }
-            console.log("pictures" + formState.photos.toAdd.length)
+            // console.log("pictures" + formState.photos.toAdd.length)
             if (pictures && pictures.length + formState.photos.toAdd.length < 1) {
                 setErr((prev) => ({ ...prev, reason: 'pictures', msg: 'נא לצרף לפחות תמונה אחת' }));
                 return;
@@ -210,17 +210,17 @@ export default function EditPost({ route, navigation }) {
             }
 
             let result;
-            console.log("address edited? : ", formState.address.edited)
+            // console.log("address edited? : ", formState.address.edited)
             if (formState.address.edited && address) {
-                console.log("if")
+                // console.log("if")
                 result = await updatePostData(post._id, updatedData, formState.photos.toAdd, formState.photos.toRemove, address);
             }
             else {
-                console.log("else")
+                // console.log("else")
                 result = await updatePostData(post._id, updatedData, formState.photos.toAdd, formState.photos.toRemove);
             }
 
-            console.log("result =>" + result.acknowledged)
+            // console.log("result =>" + result.acknowledged)
             navigation.navigate('MyPosts')
 
         } catch (error) {
@@ -306,7 +306,7 @@ export default function EditPost({ route, navigation }) {
                         }
                         {err && err.reason == 'description' ? <Text style={[styles.errMsg]}>{err.msg}</Text> : null}
                         {
-                            formState.category.edited ? <View style={[styles.flexRow]}>
+                            formState.category.edited ? <View style={[styles.flexRow, { alignItems: 'baseline' }]}>
                                 <SelectFromList list={postCategories} title='' picked={formState.category.value === '' ? post.category : formState.category.value} setPicked={null} dispatch={dispatch} field='category' />
                                 <IconButton
                                     icon="close-thick"
