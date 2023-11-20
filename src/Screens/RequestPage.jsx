@@ -153,61 +153,62 @@ export default function RequestPage({ route, navigation }) {
 
                         {isSender ?
                             <View>
-                                {request.status === 'נשלח' && request.post.status !== 'זמין' ?
-                                    <View style={[styles.flexRow, styles.marginVertical]}>
-                                        <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
-                                        <Text style={[styles.mediumTextBold]}>הפריט כבר אינו זמין למסירה</Text>
-                                    </View>
-                                    :
-                                    request.status === 'נשלח' ?
+                                {
+                                    request.status === 'נשלח' && request.post.status !== 'זמין' ?
                                         <View style={[styles.flexRow, styles.marginVertical]}>
-                                            <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
-                                            <Text style={[styles.mediumTextBold]}>  הבקשה ממתינה לתגובה</Text>
-                                        </View> :
-                                        request.status === 'אושר' ? <View style={[styles.sub_container2]}>
-                                            <View style={[styles.flexRow, styles.marginVertical]}>
-                                                <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
-                                                <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה!</Text>
-                                            </View>
-                                            <View>
-                                                <View style={[styles.flexRow, styles.marginVertical, styles.sideComment]}>
-                                                    <MaterialCommunityIcons name="progress-question" size={20} color="black" />
-                                                    <Text>מפרסם הפריט הסכים לחשוף בפניך את פרטי ההתקשרות איתו, להמשך התהליך נא צרו קשר עם מפרסם הפריט</Text>
-                                                </View>
-                                            </View>
-                                            <View style={[styles.sub_container2]}>
-                                                <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
-                                                <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
-                                                <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
-                                                <Text>כתובת: {request.post.address.simplifiedAddress}</Text>
-                                                {request.post.address.notes && <Text>*{request.post.address.notes}</Text>}
-                                            </View>
-
-                                            {postStaus === 'בתהליך מסירה' ?
-                                                <View>
-                                                    <TouchableOpacity activeOpacity={touchableOpacity} style={[styles.marginHorizontal, styles.actionView]} onPress={() => {
-                                                        Alert.alert("אישור קבלת פריט", "אישור קבלת הפריט הינו סופי, האם הפריט נמצא ברשותך?", [
-                                                            { text: 'לא', onPress: () => { console.log("ביטול") } },
-                                                            { text: 'כן', onPress: () => { handleUpdatePostStatus('נמסר') } }
-                                                        ])
-                                                    }}>
-                                                        <Text style={[styles.textGreen, { color: 'white' }]}>לאישור קבלת הפריט לחצו כאן</Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                                : <View>
-                                                    <Text style={[styles.textGreen, styles.mediumTextBold, styles.text_underline]}>הפריט נמסר בהצלחה</Text>
-                                                </View>}
+                                            <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
+                                            <Text style={[styles.mediumTextBold]}>הפריט כבר אינו זמין למסירה</Text>
                                         </View>
-                                            : request.status === 'נדחה' ? <View style={[styles.flexRow, styles.marginVertical]}>
-                                                <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
-                                                <Text style={[styles.mediumTextBold, styles.textRed]}> בקשתך נדחתה</Text>
+                                        :
+                                        request.status === 'נשלח' ?
+                                            <View style={[styles.flexRow, styles.marginVertical]}>
+                                                <MaterialCommunityIcons name="clock-outline" size={30} color="black" />
+                                                <Text style={[styles.mediumTextBold]}>  הבקשה ממתינה לתגובה</Text>
+                                            </View> :
+                                            request.status === 'אושר' ? <View style={[styles.sub_container2]}>
+                                                <View style={[styles.flexRow, styles.marginVertical]}>
+                                                    <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={30} color="green" />
+                                                    <Text style={[styles.mediumTextBold, styles.textGreen]}> הבקשה אושרה!</Text>
+                                                </View>
+                                                <View>
+                                                    <View style={[styles.flexRow, styles.marginVertical, styles.sideComment]}>
+                                                        <MaterialCommunityIcons name="progress-question" size={20} color="black" />
+                                                        <Text>מפרסם הפריט הסכים לחשוף בפניך את פרטי ההתקשרות איתו, להמשך התהליך נא צרו קשר עם מפרסם הפריט</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={[styles.sub_container2]}>
+                                                    <Text style={[styles.text_underline, styles.mediumTextBold]}>פרטי מפרסם הפריט:</Text>
+                                                    <Text style={[]}>שם מלא: {request.recipient.firstName} {request.recipient.lastName}</Text>
+                                                    <Text style={[]}>טלפון נייד: {request.recipient.phoneNumber}</Text>
+                                                    <Text>כתובת: {request.post.address.simplifiedAddress}</Text>
+                                                    {request.post.address.notes && <Text>*{request.post.address.notes}</Text>}
+                                                </View>
+
+                                                {postStaus === 'בתהליך מסירה' ?
+                                                    <View>
+                                                        <TouchableOpacity activeOpacity={touchableOpacity} style={[styles.marginHorizontal, styles.actionView]} onPress={() => {
+                                                            Alert.alert("אישור קבלת פריט", "אישור קבלת הפריט הינו סופי, האם הפריט נמצא ברשותך?", [
+                                                                { text: 'לא', onPress: () => { console.log("ביטול") } },
+                                                                { text: 'כן', onPress: () => { handleUpdatePostStatus('נמסר') } }
+                                                            ])
+                                                        }}>
+                                                            <Text style={[styles.textGreen, { color: 'white' }]}>לאישור קבלת הפריט לחצו כאן</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    : <View>
+                                                        <Text style={[styles.textGreen, styles.mediumTextBold, styles.text_underline]}>הפריט נמסר בהצלחה</Text>
+                                                    </View>}
                                             </View>
-                                                :
-                                                request.status === 'בוטל' ? <View style={[styles.flexRow, styles.marginVertical]}>
-                                                    <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
-                                                    <Text style={[styles.mediumTextBold]}>הבקשה בוטלה</Text>
-                                                </View> :
-                                                    null
+                                                : request.status === 'נדחה' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="red" />
+                                                    <Text style={[styles.mediumTextBold, styles.textRed]}> בקשתך נדחתה</Text>
+                                                </View>
+                                                    :
+                                                    request.status === 'בוטל' ? <View style={[styles.flexRow, styles.marginVertical]}>
+                                                        <MaterialCommunityIcons name="note-remove-outline" size={30} color="black" />
+                                                        <Text style={[styles.mediumTextBold]}>הבקשה בוטלה</Text>
+                                                    </View> :
+                                                        null
 
                                 }
                                 {
@@ -308,7 +309,7 @@ export default function RequestPage({ route, navigation }) {
                 </View>
 
             </ScrollView >
-            <Button mode='contained' style={[styles.smallBtn, styles.btn_report, styles.marginVertical, { alignSelf: 'center', }]} onPress={() => navigation.navigate('ReportForm', { post: request.post })} disabled={isReported}>דיווח</Button>
+            <Button mode='contained' style={[styles.smallBtn, styles.btn_report, styles.marginVertical, { alignSelf: 'center', }]} onPress={() => navigation.navigate('ReportForm', { post: request.post, userToReport: request.sender })} disabled={isReported}>דיווח</Button>
         </SafeAreaView>
     )
 }

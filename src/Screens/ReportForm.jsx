@@ -12,7 +12,7 @@ import { createNewReport } from '../api/index';
 
 export default function ReportForm({ route }) {
 
-    const { post } = route.params;
+    const { post, userToReport } = route.params;
     const { loggedUser, userToken, serverError, setServerError } = useContext(AppContext)
     const [photos, setPhotos] = useState([]);
     const [reportReason, setReportReason] = useState('נא לבחור את סוג הדיווח');
@@ -27,7 +27,8 @@ export default function ReportForm({ route }) {
             setErr(null);
 
             const postReported = reportTarget === 'post' ? post._id : null;
-            const validationRes = validateNewReportData(loggedUser._id, reportReason, post.owner_id, postReported, userInput);
+            const relatedUser = userToReport && reportTarget !== 'post' ? userToReport._id : post.owner_id;
+            const validationRes = validateNewReportData(loggedUser._id, reportReason, relatedUser, postReported, userInput);
 
             if (!validationRes.valid) {
                 setErr(validationRes.msg);
@@ -38,7 +39,7 @@ export default function ReportForm({ route }) {
                 setErr('נא הוסף לפחות תמונה אחת');
                 return;
             }
-            const res = await createNewReport(loggedUser._id, reportReason, post.owner_id, postReported, photos, userInput, userToken);
+            const res = await createNewReport(loggedUser._id, reportReason, relatedUser, postReported, photos, userInput, userToken);
 
             if (res.insertedId) {
                 setSuccess(true);

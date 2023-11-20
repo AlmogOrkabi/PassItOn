@@ -9,7 +9,7 @@ export default function ReportCard({ report }) {
         <View>
             <Card style={styles.card}>
                 <Card.Content>
-                    <Title style={[styles.mediumTitle, styles.text_underline]}>דיווח על {report.postReported_id ? `הפוסט: ${report.post.itemName}` : `המשתמש: ${report.userReported.userName}`}</Title>
+                    <Title style={[styles.mediumTitle, styles.text_underline]}>דיווח על {report.postReported_id ? `הפוסט: ${report.post.itemName}` : `המשתמש: ${report.userReported.username}`}</Title>
                     <Paragraph>סיבת הדיווח: {report.reportType}</Paragraph>
                     <Paragraph>סטטוס: {report.status}</Paragraph>
                     <Paragraph>תאריך יצירה: {new Date(report.creationDate).toLocaleDateString()}</Paragraph>
